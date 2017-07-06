@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "command": "dotnet",
+      "taskName": "build",
+      "args": [],
+      "isBuildCommand": true,
+      "showOutput": "silent",
+      "problemMatcher": "$msCompile"
+    }
+  ]
+}
