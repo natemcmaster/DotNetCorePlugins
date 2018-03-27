@@ -1,0 +1,28 @@
+﻿<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+  
+  <ItemDefinitionGroup>
+    <TestProject>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <OutputItemType>_ResolvedTestProjectReference</OutputItemType>
+    </TestProject>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="@(TestProject)" />
+  </ItemGroup>
+  
+  <Target Name="GeneratePathToTestProjects"
+          BeforeTargets="CoreCompile;GetAssemblyAttributes"
+          DependsOnTargets="ResolveProjectReferences">
+    <ItemGroup>
+      <AssemblyAttribute Include="Loader.Tests.TestProjectReferenceAttribute">
+        <_Parameter1>%(_ResolvedTestProjectReference.FileName)</_Parameter1>
+        <_Parameter2>%(_ResolvedTestProjectReference.Identity)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+
+</Project>

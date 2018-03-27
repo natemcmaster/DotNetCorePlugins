@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Loader;
 using Microsoft.DotNet.PlatformAbstractions;
 
@@ -11,7 +10,7 @@ namespace Microsoft.Extensions.DependencyModel
     /// <summary>
     /// Helper methods for creating a load context.
     /// </summary>
-    public static class DependencyLoadContextExtensions
+    internal static class DependencyLoadContextExtensions
     {
         static DependencyLoadContextExtensions()
         {
@@ -35,8 +34,8 @@ namespace Microsoft.Extensions.DependencyModel
         /// </summary>
         /// <param name="dependencyContext">The dependency context.</param>
         /// <returns>A load context.</returns>
-        public static DependencyLoadContext CreateLoadContext(this DependencyContext dependencyContext)
-            => CreateLoadContext(dependencyContext, AppContext.BaseDirectory, DefaultNuGetFolder);
+        public static AssemblyLoader CreateLoadContext(this DependencyContext dependencyContext)
+            => CreateLoader(dependencyContext, AppContext.BaseDirectory, DefaultNuGetFolder);
 
         /// <summary>
         /// Creates a load context that immitates corehost
@@ -46,7 +45,7 @@ namespace Microsoft.Extensions.DependencyModel
         /// <param name="appBaseDirectory">The application base directory.</param>
         /// <param name="nugetCacheDirectory">The directory containing the NuGet cache.</param>
         /// <returns>The load context</returns>
-        public static DependencyLoadContext CreateLoadContext(
+        public static AssemblyLoader CreateLoader(
             this DependencyContext dependencyContext,
             string appBaseDirectory,
             string nugetCacheDirectory)
@@ -64,23 +63,25 @@ namespace Microsoft.Extensions.DependencyModel
                 .FirstOrDefault(g => g.Runtime == RuntimeEnvironment.GetRuntimeIdentifier())
                 ?? new RuntimeFallbacks("any");
 
-            var searchPaths = new[]
-            {
-                appBaseDirectory
-            };
+            var builder = new AssemblyLoaderBuilder();
+
+            builder.AddSearchPath(appBaseDirectory);
 
             // TODO servicing cache
             // TODO runtime store
             // TODO nuget fallback folders
-            var managedLibraries = dependencyContext
-                .ResolveRuntimeAssemblies(nugetCacheDirectory, fallbackGraph)
-                .ToDictionary(r => r.Name, r => r.Path);
 
-            var nativeLibraries = dependencyContext
-                .ResolveNativeAssets(nugetCacheDirectory, fallbackGraph)
-                .ToDictionary(n => n.Name, n => n.Path);
+            foreach (var managed in dependencyContext.ResolveRuntimeAssemblies(nugetCacheDirectory, fallbackGraph))
+            {
+                builder.AddManagedLibrary(managed.Name, managed.Path);
+            }
 
-            return new DependencyLoadContext(managedLibraries, nativeLibraries, searchPaths);
+            foreach (var native in dependencyContext.ResolveNativeAssets(nugetCacheDirectory, fallbackGraph))
+            {
+                builder.AddNativeLibrary(native.Name, native.Path);
+            }
+
+            return builder.Build();
         }
 
         private static string DefaultNuGetFolder { get; }
@@ -100,7 +101,7 @@ namespace Microsoft.Extensions.DependencyModel
             var rids = GetRids(runtimeGraph);
             return from library in depContext.RuntimeLibraries
                    from assetPath in SelectAssets(rids, library.NativeLibraryGroups)
-                   // workaround for System.Native.a being included in the deps.json file for Microsoft.NETCore.App
+                       // workaround for System.Native.a being included in the deps.json file for Microsoft.NETCore.App
                    where !assetPath.EndsWith(".a", StringComparison.Ordinal)
                    select Asset.Create(packageDir, library.Name, library.Version, assetPath);
         }
