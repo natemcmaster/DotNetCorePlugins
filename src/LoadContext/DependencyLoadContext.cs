@@ -37,7 +37,7 @@ namespace System.Runtime.Loader
             }
             else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
-                NativeLibraryExtensions = new[] { ".so" };
+                NativeLibraryExtensions = new[] { ".so", ".so.1" };
             }
             else
             {
