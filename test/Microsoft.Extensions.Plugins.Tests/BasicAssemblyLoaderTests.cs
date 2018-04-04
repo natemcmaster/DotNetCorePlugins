@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Xunit;
 
-namespace Loader.Tests
+namespace Microsoft.Extensions.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
@@ -11,7 +11,7 @@ namespace Loader.Tests
         public void LoadsNetCoreApp20Project()
         {
             var path = TestResources.GetTestProjectAssembly("NetCoreApp20App");
-            var loader = AssemblyLoader.CreateFromFile(path);
+            var loader = PluginLoader.CreateFromConfigFile(path);
             var assembly = loader.LoadDefault();
 
             var method = assembly
@@ -25,7 +25,7 @@ namespace Loader.Tests
         public void LoadsNetStandard20Project()
         {
             var path = TestResources.GetTestProjectAssembly("NetStandardClassLib");
-            var loader = AssemblyLoader.CreateFromFile(path);
+            var loader = PluginLoader.CreateFromConfigFile(path);
             var assembly = loader.LoadDefault();
 
             var type = assembly.GetType("NetStandardClassLib.Class1", throwOnError: true);

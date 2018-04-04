@@ -3,16 +3,16 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Xunit;
 
-namespace Loader.Tests
+namespace Microsoft.Extensions.Plugins.Tests
 {
     public class PrivateDependencyTests
     {
         [Fact]
         public void EachContextHasPrivateVersions()
         {
-            var json9context = AssemblyLoader.CreateFromFile(TestResources.GetTestProjectAssembly("JsonNet9"));
-            var json10context = AssemblyLoader.CreateFromFile(TestResources.GetTestProjectAssembly("JsonNet10"));
-            var json11context = AssemblyLoader.CreateFromFile(TestResources.GetTestProjectAssembly("JsonNet11"));
+            var json9context = PluginLoader.CreateFromConfigFile(TestResources.GetTestProjectAssembly("JsonNet9"));
+            var json10context = PluginLoader.CreateFromConfigFile(TestResources.GetTestProjectAssembly("JsonNet10"));
+            var json11context = PluginLoader.CreateFromConfigFile(TestResources.GetTestProjectAssembly("JsonNet11"));
 
             // Load newest first to prove we can load older assemblies later into the same process
             var json11 = GetJson(json11context);
@@ -32,7 +32,7 @@ namespace Loader.Tests
               json9.GetType("Newtonsoft.Json.JsonConvert", throwOnError: true));
         }
 
-        private Assembly GetJson(AssemblyLoader loader)
+        private Assembly GetJson(PluginLoader loader)
             => loader.LoadAssembly(new AssemblyName("Newtonsoft.Json"));
     }
 }

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Loader\Loader.csproj" />
+    <ProjectReference Include="..\..\src\Microsoft.Extensions.Plugins\Microsoft.Extensions.Plugins.csproj" />
     <ProjectReference Include="..\TestProjects\ReferencedLibv1\ReferencedLibv1.csproj" />
     <TestProject Include="..\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj" />
     <TestProject Include="..\TestProjects\NetCoreApp20App\NetCoreApp20App.csproj" />

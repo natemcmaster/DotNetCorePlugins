@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <PluginConfigFile>$(OutputPath)plugin.config</PluginConfigFile>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+  
+  <Target Name="GeneratePluginConfig" BeforeTargets="Build">
+    <PropertyGroup>
+      <PluginConfigContent>
+        <![CDATA[
+<PluginConfig MainAssembly="$(TargetFileName)">
+  @(PrivateDependency->'<PrivateDependency Identity="%(Identity)" />', '%0A  ')
+</PluginConfig>
+]]>
+      </PluginConfigContent>
+    </PropertyGroup>
+
+    <WriteLinesToFile Lines="$(PluginConfigContent)" Overwrite="true" File="$(PluginConfigFile)" />
+  </Target>
+</Project>

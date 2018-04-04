@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 
-namespace Loader.Tests
+namespace Microsoft.Extensions.Plugins.Tests
 {
     public class TestResources
     {

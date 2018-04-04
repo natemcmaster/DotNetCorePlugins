@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Loader.Tests
+namespace Microsoft.Extensions.Plugins.Tests
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
     public class TestProjectReferenceAttribute : Attribute

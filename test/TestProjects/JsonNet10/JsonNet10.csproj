@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
+    <PrivateDependency Include="Newtonsoft.Json, Version=10.0.0.0" />
   </ItemGroup>
 
 </Project>
