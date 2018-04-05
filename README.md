@@ -51,3 +51,58 @@ This API will implement these features using:
  - AssemblyLoadContext to manage assembly loading and assembly version isolation
  - Microsoft.Extensions.DependencyModel to use the .deps.json and .runtimeconfig.json files to express additional dependencies
 and search paths for dependencies
+
+## Sample usage
+
+A host and plugin have a shared abstraction
+```c#
+public interface IFruit
+{
+    string GetColor()
+}
+```
+
+A host application could load plugins like this:
+
+```c#
+// (pseudocode)
+public class Program
+{
+    public static void Main(string[] args)
+    {
+        foreach (var pluginFile in Glob("plugins/*/plugin.config"))
+        {
+            var loader = PluginLoader.CreateFromConfigFile(
+                configFile: pluginFile,
+                sharedTypes: new [] { typeof(IFruit) });
+
+            var plugin = loader.LoadDefaultAssembly();
+            foreach (var fruitType in plugin.GetTypes().Where(t => typeof(IFruit).IsAssignableFrom(t) && !t.IsAbstract))
+            {
+                var fruit = (IFruit)Activator.CreateInstance(fruitType, new object[0]);
+                Console.WriteLine(fruit.GetColor());
+            }
+
+            loader.Dispose();
+        }
+    }
+}
+```
+
+A plugin author could implement the shared abstraction and distribute a plugin without knowing how the host will behave:
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <Sdk Name="Microsoft.Extensions.Plugins.Sdk" />
+  <PropertyGroup>
+    <IsPlugin>true</IsPlugin>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+</Project>
+```
+```c#
+internal class MyApple : IFruit
+{
+    public string GetColor() => "Red";
+}
+```

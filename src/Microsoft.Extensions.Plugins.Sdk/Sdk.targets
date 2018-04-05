@@ -3,8 +3,8 @@
     <PluginConfigFile>$(OutputPath)plugin.config</PluginConfigFile>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
-  
-  <Target Name="GeneratePluginConfig" BeforeTargets="Build">
+
+  <Target Name="GeneratePluginConfig" BeforeTargets="Build" Condition=" '$(IsPlugin)' == 'true' AND '$(TargetFramework)' != '' ">
     <PropertyGroup>
       <PluginConfigContent>
         <![CDATA[
