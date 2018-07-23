@@ -1,0 +1,9 @@
+<Project>
+
+  <!--
+    Required for the samples in this repo only.
+    Normally, you should replace this with a PackageReference to McMaster.Extensions.Plugins.Sdk.
+  -->
+  <Import Project="$(RepoRoot)src\Plugins.Sdk\sdk\Sdk.targets" />
+
+</Project>

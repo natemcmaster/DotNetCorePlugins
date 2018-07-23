@@ -1,8 +1,16 @@
 <Project>
   <PropertyGroup>
-    <PluginConfigFile>$(OutputPath)plugin.config</PluginConfigFile>
+    <PluginConfigFile>$(TargetDir)plugin.config</PluginConfigFile>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="$(PluginConfigFile)">
+      <Visible>false</Visible>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 
   <Target Name="GeneratePluginConfig"
           BeforeTargets="Build"
@@ -20,5 +28,9 @@
     </PropertyGroup>
 
     <WriteLinesToFile Lines="$(PluginConfigContent)" Overwrite="true" File="$(PluginConfigFile)" />
+
+    <ItemGroup>
+      <FileWrites Include="$(PluginConfigFile)" />
+    </ItemGroup>
   </Target>
 </Project>

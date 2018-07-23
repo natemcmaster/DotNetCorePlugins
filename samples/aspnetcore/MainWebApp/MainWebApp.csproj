@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <ProjectReference Include="..\Abstractions\Abstractions.csproj" />
+
+    <!--
+      Required for the samples in this repo only.
+      Normally, you should replace this with a PackageReference to McMaster.Extensions.Plugins.
+    -->
+    <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.Extensions.Plugins.csproj" />
+  </ItemGroup>
+
+  <Target Name="PublishPlugins"
+          BeforeTargets="Build">
+
+    <ItemGroup>
+      <PluginProject Include="..\WebAppPlugin1\WebAppPlugin1.csproj" />
+      <PluginProject Include="..\WebAppPlugin2\WebAppPlugin2.csproj" />
+    </ItemGroup>
+
+    <MSBuild Projects="@(PluginProject)"
+      Targets="Publish"
+      Properties="PublishDir=$(TargetDir)plugins\%(FileName)\" />
+  </Target>
+
+</Project>

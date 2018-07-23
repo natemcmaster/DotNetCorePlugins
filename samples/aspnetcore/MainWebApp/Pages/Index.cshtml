@@ -1,0 +1,11 @@
+﻿@page
+@using MainWebApp
+@model IndexModel
+<ul>
+@foreach (var link in Model.Links)
+{
+    <li>
+        <a href="@link">@link</a>
+    </li>
+}
+</ul>

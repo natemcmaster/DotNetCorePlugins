@@ -7,3 +7,8 @@ simplify the usage of those lower-level APIs.
 ## Getting started
 
 This project requires [.NET Core 2.0](https://aka.ms/dotnet-download) or higher.
+
+
+## Usage
+
+See example projects in [samples/](./samples/) for more detailed, example usage.
