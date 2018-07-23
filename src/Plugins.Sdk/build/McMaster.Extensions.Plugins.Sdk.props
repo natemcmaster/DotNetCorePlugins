@@ -1,0 +1,3 @@
+<Project>
+  <Import Project="..\Sdk.props" />
+</Project>

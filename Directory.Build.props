@@ -1,12 +1,28 @@
 <Project>
 
+  <Import Project="version.props" />
+
   <PropertyGroup>
     <Authors>Nate McMaster</Authors>
+    <Product>DotNetCorePlugins</Product>
+    <Copyright>Copyright © Nate McMaster</Copyright>
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/natemcmaster/DotNetCorePlugins</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/natemcmaster/DotNetCorePlugins.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <SourceLinkCreate>true</SourceLinkCreate>
     <DebugType>embedded</DebugType>
     <IsPackable>false</IsPackable>
     <LangVersion>7.2</LangVersion>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)src\StrongName.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <AzureKeyVaultUrl>https://nmcmaster.vault.azure.net</AzureKeyVaultUrl>
+    <AzureKeyVaultClientId>6a27a2da-bb78-4baa-bd2b-150fe89ea039</AzureKeyVaultClientId>
+    <AzureKeyVaultClientSecret>$(KEYVAULT_CLIENT_SECRET)</AzureKeyVaultClientSecret>
+    <CodeSignCertName>DigiCertCodeSign</CodeSignCertName>
+    <NoWarn>$(NoWarn);NU5105</NoWarn>
 
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateFullPaths Condition="'$(VSCODE_PID)' != ''">true</GenerateFullPaths>

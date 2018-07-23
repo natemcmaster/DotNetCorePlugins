@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Plugins\McMaster.Extensions.Plugins.csproj" />
+    <ProjectReference Include="..\TestProjects\ReferencedLibv1\ReferencedLibv1.csproj" />
+    <TestProject Include="..\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj" />
+    <TestProject Include="..\TestProjects\NetCoreApp20App\NetCoreApp20App.csproj" />
+    <TestProject Include="..\TestProjects\NetStandardClassLib\NetStandardClassLib.csproj" />
+    <TestProject Include="..\TestProjects\JsonNet9\JsonNet9.csproj" />
+    <TestProject Include="..\TestProjects\JsonNet10\JsonNet10.csproj" />
+    <TestProject Include="..\TestProjects\JsonNet11\JsonNet11.csproj" />
+    <TestProject Include="..\TestProjects\Strawberry\Strawberry.csproj" />
+    <TestProject Include="..\TestProjects\Banana\Banana.csproj" />
+    <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
+  </ItemGroup>
+
+  <Import Project="TestProjectRefs.targets" />
+
+</Project>

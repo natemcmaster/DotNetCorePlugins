@@ -1,0 +1,28 @@
+﻿<Project>
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <TestProject>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <OutputItemType>_ResolvedTestProjectReference</OutputItemType>
+    </TestProject>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="@(TestProject)" />
+  </ItemGroup>
+
+  <Target Name="GeneratePathToTestProjects"
+          BeforeTargets="CoreCompile;GetAssemblyAttributes"
+          DependsOnTargets="ResolveProjectReferences">
+    <ItemGroup>
+      <AssemblyAttribute Include="McMaster.Extensions.Plugins.Tests.TestProjectReferenceAttribute">
+        <_Parameter1>%(_ResolvedTestProjectReference.FileName)</_Parameter1>
+        <_Parameter2>%(_ResolvedTestProjectReference.RootDir)%(_ResolvedTestProjectReference.Directory)plugin.config</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+
+</Project>
