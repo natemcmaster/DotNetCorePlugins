@@ -1,6 +1,16 @@
 .NET Core Plugins
 =================
 
+[![AppVeyor build status][appveyor-badge]](https://ci.appveyor.com/project/natemcmaster/DotNetCorePlugins/branch/master)
+
+[appveyor-badge]: https://img.shields.io/appveyor/ci/natemcmaster/DotNetCorePlugins/master.svg?label=appveyor&style=flat-square
+
+[![MyGet][main-myget-badge]][main-myget]
+
+[main-myget]: https://www.myget.org/feed/natemcmaster/package/nuget/McMaster.NETCore.Plugins
+[main-myget-badge]: https://img.shields.io/www.myget/natemcmaster/vpre/McMaster.NETCore.Plugins.svg?style=flat-square&label=myget
+
+
 This project provides API for loading .NET Core assemblies dynamically, executing them as extensions to the main application, and finding and **isolating** the dependencies of the plugin from the main application.
 Isolating dependencies helps prevent conflicts when both the loader and the plugin share a dependency but
 require different versions.
@@ -13,7 +23,8 @@ application.
 
 ## Getting started
 
-This project requires [.NET Core 2.0](https://aka.ms/dotnet-download) or higher.
+Pre-release builds and symbols: https://www.myget.org/gallery/natemcmaster/
+
 You can install the plugin loading API using the `McMaster.NETCore.Plugins` NuGet package.
 
 ```
