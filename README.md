@@ -5,8 +5,11 @@
 
 [appveyor-badge]: https://img.shields.io/appveyor/ci/natemcmaster/DotNetCorePlugins/master.svg?label=appveyor&style=flat-square
 
+[![NuGet][main-nuget-badge]][main-nuget]
 [![MyGet][main-myget-badge]][main-myget]
 
+[main-nuget]: https://www.nuget.org/package/McMaster.NETCore.Plugins/
+[main-nuget-badge]: https://img.shields.io/nuget/v/McMaster.NETCore.Plugins.svg?style=flat-square&label=nuget
 [main-myget]: https://www.myget.org/feed/natemcmaster/package/nuget/McMaster.NETCore.Plugins
 [main-myget-badge]: https://img.shields.io/www.myget/natemcmaster/vpre/McMaster.NETCore.Plugins.svg?style=flat-square&label=myget
 
