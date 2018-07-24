@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
 
-namespace McMaster.Extensions.Plugins.Tests
+namespace McMaster.NETCore.Plugins.Tests
 {
     public class TestResources
     {

@@ -1,4 +1,4 @@
-﻿namespace McMaster.Extensions.Plugins
+﻿namespace McMaster.NETCore.Plugins
 {
     internal class RuntimeOptions
     {

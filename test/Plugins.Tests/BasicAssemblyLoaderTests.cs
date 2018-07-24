@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using Xunit;
 
-namespace McMaster.Extensions.Plugins.Tests
+namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {

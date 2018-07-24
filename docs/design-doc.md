@@ -79,7 +79,7 @@ A plugin author could implement the shared abstraction and distribute a plugin w
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
-  <Sdk Name="McMaster.Extensions.Plugins.Sdk" />
+  <Sdk Name="McMaster.NETCore.Plugins.Sdk" />
   <PropertyGroup>
     <IsPlugin>true</IsPlugin>
     <TargetFramework>netstandard2.0</TargetFramework>

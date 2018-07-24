@@ -6,9 +6,9 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Loader;
-using McMaster.Extensions.Plugins.LibraryModel;
+using McMaster.NETCore.Plugins.LibraryModel;
 
-namespace McMaster.Extensions.Plugins.Loader
+namespace McMaster.NETCore.Plugins.Loader
 {
     /// <summary>
     /// An implementation of <see cref="AssemblyLoadContext" /> which attempts to load managed and native

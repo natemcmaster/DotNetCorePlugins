@@ -18,7 +18,7 @@
           BeforeTargets="CoreCompile;GetAssemblyAttributes"
           DependsOnTargets="ResolveProjectReferences">
     <ItemGroup>
-      <AssemblyAttribute Include="McMaster.Extensions.Plugins.Tests.TestProjectReferenceAttribute">
+      <AssemblyAttribute Include="McMaster.NETCore.Plugins.Tests.TestProjectReferenceAttribute">
         <_Parameter1>%(_ResolvedTestProjectReference.FileName)</_Parameter1>
         <_Parameter2>%(_ResolvedTestProjectReference.RootDir)%(_ResolvedTestProjectReference.Directory)plugin.config</_Parameter2>
       </AssemblyAttribute>

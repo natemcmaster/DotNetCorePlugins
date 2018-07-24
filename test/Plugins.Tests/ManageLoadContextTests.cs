@@ -2,11 +2,11 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
-using McMaster.Extensions.Plugins.Loader;
+using McMaster.NETCore.Plugins.Loader;
 using Xunit;
 using Xunit.Sdk;
 
-namespace McMaster.Extensions.Plugins.Tests
+namespace McMaster.NETCore.Plugins.Tests
 {
     public class ManagedLoadContextTests
     {

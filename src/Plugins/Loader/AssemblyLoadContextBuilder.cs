@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
-using McMaster.Extensions.Plugins.LibraryModel;
+using McMaster.NETCore.Plugins.LibraryModel;
 
-namespace McMaster.Extensions.Plugins.Loader
+namespace McMaster.NETCore.Plugins.Loader
 {
     /// <summary>
     /// A builder for creating an instance of <see cref="AssemblyLoadContext" />.

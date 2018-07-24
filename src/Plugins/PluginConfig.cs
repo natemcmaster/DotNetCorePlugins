@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Xml;
 using System.Xml.Linq;
 
-namespace McMaster.Extensions.Plugins
+namespace McMaster.NETCore.Plugins
 {
     /// <summary>
     /// Represents the configuration for a .NET Core plugin.

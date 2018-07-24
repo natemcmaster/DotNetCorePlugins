@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace McMaster.Extensions.Plugins.LibraryModel
+namespace McMaster.NETCore.Plugins.LibraryModel
 {
     /// <summary>
     /// Represents an unmanaged library, such as `libsqlite3`, which may need to be loaded

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Plugins\McMaster.Extensions.Plugins.csproj" />
+    <ProjectReference Include="..\..\src\Plugins\McMaster.NETCore.Plugins.csproj" />
     <ProjectReference Include="..\TestProjects\ReferencedLibv1\ReferencedLibv1.csproj" />
     <TestProject Include="..\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj" />
     <TestProject Include="..\TestProjects\NetCoreApp20App\NetCoreApp20App.csproj" />

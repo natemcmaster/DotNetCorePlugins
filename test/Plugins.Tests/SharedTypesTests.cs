@@ -6,7 +6,7 @@ using System.Runtime.Loader;
 using Test.Referenced.Library;
 using Xunit;
 
-namespace McMaster.Extensions.Plugins.Tests
+namespace McMaster.NETCore.Plugins.Tests
 {
     public class SharedTypesTests
     {

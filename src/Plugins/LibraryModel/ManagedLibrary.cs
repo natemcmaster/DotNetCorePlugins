@@ -2,7 +2,7 @@
 using System.IO;
 using System.Reflection;
 
-namespace McMaster.Extensions.Plugins.LibraryModel
+namespace McMaster.NETCore.Plugins.LibraryModel
 {
     /// <summary>
     /// Represents a managed, .NET assembly.

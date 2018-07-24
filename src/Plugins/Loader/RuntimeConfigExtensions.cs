@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace McMaster.Extensions.Plugins.Loader
+namespace McMaster.NETCore.Plugins.Loader
 {
     /// <summary>
     /// Extensions for creating a load context using settings from a runtimeconfig.json file

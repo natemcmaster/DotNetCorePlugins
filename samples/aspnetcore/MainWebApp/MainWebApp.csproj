@@ -10,9 +10,9 @@
 
     <!--
       Required for the samples in this repo only.
-      Normally, you should replace this with a PackageReference to McMaster.Extensions.Plugins.
+      Normally, you should replace this with a PackageReference to McMaster.NETCore.Plugins.
     -->
-    <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.Extensions.Plugins.csproj" />
+    <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.NETCore.Plugins.csproj" />
   </ItemGroup>
 
   <Target Name="PublishPlugins"

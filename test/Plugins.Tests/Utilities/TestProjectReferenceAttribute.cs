@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace McMaster.Extensions.Plugins.Tests
+namespace McMaster.NETCore.Plugins.Tests
 {
     [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true)]
     public class TestProjectReferenceAttribute : Attribute

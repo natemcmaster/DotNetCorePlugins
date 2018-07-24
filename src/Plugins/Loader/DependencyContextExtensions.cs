@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using McMaster.Extensions.Plugins.LibraryModel;
+using McMaster.NETCore.Plugins.LibraryModel;
 using Microsoft.Extensions.DependencyModel;
 
-namespace McMaster.Extensions.Plugins.Loader
+namespace McMaster.NETCore.Plugins.Loader
 {
     /// <summary>
     /// Extensions for configuring a load context using .deps.json files.

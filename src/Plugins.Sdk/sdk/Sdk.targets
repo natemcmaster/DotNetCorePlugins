@@ -2,10 +2,11 @@
   <PropertyGroup>
     <PluginConfigFile>$(TargetDir)plugin.config</PluginConfigFile>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <GeneratePluginConfigFile Condition="'$(IsPlugin)' == 'true' AND '$(TargetFramework)' != ''">true</GeneratePluginConfigFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="$(PluginConfigFile)">
+    <Content Include="$(PluginConfigFile)" Condition="'$(GeneratePluginConfigFile)' == 'true'">
       <Visible>false</Visible>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -13,14 +14,16 @@
   </ItemGroup>
 
   <Target Name="GeneratePluginConfig"
-          BeforeTargets="Build"
+          BeforeTargets="CoreCompile"
           Inputs="$(MSBuildAllProjects);$(TargetPath)"
           Outputs="$(PluginConfigFile)"
-          Condition=" '$(IsPlugin)' == 'true' AND '$(TargetFramework)' != '' ">
+          Condition="'$(GeneratePluginConfigFile)' == 'true'">
     <PropertyGroup>
+      <_AssemblyIdentity>$(AssemblyName)</_AssemblyIdentity>
+      <_AssemblyIdentity Condition="'$(AssemblyVersion)' != ''">$(_AssemblyIdentity), Version=$(AssemblyVersion)</_AssemblyIdentity>
       <PluginConfigContent>
         <![CDATA[
-<PluginConfig MainAssembly="$(AssemblyName), Version=$(AssemblyVersion)">
+<PluginConfig MainAssembly="$(_AssemblyIdentity)">
   @(PrivateDependency->'<PrivateDependency Identity="%(Identity)" />', '%0A  ')
 </PluginConfig>
 ]]>

@@ -2,9 +2,9 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
-using McMaster.Extensions.Plugins.Loader;
+using McMaster.NETCore.Plugins.Loader;
 
-namespace McMaster.Extensions.Plugins
+namespace McMaster.NETCore.Plugins
 {
     /// <summary>
     /// This loader attempts to load binaries for execution (both managed assemblies and native libraries)

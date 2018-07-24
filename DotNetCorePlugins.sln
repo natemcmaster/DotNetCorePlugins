@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{471CA3C0-0BC9-4C0C-A013-D9356DBD0F38}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McMaster.Extensions.Plugins", "src\Plugins\McMaster.Extensions.Plugins.csproj", "{2D251CFD-A9DA-421F-B516-B25873348C08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McMaster.NETCore.Plugins", "src\Plugins\McMaster.NETCore.Plugins.csproj", "{2D251CFD-A9DA-421F-B516-B25873348C08}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{69958BAA-5D54-4F3F-82D6-F622F9491057}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McMaster.Extensions.Plugins.Tests", "test\Plugins.Tests\McMaster.Extensions.Plugins.Tests.csproj", "{00D7FBF0-801B-4B0E-9FDD-5C367E71444B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McMaster.NETCore.Plugins.Tests", "test\Plugins.Tests\McMaster.NETCore.Plugins.Tests.csproj", "{00D7FBF0-801B-4B0E-9FDD-5C367E71444B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{98E964A2-55DA-4740-9F2E-B64FDF6715DB}"
 	ProjectSection(SolutionItems) = preProject
@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferencedLibv2", "test\Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XunitSample", "test\TestProjects\XunitSample\XunitSample.csproj", "{3CEF9F32-5887-4977-AB8A-1BBC48875A21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McMaster.Extensions.Plugins.Sdk", "src\Plugins.Sdk\McMaster.Extensions.Plugins.Sdk.csproj", "{652D3662-DEB4-4FF6-8904-E581A84C040D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McMaster.NETCore.Plugins.Sdk", "src\Plugins.Sdk\McMaster.NETCore.Plugins.Sdk.csproj", "{652D3662-DEB4-4FF6-8904-E581A84C040D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banana", "test\TestProjects\Banana\Banana.csproj", "{8797AFCA-1EE8-4270-8FC4-F93A85F9C825}"
 EndProject
