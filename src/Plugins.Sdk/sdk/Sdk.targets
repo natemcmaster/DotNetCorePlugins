@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <IsPlugin Condition=" '$(IsPlugin)' == '' ">true</IsPlugin>
     <PluginConfigFile>$(TargetDir)plugin.config</PluginConfigFile>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
     <GeneratePluginConfigFile Condition="'$(IsPlugin)' == 'true' AND '$(TargetFramework)' != ''">true</GeneratePluginConfigFile>
