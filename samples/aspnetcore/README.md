@@ -21,8 +21,8 @@ This plugin uses AutoMapper, Version=6.2.2.0, Culture=neutral, PublicKeyToken=be
 This plugin uses AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005
 ```
 
-There are some important types, however, which much share the same identity between the plugins and the host.
-To ensure type exchnage works between the host and the plugins, the MainWebApp project uses the `sharedTypes`
+There are some important types, however, which must share the same identity between the plugins and the host.
+To ensure type exchange works between the host and the plugins, the MainWebApp project uses the `sharedTypes`
 parameter on `PluginLoader.CreateFromConfigFile`.
 
 ```csharp
