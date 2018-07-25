@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Plugin.Abstractions;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.CodeAnalysis;
 
 namespace MainWebApp
 {
@@ -42,11 +44,22 @@ namespace MainWebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.Configure<RazorViewEngineOptions>(
+                options => { options.ViewLocationExpanders.Add(new PluginViewLocationExpander()); });
+
+            var mvcBuilder = services.AddMvc()
+                .AddRazorOptions(o =>
+                    {
+                        foreach (var plugin in _plugins)
+                        {
+                            o.AdditionalCompilationReferences.Add(MetadataReference.CreateFromFile(plugin.GetType().Assembly.Location));
+                        }
+                    });
 
             foreach (var plugin in _plugins)
             {
                 plugin.ConfigureServices(services);
+                mvcBuilder.AddApplicationPart(plugin.GetType().Assembly);
             }
         }
 
