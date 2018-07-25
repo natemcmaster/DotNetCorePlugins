@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <MvcRazorCompileOnPublish>false</MvcRazorCompileOnPublish>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +26,7 @@
 
     <MSBuild Projects="@(PluginProject)"
       Targets="Publish"
-      Properties="PublishDir=$(TargetDir)plugins\%(FileName)\" />
+      Properties="PublishDir=$(MSBuildProjectDirectory)\plugins\%(FileName)\" />
   </Target>
 
 </Project>
