@@ -8,21 +8,20 @@
 [![NuGet][main-nuget-badge]][main-nuget]
 [![MyGet][main-myget-badge]][main-myget]
 
-[main-nuget]: https://www.nuget.org/package/McMaster.NETCore.Plugins/
+[main-nuget]: https://www.nuget.org/packages/McMaster.NETCore.Plugins/
 [main-nuget-badge]: https://img.shields.io/nuget/v/McMaster.NETCore.Plugins.svg?style=flat-square&label=nuget
 [main-myget]: https://www.myget.org/feed/natemcmaster/package/nuget/McMaster.NETCore.Plugins
 [main-myget-badge]: https://img.shields.io/www.myget/natemcmaster/vpre/McMaster.NETCore.Plugins.svg?style=flat-square&label=myget
 
-
 This project provides API for loading .NET Core assemblies dynamically, executing them as extensions to the main application, and finding and **isolating** the dependencies of the plugin from the main application.
-Isolating dependencies helps prevent conflicts when both the loader and the plugin share a dependency but
-require different versions.
 
-Unlike simpler approaches like `Assembly.LoadFrom`, this API attempts to imitate the behavior of `.deps.json`
+Unlike other approaches to dynamic assembly loading, like `Assembly.LoadFrom`, this API attempts to imitate the behavior of `.deps.json`
 and `runtimeconfig.json` files to probe for dependencies, load native (unmanaged) libraries, and to
 find binaries from runtime stores or package caches. In addition, it allows for fine-grained control over
 which types should be unified between the loader and the plugin, and which can remain isolated from the main
 application.
+
+Blog post introducing this project: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/)
 
 ## Getting started
 
