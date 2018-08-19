@@ -157,6 +157,19 @@ namespace McMaster.NETCore.Plugins.Loader
                 }
             }
 
+            // 3. Search in _basePath/runtimes
+            if (library.AdditionalProbingPath.StartsWith(library.Name.Name, StringComparison.OrdinalIgnoreCase) &&
+                library.AdditionalProbingPath.Contains("runtimes"))
+            {
+                var postPackageSpecProbingPath = library.AdditionalProbingPath.Substring(library.AdditionalProbingPath.IndexOf("runtimes"));
+                var candidate = Path.Combine(_basePath, postPackageSpecProbingPath);
+                if (File.Exists(candidate))
+                {
+                    path = candidate;
+                    return true;
+                }
+            }
+
             path = null;
             return false;
         }
