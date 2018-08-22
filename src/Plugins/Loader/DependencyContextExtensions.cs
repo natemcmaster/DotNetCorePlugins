@@ -141,8 +141,8 @@ namespace McMaster.NETCore.Plugins.Loader
             var rids = GetRids(runtimeGraph);
             return from library in depContext.RuntimeLibraries
                    from assetPath in SelectAssets(rids, library.NativeLibraryGroups)
-                       // workaround for System.Native.a being included in the deps.json file for Microsoft.NETCore.App
-                   where !assetPath.EndsWith(".a", StringComparison.Ordinal)
+                    // some packages include symbols alongside native assets, such as System.Native.a or pwshplugin.pdb
+                   where PlatformInformation.NativeLibraryExtensions.Contains(Path.GetExtension(assetPath), StringComparer.OrdinalIgnoreCase)
                    select NativeLibrary.CreateFromPackage(library.Name, library.Version, assetPath);
         }
 

@@ -17,27 +17,43 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProject
 		test\TestProjects\Directory.Build.targets = test\TestProjects\Directory.Build.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonNet10", "test\TestProjects\JsonNet10\JsonNet10.csproj", "{FFBDDBE3-3E51-4CE6-BDF6-04AB66FFF658}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonNet10", "test\TestProjects\JsonNet10\JsonNet10.csproj", "{FFBDDBE3-3E51-4CE6-BDF6-04AB66FFF658}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonNet11", "test\TestProjects\JsonNet11\JsonNet11.csproj", "{F2937B44-20B4-4E74-B5F5-99AF465424F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonNet11", "test\TestProjects\JsonNet11\JsonNet11.csproj", "{F2937B44-20B4-4E74-B5F5-99AF465424F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonNet9", "test\TestProjects\JsonNet9\JsonNet9.csproj", "{D71D858B-35AF-452F-926F-873DDD990B27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonNet9", "test\TestProjects\JsonNet9\JsonNet9.csproj", "{D71D858B-35AF-452F-926F-873DDD990B27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreApp20App", "test\TestProjects\NetCoreApp20App\NetCoreApp20App.csproj", "{B9C61145-C010-4FAA-B9EA-4D1AEE20305F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreApp20App", "test\TestProjects\NetCoreApp20App\NetCoreApp20App.csproj", "{B9C61145-C010-4FAA-B9EA-4D1AEE20305F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetStandardClassLib", "test\TestProjects\NetStandardClassLib\NetStandardClassLib.csproj", "{4FDB7710-F4CA-45FB-9514-A4D288EDA44A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetStandardClassLib", "test\TestProjects\NetStandardClassLib\NetStandardClassLib.csproj", "{4FDB7710-F4CA-45FB-9514-A4D288EDA44A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferencedLibv1", "test\TestProjects\ReferencedLibv1\ReferencedLibv1.csproj", "{CC37B369-BA9E-4B82-A14D-68B58924885D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferencedLibv1", "test\TestProjects\ReferencedLibv1\ReferencedLibv1.csproj", "{CC37B369-BA9E-4B82-A14D-68B58924885D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReferencedLibv2", "test\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj", "{50F86C8F-E052-448C-84CE-08763945FCC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReferencedLibv2", "test\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj", "{50F86C8F-E052-448C-84CE-08763945FCC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XunitSample", "test\TestProjects\XunitSample\XunitSample.csproj", "{3CEF9F32-5887-4977-AB8A-1BBC48875A21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XunitSample", "test\TestProjects\XunitSample\XunitSample.csproj", "{3CEF9F32-5887-4977-AB8A-1BBC48875A21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McMaster.NETCore.Plugins.Sdk", "src\Plugins.Sdk\McMaster.NETCore.Plugins.Sdk.csproj", "{652D3662-DEB4-4FF6-8904-E581A84C040D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McMaster.NETCore.Plugins.Sdk", "src\Plugins.Sdk\McMaster.NETCore.Plugins.Sdk.csproj", "{652D3662-DEB4-4FF6-8904-E581A84C040D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Banana", "test\TestProjects\Banana\Banana.csproj", "{8797AFCA-1EE8-4270-8FC4-F93A85F9C825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Banana", "test\TestProjects\Banana\Banana.csproj", "{8797AFCA-1EE8-4270-8FC4-F93A85F9C825}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Strawberry", "test\TestProjects\Strawberry\Strawberry.csproj", "{78D2B20D-B173-4CF2-A763-F2AA5347947E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Strawberry", "test\TestProjects\Strawberry\Strawberry.csproj", "{78D2B20D-B173-4CF2-A763-F2AA5347947E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerShellPlugin", "test\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj", "{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9E47E94A-3F50-4B3B-8937-1FCF832ABEB6}"
+	ProjectSection(SolutionItems) = preProject
+		.appveyor.yml = .appveyor.yml
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		build.ps1 = build.ps1
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+		releasenotes.props = releasenotes.props
+		version.props = version.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -205,6 +221,18 @@ Global
 		{78D2B20D-B173-4CF2-A763-F2AA5347947E}.Release|x64.Build.0 = Release|Any CPU
 		{78D2B20D-B173-4CF2-A763-F2AA5347947E}.Release|x86.ActiveCfg = Release|Any CPU
 		{78D2B20D-B173-4CF2-A763-F2AA5347947E}.Release|x86.Build.0 = Release|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Debug|x64.Build.0 = Debug|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Debug|x86.Build.0 = Debug|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Release|x64.ActiveCfg = Release|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Release|x64.Build.0 = Release|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Release|x86.ActiveCfg = Release|Any CPU
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -224,6 +252,7 @@ Global
 		{652D3662-DEB4-4FF6-8904-E581A84C040D} = {471CA3C0-0BC9-4C0C-A013-D9356DBD0F38}
 		{8797AFCA-1EE8-4270-8FC4-F93A85F9C825} = {98E964A2-55DA-4740-9F2E-B64FDF6715DB}
 		{78D2B20D-B173-4CF2-A763-F2AA5347947E} = {98E964A2-55DA-4740-9F2E-B64FDF6715DB}
+		{C0BA460C-C1AC-4C54-9C88-60E4B8681E94} = {98E964A2-55DA-4740-9F2E-B64FDF6715DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1AF41DC-A03E-47B1-BBDB-3DC27ABD9F74}

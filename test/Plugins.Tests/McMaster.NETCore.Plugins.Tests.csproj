@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +22,7 @@
     <TestProject Include="..\TestProjects\Strawberry\Strawberry.csproj" />
     <TestProject Include="..\TestProjects\Banana\Banana.csproj" />
     <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
+    <TestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
   </ItemGroup>
 
   <Import Project="TestProjectRefs.targets" />

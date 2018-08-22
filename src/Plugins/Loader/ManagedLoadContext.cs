@@ -3,11 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Runtime.Loader;
 using McMaster.NETCore.Plugins.LibraryModel;
 
@@ -26,41 +24,6 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _defaultAssemblies;
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
-
-        private static readonly string[] s_nativeLibraryExtensions;
-        private static readonly string[] s_nativeLibraryPrefixes;
-        private static readonly string[] s_managedAssemblyExtensions = new[]
-        {
-                ".dll",
-                ".ni.dll",
-                ".exe",
-                ".ni.exe"
-        };
-
-        static ManagedLoadContext()
-        {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                s_nativeLibraryPrefixes = new[] { "" };
-                s_nativeLibraryExtensions = new[] { ".dll" };
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                s_nativeLibraryPrefixes = new[] { "", "lib", };
-                s_nativeLibraryExtensions = new[] { ".dylib" };
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                s_nativeLibraryPrefixes = new[] { "", "lib" };
-                s_nativeLibraryExtensions = new[] { ".so", ".so.1" };
-            }
-            else
-            {
-                Debug.Fail("Unknown OS type");
-                s_nativeLibraryPrefixes = Array.Empty<string>();
-                s_nativeLibraryExtensions = Array.Empty<string>();
-            }
-        }
 
         public ManagedLoadContext(
             string baseDirectory,
@@ -121,7 +84,7 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns></returns>
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
-            foreach (var prefix in s_nativeLibraryPrefixes)
+            foreach (var prefix in PlatformInformation.NativeLibraryPrefixes)
             {
                 if (_nativeLibraries.TryGetValue(prefix + unmanagedDllName, out var library)
                     && SearchForLibrary(library, prefix, out var path))
@@ -136,7 +99,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private bool SearchForLibrary(ManagedLibrary library, out string path)
         {
             // 1. Search in base path
-            foreach (var ext in s_managedAssemblyExtensions)
+            foreach (var ext in PlatformInformation.ManagedAssemblyExtensions)
             {
                 var local = Path.Combine(_basePath, library.Name.Name + ext);
                 if (File.Exists(local))
@@ -177,7 +140,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private bool SearchForLibrary(NativeLibrary library, string prefix, out string path)
         {
             // 1. Search in base path
-            foreach (var ext in s_nativeLibraryExtensions)
+            foreach (var ext in PlatformInformation.NativeLibraryExtensions)
             {
                 var candidate = Path.Combine(_basePath, $"{prefix}{library.Name}{ext}");
                 if (File.Exists(candidate))

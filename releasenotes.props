@@ -1,0 +1,11 @@
+﻿<Project>
+  <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.1.1'">
+      <![CDATA[
+Bug fixes:
+* @BernMcCarty: Fix probing path to includes searching for native libraries in $pluginPath/runtimes/
+* Filter non-executable files from the load context when reading the .deps.json file
+]]>
+    </PackageReleaseNotes>
+  </PropertyGroup>
+</Project>

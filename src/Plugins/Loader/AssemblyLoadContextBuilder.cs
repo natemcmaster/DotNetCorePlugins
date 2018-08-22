@@ -128,9 +128,7 @@ namespace McMaster.NETCore.Plugins.Loader
         {
             ValidateRelativePath(library.AdditionalProbingPath);
 
-            if (!_managedLibraries.ContainsKey(library.Name.Name))
-                _managedLibraries.Add(library.Name.Name, library);
-
+            _managedLibraries.Add(library.Name.Name, library);
             return this;
         }
 
@@ -144,9 +142,7 @@ namespace McMaster.NETCore.Plugins.Loader
             ValidateRelativePath(library.AppLocalPath);
             ValidateRelativePath(library.AdditionalProbingPath);
 
-            if (!_nativeLibraries.ContainsKey(library.Name))
-                _nativeLibraries.Add(library.Name, library);
-
+            _nativeLibraries.Add(library.Name, library);
             return this;
         }
 

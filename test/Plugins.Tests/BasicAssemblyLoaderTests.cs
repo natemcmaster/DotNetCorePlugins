@@ -1,12 +1,25 @@
 using System;
 using System.Reflection;
-using System.Runtime.Loader;
 using Xunit;
 
 namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
+        [Fact]
+        public void LoadsNetCoreProjectWithNativeDeps()
+        {
+            var path = TestResources.GetTestProjectAssembly("PowerShellPlugin");
+            var loader = PluginLoader.CreateFromConfigFile(path);
+            var assembly = loader.LoadDefaultAssembly();
+
+            var method = assembly
+                .GetType("PowerShellPlugin.Program", throwOnError: true)
+                .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
+            Assert.NotNull(method);
+            Assert.Equal("hello", method.Invoke(null, Array.Empty<object>()));
+        }
+
         [Fact]
         public void LoadsNetCoreApp20Project()
         {

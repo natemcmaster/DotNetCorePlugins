@@ -95,7 +95,11 @@ namespace McMaster.NETCore.Plugins
 
             var builder = new AssemblyLoadContextBuilder();
 
-            builder.TryAddDependencyContext(depsJsonFile, out _);
+            if (File.Exists(depsJsonFile))
+            {
+                builder.AddDependencyContext(depsJsonFile);
+            }
+
             builder.SetBaseDirectory(baseDir);
 
             foreach (var ext in config.PrivateAssemblies)
