@@ -32,7 +32,7 @@ namespace McMaster.NETCore.Plugins
         {
             var config = PluginConfig.CreateFromFile(filePath);
             var baseDir = Path.GetDirectoryName(filePath);
-            return new PluginLoader(config, baseDir, sharedTypes);
+            return new PluginLoader(config, baseDir, sharedTypes, PluginLoaderOptions.None);
         }
 
         /// <summary>
@@ -45,7 +45,20 @@ namespace McMaster.NETCore.Plugins
         {
             var config = new FileOnlyPluginConfig(assemblyFile);
             var baseDir = Path.GetDirectoryName(assemblyFile);
-            return new PluginLoader(config, baseDir, sharedTypes);
+            return new PluginLoader(config, baseDir, sharedTypes, PluginLoaderOptions.None);
+        }
+
+        /// <summary>
+        /// Create a plugin loader for an assembly file.
+        /// </summary>
+        /// <param name="assemblyFile">The file path to the plugin config.</param>
+        /// <param name="loaderOptions">Options for the loader</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, PluginLoaderOptions loaderOptions)
+        {
+            var config = new FileOnlyPluginConfig(assemblyFile);
+            var baseDir = Path.GetDirectoryName(assemblyFile);
+            return new PluginLoader(config, baseDir, Array.Empty<Type>(), loaderOptions);
         }
 
         private class FileOnlyPluginConfig : PluginConfig
@@ -80,16 +93,17 @@ namespace McMaster.NETCore.Plugins
         public Assembly LoadAssembly(string assemblyName)
             => LoadAssembly(new AssemblyName(assemblyName));
 
-        internal PluginLoader(PluginConfig config, string baseDir, Type[] sharedTypes)
+        internal PluginLoader(PluginConfig config, string baseDir, Type[] sharedTypes, PluginLoaderOptions loaderOptions)
         {
             _mainAssembly = Path.Combine(baseDir, config.MainAssembly.Name + ".dll");
-            _context = CreateLoadContext(baseDir, config, sharedTypes);
+            _context = CreateLoadContext(baseDir, config, sharedTypes, loaderOptions);
         }
 
         private static AssemblyLoadContext CreateLoadContext(
             string baseDir,
             PluginConfig config,
-            Type[] sharedTypes)
+            Type[] sharedTypes,
+            PluginLoaderOptions loaderOptions)
         {
             var depsJsonFile = Path.Combine(baseDir, config.MainAssembly.Name + ".deps.json");
 
@@ -105,6 +119,11 @@ namespace McMaster.NETCore.Plugins
             foreach (var ext in config.PrivateAssemblies)
             {
                 builder.PreferLoadContextAssembly(ext);
+            }
+
+            if (loaderOptions.HasFlag(PluginLoaderOptions.PreferSharedTypes))
+            {
+                builder.PreferDefaultLoadContext(true);
             }
 
             if (sharedTypes != null)
