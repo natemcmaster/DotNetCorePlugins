@@ -8,6 +8,10 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <OutputItemType>_ResolvedTestProjectReference</OutputItemType>
     </TestProject>
+    <PublishedTestProject>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <OutputItemType>_ResolvedPublishedTestProjectReference</OutputItemType>
+    </PublishedTestProject>
   </ItemDefinitionGroup>
 
   <ItemGroup>
@@ -21,6 +25,14 @@
       <AssemblyAttribute Include="McMaster.NETCore.Plugins.Tests.TestProjectReferenceAttribute">
         <_Parameter1>%(_ResolvedTestProjectReference.FileName)</_Parameter1>
         <_Parameter2>%(_ResolvedTestProjectReference.RootDir)%(_ResolvedTestProjectReference.Directory)plugin.config</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+
+    <MSBuild Projects="@(PublishedTestProject)" Targets="Publish" Properties="NoBuild=true;PublishDir=$(TargetDir)%(PublishedTestProject.FileName)/" />
+    <ItemGroup>
+      <AssemblyAttribute Include="McMaster.NETCore.Plugins.Tests.TestProjectReferenceAttribute">
+        <_Parameter1>%(PublishedTestProject.FileName)</_Parameter1>
+        <_Parameter2>$(TargetDir)%(PublishedTestProject.FileName)/plugin.config</_Parameter2>
       </AssemblyAttribute>
     </ItemGroup>
   </Target>

@@ -109,23 +109,18 @@ namespace McMaster.NETCore.Plugins.Loader
                 }
             }
 
-            // 2. Search additional probing paths
+            // 2. Check for in _basePath + app local path
+            var localFile = Path.Combine(_basePath, library.AppLocalPath);
+            if (File.Exists(localFile))
+            {
+                path = localFile;
+                return true;
+            }
+
+            // 3. Search additional probing paths
             foreach (var searchPath in _additionalProbingPaths)
             {
                 var candidate = Path.Combine(searchPath, library.AdditionalProbingPath);
-                if (File.Exists(candidate))
-                {
-                    path = candidate;
-                    return true;
-                }
-            }
-
-            // 3. Search in _basePath/runtimes
-            if (library.AdditionalProbingPath.StartsWith(library.Name.Name, StringComparison.OrdinalIgnoreCase) &&
-                library.AdditionalProbingPath.Contains("runtimes"))
-            {
-                var postPackageSpecProbingPath = library.AdditionalProbingPath.Substring(library.AdditionalProbingPath.IndexOf("runtimes"));
-                var candidate = Path.Combine(_basePath, postPackageSpecProbingPath);
                 if (File.Exists(candidate))
                 {
                     path = candidate;

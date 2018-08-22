@@ -22,7 +22,7 @@
     <TestProject Include="..\TestProjects\Strawberry\Strawberry.csproj" />
     <TestProject Include="..\TestProjects\Banana\Banana.csproj" />
     <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
-    <TestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
+    <PublishedTestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
   </ItemGroup>
 
   <Import Project="TestProjectRefs.targets" />

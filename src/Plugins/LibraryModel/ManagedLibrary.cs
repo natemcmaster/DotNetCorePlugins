@@ -28,6 +28,19 @@ namespace McMaster.NETCore.Plugins.LibraryModel
         public string AdditionalProbingPath { get; private set; }
 
         /// <summary>
+        /// Contains path to file within a deployed, framework-dependent application.
+        /// <para>
+        /// For most managed libraries, this will be the file name.
+        /// For example, <c>MyPlugin1.dll</c>.
+        /// </para>
+        /// <para>
+        /// For runtime-specific managed implementations, this may include a sub folder path.
+        /// For example, <c>runtimes/win/lib/netcoreapp2.0/System.Diagnostics.EventLog.dll</c>
+        /// </para>
+        /// </summary>
+        public string AppLocalPath { get; private set; }
+
+        /// <summary>
         /// Create an instance of <see cref="ManagedLibrary" /> from a NuGet package.
         /// </summary>
         /// <param name="packageId">The name of the package.</param>
@@ -36,10 +49,17 @@ namespace McMaster.NETCore.Plugins.LibraryModel
         /// <returns></returns>
         public static ManagedLibrary CreateFromPackage(string packageId, string packageVersion, string assetPath)
         {
+            // When the asset comes from "lib/$tfm/", Microsoft.NET.Sdk will flatten this during publish based on the most compatible TFM.
+            // The SDK will not flatten managed libraries found under runtimes/
+            var appLocalPath = assetPath.StartsWith("lib/")
+                ? Path.GetFileName(assetPath)
+                : assetPath;
+
             return new ManagedLibrary
             {
                 Name = new AssemblyName(Path.GetFileNameWithoutExtension(assetPath)),
                 AdditionalProbingPath = Path.Combine(packageId.ToLowerInvariant(), packageVersion, assetPath),
+                AppLocalPath = appLocalPath,
             };
         }
     }
