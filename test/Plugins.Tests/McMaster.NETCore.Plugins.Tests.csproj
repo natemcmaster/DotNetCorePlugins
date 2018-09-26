@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="McMaster.Extensions.Xunit" Version="0.1.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -21,6 +22,7 @@
     <TestProject Include="..\TestProjects\JsonNet11\JsonNet11.csproj" />
     <TestProject Include="..\TestProjects\Strawberry\Strawberry.csproj" />
     <TestProject Include="..\TestProjects\Banana\Banana.csproj" />
+    <TestProject Include="..\TestProjects\Plátano\Plátano.csproj" />
     <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
     <PublishedTestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
   </ItemGroup>

@@ -24,16 +24,22 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _defaultAssemblies;
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
+        private readonly string[] _resourceRoots;
 
-        public ManagedLoadContext(
-            string baseDirectory,
+        public ManagedLoadContext(string baseDirectory,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
             IReadOnlyDictionary<string, NativeLibrary> nativeLibraries,
             IReadOnlyCollection<string> privateAssemblies,
             IReadOnlyCollection<string> defaultAssemblies,
             IReadOnlyCollection<string> additionalProbingPaths,
+            IReadOnlyCollection<string> resourceProbingPaths,
             bool preferDefaultLoadContext)
         {
+            if (resourceProbingPaths == null)
+            {
+                throw new ArgumentNullException(nameof(resourceProbingPaths));
+            }
+
             _basePath = baseDirectory ?? throw new ArgumentNullException(nameof(baseDirectory));
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
@@ -41,6 +47,10 @@ namespace McMaster.NETCore.Plugins.Loader
             _nativeLibraries = nativeLibraries ?? throw new ArgumentNullException(nameof(nativeLibraries));
             _additionalProbingPaths = additionalProbingPaths ?? throw new ArgumentNullException(nameof(additionalProbingPaths));
             _preferDefaultLoadContext = preferDefaultLoadContext;
+
+            _resourceRoots = new[] { _basePath }
+                .Concat(resourceProbingPaths)
+                .ToArray();
         }
 
         /// <summary>
@@ -66,6 +76,24 @@ namespace McMaster.NETCore.Plugins.Loader
                 {
                     // Swallow errors in loading from the default context
                 }
+            }
+
+            // Resource assembly binding does not use the TPA. Instead, it probes PLATFORM_RESOURCE_ROOTS (a list of folders)
+            // for $folder/$culture/$assemblyName.dll
+            // See https://github.com/dotnet/coreclr/blob/3fca50a36e62a7433d7601d805d38de6baee7951/src/binder/assemblybinder.cpp#L1232-L1290
+
+            if (!string.IsNullOrEmpty(assemblyName.CultureName) && !string.Equals("neutral", assemblyName.CultureName))
+            {
+                foreach (var resourceRoot in _resourceRoots)
+                {
+                    var resourcePath = Path.Combine(resourceRoot, assemblyName.CultureName, assemblyName.Name + ".dll");
+                    if (File.Exists(resourcePath))
+                    {
+                        return LoadFromAssemblyPath(resourcePath);
+                    }
+                }
+
+                return null;
             }
 
             if (_managedAssemblies.TryGetValue(assemblyName.Name, out var library)

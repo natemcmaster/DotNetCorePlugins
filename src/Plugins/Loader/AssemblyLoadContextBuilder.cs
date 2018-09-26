@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using McMaster.NETCore.Plugins.LibraryModel;
@@ -16,6 +17,8 @@ namespace McMaster.NETCore.Plugins.Loader
     public class AssemblyLoadContextBuilder
     {
         private readonly List<string> _additionalProbingPaths = new List<string>();
+        private readonly List<string> _resourceProbingPaths = new List<string>();
+        private readonly List<string> _resourceProbingSubpaths = new List<string>();
         private readonly Dictionary<string, ManagedLibrary> _managedLibraries = new Dictionary<string, ManagedLibrary>(StringComparer.Ordinal);
         private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
         private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
@@ -29,6 +32,15 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns>A new ManagedLoadContext.</returns>
         public AssemblyLoadContext Build()
         {
+            var resourceProbingPaths = new List<string>(_resourceProbingPaths);
+            foreach (var additionalPath in _additionalProbingPaths)
+            {
+                foreach (var subPath in _resourceProbingSubpaths)
+                {
+                    resourceProbingPaths.Add(Path.Combine(additionalPath, subPath));
+                }
+            }
+
             return new ManagedLoadContext(
                 _basePath,
                 _managedLibraries,
@@ -36,6 +48,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 _privateAssemblies,
                 _defaultAssemblies,
                 _additionalProbingPaths,
+                resourceProbingPaths,
                 _preferDefaultLoadContext);
         }
 
@@ -150,6 +163,7 @@ namespace McMaster.NETCore.Plugins.Loader
         /// Add a <paramref name="path"/> that should be used to search for native and managed libraries.
         /// </summary>
         /// <param name="path">The file path. Must be a full file path.</param>
+        /// <returns>The builder</returns>
         public AssemblyLoadContextBuilder AddProbingPath(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -163,6 +177,49 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             _additionalProbingPaths.Add(path);
+            return this;
+        }
+
+        /// <summary>
+        /// Add a <paramref name="path"/> that should be use to search for resource assemblies (aka satellite assemblies).
+        /// </summary>
+        /// <param name="path">The file path. Must be a full file path.</param>
+        /// <returns>The builder</returns>
+        public AssemblyLoadContextBuilder AddResourceProbingPath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("Value must not be null or empty.", nameof(path));
+            }
+
+            if (!Path.IsPathRooted(path))
+            {
+                throw new ArgumentException("Argument must be a full path.", nameof(path));
+            }
+
+            _resourceProbingPaths.Add(path);
+            return this;
+        }
+
+        /// <summary>
+        /// Add a <paramref name="path"/> that should be use to search for resource assemblies (aka satellite assemblies)
+        /// relative to any paths specified as <see cref="AddProbingPath"/>
+        /// </summary>
+        /// <param name="path">The file path. Must not be a full file path since it will be appended to additional probing path roots.</param>
+        /// <returns>The builder</returns>
+        internal AssemblyLoadContextBuilder AddResourceProbingSubpath(string path)
+        {
+            if (string.IsNullOrEmpty(path))
+            {
+                throw new ArgumentException("Value must not be null or empty.", nameof(path));
+            }
+
+            if (Path.IsPathRooted(path))
+            {
+                throw new ArgumentException("Argument must be not a full path.", nameof(path));
+            }
+
+            _resourceProbingSubpaths.Add(path);
             return this;
         }
 
