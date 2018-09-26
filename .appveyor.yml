@@ -1,4 +1,5 @@
-﻿build_script:
+﻿version: 0.2.0.{build}
+build_script:
   - ps: .\build.ps1 -ci
 environment:
   KEYVAULT_CLIENT_SECRET:
@@ -28,7 +29,6 @@ deploy:
     api_key:
       secure: KF1yGk4IHJyyfiHfFSCxJ+p5iZX+KPfCTnCihjD5iIZjasTS1lHeilpbaon4wvcM
   - provider: GitHub
-    description: 'See https://github.com/natemcmaster/CommandLineUtils/blob/master/CHANGELOG.md for details'
     auth_token:
       secure: 7gza5cyC0Fwp5LcFPz9dGMcHXP2jxbrnu7er9R/HkdvnhzGJVADvOtfYO7+Vow5p
     artifact: Packages
