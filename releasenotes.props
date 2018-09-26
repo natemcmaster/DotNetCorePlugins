@@ -1,5 +1,12 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.0'">
+      <![CDATA[
+Enhancements:
+* Load resource assemblies (i.e. localized or satelite assemblies)
+* Add API to configure the loader to prefer shared types by default
+]]>
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.1.1'">
       <![CDATA[
 Bug fixes:
