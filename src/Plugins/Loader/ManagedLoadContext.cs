@@ -126,18 +126,7 @@ namespace McMaster.NETCore.Plugins.Loader
 
         private bool SearchForLibrary(ManagedLibrary library, out string path)
         {
-            // 1. Search in base path
-            foreach (var ext in PlatformInformation.ManagedAssemblyExtensions)
-            {
-                var local = Path.Combine(_basePath, library.Name.Name + ext);
-                if (File.Exists(local))
-                {
-                    path = local;
-                    return true;
-                }
-            }
-
-            // 2. Check for in _basePath + app local path
+            // 1. Check for in _basePath + app local path
             var localFile = Path.Combine(_basePath, library.AppLocalPath);
             if (File.Exists(localFile))
             {
@@ -152,6 +141,17 @@ namespace McMaster.NETCore.Plugins.Loader
                 if (File.Exists(candidate))
                 {
                     path = candidate;
+                    return true;
+                }
+            }
+
+            // 3. Search in base path
+            foreach (var ext in PlatformInformation.ManagedAssemblyExtensions)
+            {
+                var local = Path.Combine(_basePath, library.Name.Name + ext);
+                if (File.Exists(local))
+                {
+                    path = local;
                     return true;
                 }
             }

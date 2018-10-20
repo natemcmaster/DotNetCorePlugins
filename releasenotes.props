@@ -1,5 +1,11 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.1'">
+      <![CDATA[
+Bug fix:
+* Fix a bug in the loader which causes System.Drawing.Common to load incorrectly. This one is super
+]]>
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.0'">
       <![CDATA[
 Enhancements:

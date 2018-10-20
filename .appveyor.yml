@@ -1,4 +1,4 @@
-﻿version: 0.2.0.{build}
+﻿version: 0.2.1.{build}
 build_script:
   - ps: .\build.ps1 -ci
 environment:

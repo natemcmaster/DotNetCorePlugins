@@ -50,6 +50,23 @@ namespace McMaster.NETCore.Plugins.Tests
         }
 
         [Fact]
+        public void ItPrefersRuntimeSpecificManagedAssetsOverRidlessOnes()
+        {
+            // System.Drawing.Common is an example of a package which has both rid-specific and ridless versions
+            // The package has lib/netstandard2.0/System.Drawing.Common.dll, but also has runtimes/{win,unix}/lib/netcoreapp2.0/System.Drawing.Common.dll
+            // In this case, the host will pick the rid-specific version
+
+            var path = TestResources.GetTestProjectAssembly("DrawingApp");
+            var loader = PluginLoader.CreateFromConfigFile(path);
+            var assembly = loader.LoadDefaultAssembly();
+
+            var type = assembly.GetType("Finder", throwOnError: true);
+            var method = type.GetMethod("FindDrawingAssembly", BindingFlags.Static | BindingFlags.Public);
+            Assert.NotNull(method);
+            Assert.Contains("runtimes", (string)method.Invoke(null, Array.Empty<object>()));
+        }
+
+        [Fact]
         [UseCulture("es")]
         public void ItLoadsSatelliteAssemblies()
         {
@@ -71,7 +88,7 @@ namespace McMaster.NETCore.Plugins.Tests
             var loader = PluginLoader.CreateFromConfigFile(path, sharedTypes: new[] { typeof(IFruit) });
             var assembly = loader.LoadDefaultAssembly();
             var type = Assert.Single(assembly.GetTypes(), t => typeof(IFruit).IsAssignableFrom(t));
-            return (IFruit) Activator.CreateInstance(type);
+            return (IFruit)Activator.CreateInstance(type);
         }
     }
 }
