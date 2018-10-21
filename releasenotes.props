@@ -3,7 +3,9 @@
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.1'">
       <![CDATA[
 Bug fix:
-* Fix a bug in the loader which causes System.Drawing.Common to load incorrectly. This one is super
+* Fix a bug in the loader which picks the wrong .dll when OS-specific and non-OS-specific assemblies are
+present, such as in the System.Drawing.Common package.
+* Ensure that additional probing paths from the application host's runtimeconfig.json files are honored.
 ]]>
     </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.0'">

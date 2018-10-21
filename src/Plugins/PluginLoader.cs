@@ -134,9 +134,17 @@ namespace McMaster.NETCore.Plugins
                 }
             }
 
-            var runtimeConfigFile = Path.Combine(baseDir, config.MainAssembly.Name + ".runtimeconfig.json");
+            var pluginRuntimeConfigFile = Path.Combine(baseDir, config.MainAssembly.Name + ".runtimeconfig.json");
 
-            builder.TryAddAdditionalProbingPathFromRuntimeConfig(runtimeConfigFile, includeDevConfig: true, out _);
+            builder.TryAddAdditionalProbingPathFromRuntimeConfig(pluginRuntimeConfigFile, includeDevConfig: true, out _);
+
+            // Always include runtimeconfig.json from the host app.
+            // in some cases, like `dotnet test`, the entry assembly does not actually match with the
+            // runtime config file which is why we search for all files matching this extensions.
+            foreach (var runtimeconfig in Directory.GetFiles(AppContext.BaseDirectory, "*.runtimeconfig.json"))
+            {
+                builder.TryAddAdditionalProbingPathFromRuntimeConfig(runtimeconfig, includeDevConfig: true, out _);
+            }
 
             return builder.Build();
         }

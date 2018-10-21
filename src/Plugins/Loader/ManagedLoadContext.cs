@@ -134,7 +134,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 return true;
             }
 
-            // 3. Search additional probing paths
+            // 2. Search additional probing paths
             foreach (var searchPath in _additionalProbingPaths)
             {
                 var candidate = Path.Combine(searchPath, library.AdditionalProbingPath);
