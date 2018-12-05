@@ -112,7 +112,7 @@ public class Program
         {
             var dirName = Path.GetFileName(dir);
             var pluginDll = Path.Combine(dir, dirName + ".dll");
-            if (File.Exist(pluginDll))
+            if (File.Exists(pluginDll))
             {
                 var loader = PluginLoader.CreateFromAssemblyFile(
                     pluginDll,
