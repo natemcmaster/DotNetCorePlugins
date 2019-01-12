@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using McMaster.NETCore.Plugins.LibraryModel;
 using Microsoft.Extensions.DependencyModel;
+using NativeLibrary = McMaster.NETCore.Plugins.LibraryModel.NativeLibrary;
 
 namespace McMaster.NETCore.Plugins.Loader
 {
@@ -121,32 +122,34 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             foreach (var library in dependencyContext.ResolveResourceAssemblies())
-            foreach (var resource in library.ResourceAssemblies)
             {
-                /*
-                 * For resource assemblies, look in $packageRoot/$packageId/$version/$resourceGrandparent
-                 *
-                 * For example, a deps file may contain
-                 *
-                 * "Example/1.0.0": {
-                 *    "runtime": {
-                 *         "lib/netcoreapp2.0/Example.dll": { }
-                 *     },
-                 *     "resources": {
-                 *         "lib/netcoreapp2.0/es/Example.resources.dll": {
-                 *           "locale": "es"
-                 *         }
-                 *     }
-                 * }
-                 *
-                 * In this case, probing should happen in $packageRoot/example/1.0.0/lib/netcoreapp2.0
-                 */
+                foreach (var resource in library.ResourceAssemblies)
+                {
+                    /*
+                     * For resource assemblies, look in $packageRoot/$packageId/$version/$resourceGrandparent
+                     *
+                     * For example, a deps file may contain
+                     *
+                     * "Example/1.0.0": {
+                     *    "runtime": {
+                     *         "lib/netcoreapp2.0/Example.dll": { }
+                     *     },
+                     *     "resources": {
+                     *         "lib/netcoreapp2.0/es/Example.resources.dll": {
+                     *           "locale": "es"
+                     *         }
+                     *     }
+                     * }
+                     *
+                     * In this case, probing should happen in $packageRoot/example/1.0.0/lib/netcoreapp2.0
+                     */
 
-                var path = Path.Combine(library.Name.ToLowerInvariant(),
-                    library.Version,
-                    Path.GetDirectoryName(Path.GetDirectoryName(resource.Path)));
+                    var path = Path.Combine(library.Name.ToLowerInvariant(),
+                        library.Version,
+                        Path.GetDirectoryName(Path.GetDirectoryName(resource.Path)));
 
-                builder.AddResourceProbingSubpath(path);
+                    builder.AddResourceProbingSubpath(path);
+                }
             }
 
             foreach (var native in dependencyContext.ResolveNativeAssets(fallbackGraph))
@@ -168,8 +171,8 @@ namespace McMaster.NETCore.Plugins.Loader
         private static IEnumerable<RuntimeLibrary> ResolveResourceAssemblies(this DependencyContext depContext)
         {
             return from library in depContext.RuntimeLibraries
-                where library.ResourceAssemblies != null && library.ResourceAssemblies.Count > 0
-                select library;
+                   where library.ResourceAssemblies != null && library.ResourceAssemblies.Count > 0
+                   select library;
         }
 
         private static IEnumerable<NativeLibrary> ResolveNativeAssets(this DependencyContext depContext, RuntimeFallbacks runtimeGraph)
@@ -177,7 +180,7 @@ namespace McMaster.NETCore.Plugins.Loader
             var rids = GetRids(runtimeGraph);
             return from library in depContext.RuntimeLibraries
                    from assetPath in SelectAssets(rids, library.NativeLibraryGroups)
-                    // some packages include symbols alongside native assets, such as System.Native.a or pwshplugin.pdb
+                       // some packages include symbols alongside native assets, such as System.Native.a or pwshplugin.pdb
                    where PlatformInformation.NativeLibraryExtensions.Contains(Path.GetExtension(assetPath), StringComparer.OrdinalIgnoreCase)
                    select NativeLibrary.CreateFromPackage(library.Name, library.Version, assetPath);
         }

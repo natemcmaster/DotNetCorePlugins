@@ -19,8 +19,24 @@ namespace McMaster.NETCore.Plugins
     /// which satisfy the plugin's requirements.
     /// </para>
     /// </summary>
-    public class PluginLoader
+    public class PluginLoader : IDisposable
     {
+// we have to duplicate a large block of xml code because C# doesn't allow conditional XML elements
+#if FEATURE_UNLOAD
+        /// <summary>
+        /// Create a plugin loader using the settings from a plugin config file.
+        /// <seealso cref="PluginConfig" /> for defaults on the plugin configuration.
+        /// </summary>
+        /// <param name="filePath">The file path to the plugin config.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromConfigFile(string filePath, Type[] sharedTypes = null, bool isUnloadable = false)
+        {
+            var loaderOptions = isUnloadable
+                        ? PluginLoaderOptions.IsUnloadable
+                        : PluginLoaderOptions.None;
+#else
         /// <summary>
         /// Create a plugin loader using the settings from a plugin config file.
         /// <seealso cref="PluginConfig" /> for defaults on the plugin configuration.
@@ -30,11 +46,30 @@ namespace McMaster.NETCore.Plugins
         /// <returns>A loader.</returns>
         public static PluginLoader CreateFromConfigFile(string filePath, Type[] sharedTypes = null)
         {
+            var loaderOptions = PluginLoaderOptions.None;
+#endif
             var config = PluginConfig.CreateFromFile(filePath);
             var baseDir = Path.GetDirectoryName(filePath);
-            return new PluginLoader(config, baseDir, sharedTypes, PluginLoaderOptions.None);
+            return new PluginLoader(config,
+                baseDir,
+                sharedTypes,
+                loaderOptions);
         }
 
+#if FEATURE_UNLOAD
+        /// <summary>
+        /// Create a plugin loader for an assembly file.
+        /// </summary>
+        /// <param name="assemblyFile">The file path to the plugin config.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes = null, bool isUnloadable = false)
+        {
+            var loaderOptions = isUnloadable
+                        ? PluginLoaderOptions.IsUnloadable
+                        : PluginLoaderOptions.None;
+#else
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
@@ -43,22 +78,25 @@ namespace McMaster.NETCore.Plugins
         /// <returns>A loader.</returns>
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes = null)
         {
-            var config = new FileOnlyPluginConfig(assemblyFile);
-            var baseDir = Path.GetDirectoryName(assemblyFile);
-            return new PluginLoader(config, baseDir, sharedTypes, PluginLoaderOptions.None);
+            var loaderOptions = PluginLoaderOptions.None;
+#endif
+            return CreateFromAssemblyFile(assemblyFile,
+                    sharedTypes,
+                    loaderOptions);
         }
 
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
         /// <param name="assemblyFile">The file path to the plugin config.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
         /// <param name="loaderOptions">Options for the loader</param>
         /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, PluginLoaderOptions loaderOptions)
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes, PluginLoaderOptions loaderOptions)
         {
             var config = new FileOnlyPluginConfig(assemblyFile);
             var baseDir = Path.GetDirectoryName(assemblyFile);
-            return new PluginLoader(config, baseDir, Array.Empty<Type>(), loaderOptions);
+            return new PluginLoader(config, baseDir, sharedTypes, loaderOptions);
         }
 
         private class FileOnlyPluginConfig : PluginConfig
@@ -69,13 +107,43 @@ namespace McMaster.NETCore.Plugins
         }
 
         private readonly string _mainAssembly;
-        private AssemblyLoadContext _context;
+        private readonly AssemblyLoadContext _context;
+        private volatile bool _disposed;
+
+        internal PluginLoader(PluginConfig config,
+            string baseDir,
+            Type[] sharedTypes,
+            PluginLoaderOptions loaderOptions)
+        {
+            _mainAssembly = Path.Combine(baseDir, config.MainAssembly.Name + ".dll");
+            _context = CreateLoadContext(baseDir, config, sharedTypes, loaderOptions);
+        }
+
+        /// <summary>
+        /// True when this plugin is capable of being unloaded.
+        /// </summary>
+        public bool IsUnloadable
+        {
+            get
+            {
+#if FEATURE_UNLOAD
+                return _context.IsCollectible;
+#else
+                return false;
+#endif
+            }
+        }
+
+        internal AssemblyLoadContext LoadContext => _context;
 
         /// <summary>
         /// Load the main assembly for the plugin.
         /// </summary>
         public Assembly LoadDefaultAssembly()
-        => _context.LoadFromAssemblyPath(_mainAssembly);
+        {
+            EnsureNotDisposed();
+            return _context.LoadFromAssemblyPath(_mainAssembly);
+        }
 
         /// <summary>
         /// Load an assembly by name.
@@ -83,7 +151,10 @@ namespace McMaster.NETCore.Plugins
         /// <param name="assemblyName">The assembly name.</param>
         /// <returns>The assembly.</returns>
         public Assembly LoadAssembly(AssemblyName assemblyName)
-            => _context.LoadFromAssemblyName(assemblyName);
+        {
+            EnsureNotDisposed();
+            return _context.LoadFromAssemblyName(assemblyName);
+        }
 
         /// <summary>
         /// Load an assembly by name.
@@ -91,12 +162,39 @@ namespace McMaster.NETCore.Plugins
         /// <param name="assemblyName">The assembly name.</param>
         /// <returns>The assembly.</returns>
         public Assembly LoadAssembly(string assemblyName)
-            => LoadAssembly(new AssemblyName(assemblyName));
-
-        internal PluginLoader(PluginConfig config, string baseDir, Type[] sharedTypes, PluginLoaderOptions loaderOptions)
         {
-            _mainAssembly = Path.Combine(baseDir, config.MainAssembly.Name + ".dll");
-            _context = CreateLoadContext(baseDir, config, sharedTypes, loaderOptions);
+            EnsureNotDisposed();
+            return LoadAssembly(new AssemblyName(assemblyName));
+        }
+
+        /// <summary>
+        /// Disposes the plugin loader. This only does something if <see cref="IsUnloadable" /> is true.
+        /// When true, this will unload assemblies which which were loaded during the lifetime
+        /// of the plugin.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+
+#if FEATURE_UNLOAD
+            if (_context.IsCollectible)
+            {
+                _context.Unload();
+            }
+#endif
+        }
+
+        private void EnsureNotDisposed()
+        {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException(nameof(PluginLoader));
+            }
         }
 
         private static AssemblyLoadContext CreateLoadContext(
@@ -125,6 +223,13 @@ namespace McMaster.NETCore.Plugins
             {
                 builder.PreferDefaultLoadContext(true);
             }
+
+#if FEATURE_UNLOAD
+            if (loaderOptions.HasFlag(PluginLoaderOptions.IsUnloadable))
+            {
+                builder.EnableUnloading();
+            }
+#endif
 
             if (sharedTypes != null)
             {

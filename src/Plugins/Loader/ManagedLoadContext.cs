@@ -33,7 +33,11 @@ namespace McMaster.NETCore.Plugins.Loader
             IReadOnlyCollection<string> defaultAssemblies,
             IReadOnlyCollection<string> additionalProbingPaths,
             IReadOnlyCollection<string> resourceProbingPaths,
-            bool preferDefaultLoadContext)
+            bool preferDefaultLoadContext,
+            bool isCollectible)
+#if FEATURE_UNLOAD
+            : base(isCollectible)
+#endif
         {
             if (resourceProbingPaths == null)
             {

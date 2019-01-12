@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using McMaster.Extensions.Xunit;
 using Test.Referenced.Library;
 using Xunit;
@@ -8,7 +9,51 @@ namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
+#if NETCOREAPP3_0
         [Fact]
+        public void PluginLoaderCanUnload()
+        {
+            var path = TestResources.GetTestProjectAssembly("NetCoreApp20App");
+
+            // See https://github.com/dotnet/coreclr/pull/22221
+
+            ExecuteAndUnload(path, out var weakRef);
+
+            // Force a GC collect to ensure unloaded has completed
+            for (var i = 0; weakRef.IsAlive && (i < 10); i++)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+
+            Assert.False(weakRef.IsAlive);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)] // ensure no local vars are create
+        private void ExecuteAndUnload(string path, out WeakReference weakRef)
+        {
+            var loader = PluginLoader.CreateFromConfigFile(path, isUnloadable: true);
+            var assembly = loader.LoadDefaultAssembly();
+
+            var method = assembly
+                .GetType("NetCoreApp20App.Program", throwOnError: true)
+                .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
+
+            Assert.True(loader.IsUnloadable);
+            Assert.NotNull(method);
+            Assert.Equal("Hello world!", method.Invoke(null, Array.Empty<object>()));
+            loader.Dispose();
+            Assert.Throws<ObjectDisposedException>(() => loader.LoadDefaultAssembly());
+
+            weakRef = new WeakReference(loader.LoadContext, trackResurrection: true);
+        }
+#endif
+
+#if NETCOREAPP3_0
+        [Fact(Skip = "Broken in .NET Core 3.0 - https://github.com/natemcmaster/DotNetCorePlugins/issues/34")]
+#else
+        [Fact]
+#endif
         public void LoadsNetCoreProjectWithNativeDeps()
         {
             var path = TestResources.GetTestProjectAssembly("PowerShellPlugin");
@@ -83,7 +128,11 @@ namespace McMaster.NETCore.Plugins.Tests
             Assert.Contains("runtimes", (string)method.Invoke(null, Array.Empty<object>()));
         }
 
+#if NETCOREAPP3_0
+        [Fact(Skip = "Broken in .NET Core 3.0 Preview 3 - https://github.com/dotnet/coreclr/issues/22458")]
+#else
         [Fact]
+#endif
         [UseCulture("es")]
         public void ItLoadsSatelliteAssemblies()
         {
@@ -102,7 +151,12 @@ namespace McMaster.NETCore.Plugins.Tests
         private IFruit GetPlátano()
         {
             var path = TestResources.GetTestProjectAssembly("Plátano");
-            var loader = PluginLoader.CreateFromConfigFile(path, sharedTypes: new[] { typeof(IFruit) });
+            var loader = PluginLoader.CreateFromConfigFile(path,
+#if NETCOREAPP3_0
+                isUnloadable: true,
+#endif
+                sharedTypes: new[] { typeof(IFruit) });
+
             var assembly = loader.LoadDefaultAssembly();
             var type = Assert.Single(assembly.GetTypes(), t => typeof(IFruit).IsAssignableFrom(t));
             return (IFruit)Activator.CreateInstance(type);

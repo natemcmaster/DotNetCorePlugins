@@ -28,7 +28,11 @@
       </AssemblyAttribute>
     </ItemGroup>
 
-    <MSBuild Projects="@(PublishedTestProject)" Targets="Publish" Properties="NoBuild=true;PublishDir=$(TargetDir)%(PublishedTestProject.FileName)/" />
+    <MSBuild Projects="@(PublishedTestProject)"
+             Targets="Publish"
+             Properties="NoBuild=true;PublishDir=$(TargetDir)%(PublishedTestProject.FileName)/"
+             RemoveProperties="TargetFramework;TargetFrameworks" />
+
     <ItemGroup>
       <AssemblyAttribute Include="McMaster.NETCore.Plugins.Tests.TestProjectReferenceAttribute">
         <_Parameter1>%(PublishedTestProject.FileName)</_Parameter1>
