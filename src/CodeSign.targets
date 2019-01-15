@@ -33,7 +33,7 @@
   </Target>
 
   <Target Name="PackageSign"
-          Condition=" '$(CodeSign)' == 'true' "
+          Condition=" '$(CodeSign)' == 'true' AND '$(IsPackable)' == 'true' "
           DependsOnTargets="GenerateNuspec"
           BeforeTargets="Pack"
           Inputs="$(PackageOutputAbsolutePath)$(PackageId).$(PackageVersion).nupkg"
