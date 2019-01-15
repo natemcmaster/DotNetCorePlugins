@@ -22,6 +22,23 @@ namespace McMaster.NETCore.Plugins.Tests
             Assert.Equal("hello", method.Invoke(null, Array.Empty<object>()));
         }
 
+        [SkippableFact]
+        [SkipOnOS(OS.Linux | OS.MacOS)]
+        public void LoadsNativeDependenciesWhenDllImportUsesFilename()
+        {
+            // SqlClient has P/invoke that calls "sni.dll" on Windows. This test checks
+            // that native libraries can still be resolved in this case.
+            var path = TestResources.GetTestProjectAssembly("SqlClientApp");
+            var loader = PluginLoader.CreateFromConfigFile(path);
+            var assembly = loader.LoadDefaultAssembly();
+
+            var method = assembly
+                .GetType("SqlClientApp.Program", throwOnError: true)
+                .GetMethod("Run", BindingFlags.Static | BindingFlags.Public);
+            Assert.NotNull(method);
+            Assert.Equal(true, method.Invoke(null, Array.Empty<object>()));
+        }
+
         [Fact]
         public void LoadsNetCoreApp20Project()
         {

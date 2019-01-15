@@ -119,6 +119,25 @@ namespace McMaster.NETCore.Plugins.Loader
                 {
                     return LoadUnmanagedDllFromPath(path);
                 }
+
+                // coreclr allows code to use [DllImport("sni")] or [DllImport("sni.dll")]
+                // This library treats the file name without the extension as the lookup name,
+                // so this loop is necessary to check if the unmanaged name matches a library
+                // when the file extension has been trimmed.
+                foreach (var suffix in PlatformInformation.NativeLibraryExtensions)
+                {
+                    if (!unmanagedDllName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                    {
+                        continue;
+                    }
+                    var trimmedName = unmanagedDllName.Substring(0, unmanagedDllName.Length - suffix.Length);
+
+                    if (_nativeLibraries.TryGetValue(prefix + trimmedName, out library)
+                    && SearchForLibrary(library, prefix, out path))
+                    {
+                        return LoadUnmanagedDllFromPath(path);
+                    }
+                }
             }
 
             return base.LoadUnmanagedDll(unmanagedDllName);

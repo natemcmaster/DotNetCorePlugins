@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <VersionPrefix>0.2.1</VersionPrefix>
+    <VersionPrefix>0.2.2</VersionPrefix>
     <VersionSuffix>rtm</VersionSuffix>
     <PackageVersion Condition="'$(APPVEYOR_REPO_TAG)' == 'true' AND '$(VersionSuffix)' != ''">$(VersionPrefix)-$(VersionSuffix)</PackageVersion>
     <PackageVersion Condition="'$(APPVEYOR_REPO_TAG)' == 'true' AND '$(VersionSuffix)' == 'rtm'">$(VersionPrefix)</PackageVersion>
@@ -10,11 +10,4 @@
     <FileVersion>$(VersionPrefix).$(BuildNumber)</FileVersion>
     <VersionSuffix Condition=" '$(VersionSuffix)' != '' ">$(VersionSuffix).$(BuildNumber)</VersionSuffix>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute">
-      <_Parameter1>BuildNumber</_Parameter1>
-      <_Parameter2>$(BuildNumber)</_Parameter2>
-    </AssemblyAttribute>
-  </ItemGroup>
 </Project>

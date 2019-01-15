@@ -1,14 +1,16 @@
-<Project>
+﻿<Project>
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageDescription>Generates the plugin configuration files required to load .dll files.</PackageDescription>
     <PackageTags>.NET Core;plugins;Sdk</PackageTags>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- Setting this to no longer produce packages until I have changes worth publishing. -->
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

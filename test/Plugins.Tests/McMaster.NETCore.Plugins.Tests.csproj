@@ -25,6 +25,7 @@
     <TestProject Include="..\TestProjects\Banana\Banana.csproj" />
     <TestProject Include="..\TestProjects\Plátano\Plátano.csproj" />
     <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
+    <TestProject Include="..\TestProjects\SqlClientApp\SqlClientApp.csproj" />
     <PublishedTestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
   </ItemGroup>
 

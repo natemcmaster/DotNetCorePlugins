@@ -1,5 +1,11 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.2'">
+      <![CDATA[
+Bug fix:
+* Fix loading plugins which use SqlClient on Windows.
+]]>
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.1'">
       <![CDATA[
 Bug fix:

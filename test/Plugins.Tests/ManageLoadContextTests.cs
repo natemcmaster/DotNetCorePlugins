@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Runtime.Loader;
 using McMaster.NETCore.Plugins.Loader;
 using Xunit;
-using Xunit.Sdk;
 
 namespace McMaster.NETCore.Plugins.Tests
 {
@@ -56,9 +55,6 @@ namespace McMaster.NETCore.Plugins.Tests
             Assert.Equal(new Version("2.0.0.0"), LoadAssembly(defaultLoader, "Test.Referenced.Library").GetName().Version);
             Assert.Equal(new Version("1.0.0.0"), LoadAssembly(unifedLoader, "Test.Referenced.Library").GetName().Version);
         }
-
-        private Version GetXunitVersion(AssemblyLoadContext context)
-            => LoadAssembly(context, "xunit.core").GetName().Version;
 
         private Assembly LoadAssembly(AssemblyLoadContext context, string name)
             => context.LoadFromAssemblyName(new AssemblyName(name));
