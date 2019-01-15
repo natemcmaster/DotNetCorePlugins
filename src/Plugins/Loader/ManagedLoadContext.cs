@@ -96,10 +96,22 @@ namespace McMaster.NETCore.Plugins.Loader
                 return null;
             }
 
-            if (_managedAssemblies.TryGetValue(assemblyName.Name, out var library)
-                && SearchForLibrary(library, out var path))
+            if (_managedAssemblies.TryGetValue(assemblyName.Name, out var library))
             {
-                return LoadFromAssemblyPath(path);
+                if (SearchForLibrary(library, out var path))
+                {
+                    return LoadFromAssemblyPath(path);
+                }
+            }
+            else
+            {
+                // if an assembly was not listed in the list of known assemblies,
+                // fallback to the load context base directory
+                var localFile = Path.Combine(_basePath, assemblyName.Name + ".dll");
+                if (File.Exists(localFile))
+                {
+                    return LoadFromAssemblyPath(localFile);
+                }
             }
 
             return null;
@@ -114,29 +126,53 @@ namespace McMaster.NETCore.Plugins.Loader
         {
             foreach (var prefix in PlatformInformation.NativeLibraryPrefixes)
             {
-                if (_nativeLibraries.TryGetValue(prefix + unmanagedDllName, out var library)
-                    && SearchForLibrary(library, prefix, out var path))
+                if (_nativeLibraries.TryGetValue(prefix + unmanagedDllName, out var library))
                 {
-                    return LoadUnmanagedDllFromPath(path);
-                }
-
-                // coreclr allows code to use [DllImport("sni")] or [DllImport("sni.dll")]
-                // This library treats the file name without the extension as the lookup name,
-                // so this loop is necessary to check if the unmanaged name matches a library
-                // when the file extension has been trimmed.
-                foreach (var suffix in PlatformInformation.NativeLibraryExtensions)
-                {
-                    if (!unmanagedDllName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
-                    {
-                        continue;
-                    }
-                    var trimmedName = unmanagedDllName.Substring(0, unmanagedDllName.Length - suffix.Length);
-
-                    if (_nativeLibraries.TryGetValue(prefix + trimmedName, out library)
-                    && SearchForLibrary(library, prefix, out path))
+                    if (SearchForLibrary(library, prefix, out var path))
                     {
                         return LoadUnmanagedDllFromPath(path);
                     }
+                }
+                else
+                {
+                    // coreclr allows code to use [DllImport("sni")] or [DllImport("sni.dll")]
+                    // This library treats the file name without the extension as the lookup name,
+                    // so this loop is necessary to check if the unmanaged name matches a library
+                    // when the file extension has been trimmed.
+                    foreach (var suffix in PlatformInformation.NativeLibraryExtensions)
+                    {
+                        if (!unmanagedDllName.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        // check to see if there is a library entry for the library without the file extension
+                        var trimmedName = unmanagedDllName.Substring(0, unmanagedDllName.Length - suffix.Length);
+
+                        if (_nativeLibraries.TryGetValue(prefix + trimmedName, out library))
+                        {
+                            if (SearchForLibrary(library, prefix, out var path))
+                            {
+                                return LoadUnmanagedDllFromPath(path);
+                            }
+                        }
+                        else
+                        {
+                            // fallback to native assets which match the file name in the plugin base directory
+                            var localFile = Path.Combine(_basePath, prefix + unmanagedDllName + suffix);
+                            if (File.Exists(localFile))
+                            {
+                                return LoadUnmanagedDllFromPath(localFile);
+                            }
+
+                            var localFileWithoutSuffix = Path.Combine(_basePath, prefix + unmanagedDllName);
+                            if (File.Exists(localFileWithoutSuffix))
+                            {
+                                return LoadUnmanagedDllFromPath(localFileWithoutSuffix);
+                            }
+                        }
+                    }
+
                 }
             }
 

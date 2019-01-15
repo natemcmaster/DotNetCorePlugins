@@ -3,3 +3,5 @@ obj/
 .vs/
 artifacts/
 .idea/
+*.user
+launchSettings.json

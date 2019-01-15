@@ -4,6 +4,7 @@
       <![CDATA[
 Bug fix:
 * Fix loading plugins which use SqlClient on Windows.
+* Fallback to loading assemblies from the plugin base directory when all else fails.
 ]]>
     </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.1'">

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -15,7 +15,7 @@
     <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.NETCore.Plugins.csproj" />
   </ItemGroup>
 
-  <Target Name="BuildPlugin" AfterTargets="Build">
+  <Target Name="BuildPlugin" BeforeTargets="Build">
     <MSBuild Projects="..\MvcAppPlugin1\MvcAppPlugin1.csproj"
              Targets="Publish"
              Properties="Configuration=$(Configuration);PublishDir=$(OutputPath)/plugins/MvcAppPlugin1/" />

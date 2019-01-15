@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using McMaster.NETCore.Plugins;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MvcWebApp
@@ -39,9 +33,10 @@ namespace MvcWebApp
                 }
 
                 // This piece finds and loads related parts, such as MvcAppPlugin1.Views.dll.
-                var relatedAssemblies = RelatedAssemblyAttribute.GetRelatedAssemblies(pluginAssembly, throwOnError: true);
-                foreach (var assembly in relatedAssemblies)
+                var relatedAssembliesAttrs = pluginAssembly.GetCustomAttributes<RelatedAssemblyAttribute>();
+                foreach (var attr in relatedAssembliesAttrs)
                 {
+                    var assembly = plugin.LoadAssembly(attr.AssemblyFileName);
                     partFactory = ApplicationPartFactory.GetApplicationPartFactory(assembly);
                     foreach (var part in partFactory.GetApplicationParts(assembly))
                     {
@@ -54,6 +49,7 @@ namespace MvcWebApp
 
         public void Configure(IApplicationBuilder app)
         {
+            app.UseDeveloperExceptionPage();
             app.UseMvcWithDefaultRoute();
         }
     }
