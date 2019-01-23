@@ -130,7 +130,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 {
                     if (SearchForLibrary(library, prefix, out var path))
                     {
-                        return LoadUnmanagedDllFromPath(path);
+                        return LoadUnmanagedDllFromResolvedPath(path);
                     }
                 }
                 else
@@ -153,7 +153,7 @@ namespace McMaster.NETCore.Plugins.Loader
                         {
                             if (SearchForLibrary(library, prefix, out var path))
                             {
-                                return LoadUnmanagedDllFromPath(path);
+                                return LoadUnmanagedDllFromResolvedPath(path);
                             }
                         }
                         else
@@ -162,13 +162,13 @@ namespace McMaster.NETCore.Plugins.Loader
                             var localFile = Path.Combine(_basePath, prefix + unmanagedDllName + suffix);
                             if (File.Exists(localFile))
                             {
-                                return LoadUnmanagedDllFromPath(localFile);
+                                return LoadUnmanagedDllFromResolvedPath(localFile);
                             }
 
                             var localFileWithoutSuffix = Path.Combine(_basePath, prefix + unmanagedDllName);
                             if (File.Exists(localFileWithoutSuffix))
                             {
-                                return LoadUnmanagedDllFromPath(localFileWithoutSuffix);
+                                return LoadUnmanagedDllFromResolvedPath(localFileWithoutSuffix);
                             }
                         }
                     }
@@ -249,6 +249,12 @@ namespace McMaster.NETCore.Plugins.Loader
 
             path = null;
             return false;
+        }
+
+        private IntPtr LoadUnmanagedDllFromResolvedPath(string unmanagedDllPath)
+        {
+            var normalized = Path.GetFullPath(unmanagedDllPath);
+            return LoadUnmanagedDllFromPath(normalized);
         }
     }
 }
