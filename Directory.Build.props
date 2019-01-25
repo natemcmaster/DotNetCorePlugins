@@ -15,6 +15,8 @@
     <RepositoryUrl>https://github.com/natemcmaster/DotNetCorePlugins.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>true</IncludeSymbols>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>portable</DebugType>
     <IsPackable>false</IsPackable>
     <LangVersion>7.3</LangVersion>
