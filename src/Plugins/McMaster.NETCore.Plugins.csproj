@@ -12,8 +12,6 @@ Projects which create plugins should use McMaster.NETCore.Plugins.Sdk to generat
 files required to load .dll files.
     </PackageDescription>
     <PackageTags>.NET Core;plugins</PackageTags>
-    <IncludeSymbols>true</IncludeSymbols>
-    <IncludeSource>true</IncludeSource>
     <WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
   </PropertyGroup>
 
@@ -22,7 +20,7 @@ files required to load .dll files.
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta2-18618-05 " PrivateAssets="all" />
   </ItemGroup>
 
 </Project>
