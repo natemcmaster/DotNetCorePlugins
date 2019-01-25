@@ -79,7 +79,7 @@ if ($env:TF_BUILD) {
 
 exec dotnet test --no-restore --no-build --configuration $Configuration '-clp:Summary' `
     "$PSScriptRoot/test/Plugins.Tests/McMaster.NETCore.Plugins.Tests.csproj" `
-    @$testArgs `
+    @testArgs `
     @MSBuildArgs
 
 write-host -f magenta 'Done'
