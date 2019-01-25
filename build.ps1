@@ -32,8 +32,12 @@ if ($ci) {
     $MSBuildArgs += '-p:CI=true'
 }
 
-$CodeSign = $sign -or ($ci -and -not $env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT -and ($IsWindows -or -not $IsCoreCLR))
+$isPr = $env:APPVEYOR_PULL_REQUEST_HEAD_COMMIT -or ($env:BUILD_REASON -eq 'PullRequest')
+if (-not (Test-Path variable:\IsCoreCLR)) {
+    $IsWindows = $true
+}
 
+$CodeSign = $sign -or ($ci -and -not $isPr -and $IsWindows)
 if ($CodeSign) {
     $toolsDir = "$PSScriptRoot/.build/tools"
     $AzureSignToolPath = "$toolsDir/azuresigntool"
@@ -67,8 +71,15 @@ Remove-Item -Recurse $artifacts -ErrorAction Ignore
 
 exec dotnet build --configuration $Configuration '-warnaserror:CS1591' @MSBuildArgs
 exec dotnet pack --no-restore --no-build --configuration $Configuration -o $artifacts @MSBuildArgs
+
+[string[]] $testArgs=@()
+if ($env:TF_BUILD) {
+    $testArgs += '--logger', 'trx'
+}
+
 exec dotnet test --no-restore --no-build --configuration $Configuration '-clp:Summary' `
     "$PSScriptRoot/test/Plugins.Tests/McMaster.NETCore.Plugins.Tests.csproj" `
+    @testArgs `
     @MSBuildArgs
 
 write-host -f magenta 'Done'

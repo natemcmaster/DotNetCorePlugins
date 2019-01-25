@@ -10,13 +10,16 @@
     <NeutralLanguage>en-US</NeutralLanguage>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
-    <PackageLicenseUrl>https://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/natemcmaster/DotNetCorePlugins</PackageProjectUrl>
     <RepositoryUrl>https://github.com/natemcmaster/DotNetCorePlugins.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <DebugType>embedded</DebugType>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IncludeSymbols>true</IncludeSymbols>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <DebugType>portable</DebugType>
     <IsPackable>false</IsPackable>
-    <LangVersion>7.2</LangVersion>
+    <LangVersion>7.3</LangVersion>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)src\StrongName.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <AzureKeyVaultUrl>https://nmcmaster.vault.azure.net</AzureKeyVaultUrl>
