@@ -8,9 +8,6 @@
     <PackageTags>.NET Core;plugins;Sdk</PackageTags>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-
-    <!-- Setting this to no longer produce packages until I have changes worth publishing. -->
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
