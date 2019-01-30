@@ -1,9 +1,7 @@
 .NET Core Plugins
 =================
 
-[![AppVeyor build status][appveyor-badge]](https://ci.appveyor.com/project/natemcmaster/DotNetCorePlugins/branch/master)
-
-[appveyor-badge]: https://img.shields.io/appveyor/ci/natemcmaster/DotNetCorePlugins/master.svg?label=appveyor&style=flat-square
+[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=master)](https://dev.azure.com/natemcmaster/github/_build/latest?definitionId=6&branchName=master)
 
 [![NuGet][main-nuget-badge]][main-nuget]
 [![MyGet][main-myget-badge]][main-myget]

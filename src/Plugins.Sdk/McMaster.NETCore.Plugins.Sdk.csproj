@@ -8,6 +8,8 @@
     <PackageTags>.NET Core;plugins;Sdk</PackageTags>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <IncludeSymbols>false</IncludeSymbols>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
