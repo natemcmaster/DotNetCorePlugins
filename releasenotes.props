@@ -1,5 +1,9 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.4'">
+Bug fix:
+* Fix the MSBuild targets which generate plugin.config to put it into the correct output directory.
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.3'">
 Bug fix:
 * Fix config file generation when using the SDK package

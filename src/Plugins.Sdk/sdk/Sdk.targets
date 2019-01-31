@@ -1,14 +1,16 @@
 <Project>
   <PropertyGroup>
-    <IsPlugin Condition=" '$(IsPlugin)' == '' ">true</IsPlugin>
-    <PluginConfigFile>$(TargetDir)plugin.config</PluginConfigFile>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+
+    <IsPlugin Condition=" '$(IsPlugin)' == '' ">true</IsPlugin>
+    <IntermediatePluginConfigFile>$(IntermediateOutputPath)$(MSBuildProjectName).$(PluginConfigFileName)</IntermediatePluginConfigFile>
     <GeneratePluginConfigFile Condition="'$(IsPlugin)' == 'true' AND '$(TargetFramework)' != ''">true</GeneratePluginConfigFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="$(PluginConfigFile)" Condition="'$(GeneratePluginConfigFile)' == 'true'">
+    <Content Include="$(IntermediatePluginConfigFile)" Condition="'$(GeneratePluginConfigFile)' == 'true'">
       <Visible>false</Visible>
+      <Link>$(PluginConfigFileName)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -17,7 +19,7 @@
   <Target Name="GeneratePluginConfig"
           BeforeTargets="CoreCompile"
           Inputs="$(MSBuildAllProjects);$(TargetPath)"
-          Outputs="$(PluginConfigFile)"
+          Outputs="$(IntermediatePluginConfigFile)"
           Condition="'$(GeneratePluginConfigFile)' == 'true'">
     <PropertyGroup>
       <_AssemblyIdentity>$(AssemblyName)</_AssemblyIdentity>
@@ -31,10 +33,10 @@
       </PluginConfigContent>
     </PropertyGroup>
 
-    <WriteLinesToFile Lines="$(PluginConfigContent)" Overwrite="true" File="$(PluginConfigFile)" />
+    <WriteLinesToFile Lines="$(PluginConfigContent)" Overwrite="true" File="$(IntermediatePluginConfigFile)" />
 
     <ItemGroup>
-      <FileWrites Include="$(PluginConfigFile)" />
+      <FileWrites Include="$(IntermediatePluginConfigFile)" />
     </ItemGroup>
   </Target>
 </Project>

@@ -1,5 +1,7 @@
 <Project>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+
+    <PluginConfigFileName>plugin.config</PluginConfigFileName>
   </PropertyGroup>
 </Project>
