@@ -20,7 +20,11 @@ namespace MvcWebApp
             foreach (var dir in Directory.GetDirectories(Path.Combine(AppContext.BaseDirectory, "plugins")))
             {
                 var pluginName = Path.GetFileName(dir);
-                var plugin = PluginLoader.CreateFromAssemblyFile(Path.Combine(dir, pluginName + ".dll"));
+
+                var plugin = PluginLoader.CreateFromAssemblyFile(
+                    Path.Combine(dir, pluginName + ".dll"), // create a plugin from for the .dll file
+                    sharedTypes: new [] { typeof(Controller) }); // this ensures that the version of MVC is shared between this app and the plugin
+
                 var pluginAssembly = plugin.LoadDefaultAssembly();
                 Console.WriteLine($"Loading application parts from plugin {pluginName}");
 
