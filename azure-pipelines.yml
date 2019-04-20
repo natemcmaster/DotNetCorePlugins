@@ -24,8 +24,12 @@ jobs:
     displayName: Install .NET Core
     inputs:
       version: $(DotNetCoreVersion)
+  - powershell: ./build.ps1 -ci
+    displayName: Invoke build.ps1
+    condition: eq(variables['kv-access-token'], '')
   - powershell: ./build.ps1 -ci /p:AzureKeyVaultClientSecret=$(kv-access-token)
     displayName: Invoke build.ps1
+    condition: ne(variables['kv-access-token'], '')
   - task: PublishTestResults@2
     displayName: Upload test results
     condition: always()
