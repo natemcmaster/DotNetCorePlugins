@@ -21,7 +21,7 @@ namespace McMaster.NETCore.Plugins
     /// </summary>
     public class PluginLoader : IDisposable
     {
-// we have to duplicate a large block of xml code because C# doesn't allow conditional XML elements
+        // we have to duplicate a large block of xml code because C# doesn't allow conditional XML elements
 #if FEATURE_UNLOAD
         /// <summary>
         /// Create a plugin loader using the settings from a plugin config file.
@@ -50,6 +50,38 @@ namespace McMaster.NETCore.Plugins
 #endif
             var config = PluginConfig.CreateFromFile(filePath);
             var baseDir = Path.GetDirectoryName(filePath);
+            return new PluginLoader(config,
+                baseDir,
+                sharedTypes,
+                loaderOptions);
+        }
+
+#if FEATURE_UNLOAD
+        /// <summary>
+        /// Create a plugin loader using an existing <see cref="PluginConfig"/> instance.
+        /// </summary>
+        /// <param name="config">The <see cref="PluginConfig"/> instance.</param>
+        /// <param name="baseDir">The base directory from which to load / search for dependencies on disk.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromConfigFile(PluginConfig config, string baseDir, Type[] sharedTypes = null, bool isUnloadable = false)
+        {
+            var loaderOptions = isUnloadable
+                        ? PluginLoaderOptions.IsUnloadable
+                        : PluginLoaderOptions.None;
+#else
+        /// <summary>
+        /// Create a plugin loader using an existing <see cref="PluginConfig"/> instance.
+        /// </summary>
+        /// <param name="config">The <see cref="PluginConfig"/> instance.</param>
+        /// <param name="baseDir">The base directory from which to load / search for dependencies on disk.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromConfigFile(PluginConfig config, string baseDir, Type[] sharedTypes = null)
+        {
+            var loaderOptions = PluginLoaderOptions.None;
+#endif
             return new PluginLoader(config,
                 baseDir,
                 sharedTypes,
