@@ -24,7 +24,7 @@
     <ItemGroup>
       <AssemblyAttribute Include="McMaster.NETCore.Plugins.Tests.TestProjectReferenceAttribute">
         <_Parameter1>%(_ResolvedTestProjectReference.FileName)</_Parameter1>
-        <_Parameter2>%(_ResolvedTestProjectReference.RootDir)%(_ResolvedTestProjectReference.Directory)plugin.config</_Parameter2>
+        <_Parameter2>%(_ResolvedTestProjectReference.RootDir)%(_ResolvedTestProjectReference.Directory)%(_ResolvedTestProjectReference.FileName).dll</_Parameter2>
       </AssemblyAttribute>
     </ItemGroup>
 
@@ -36,7 +36,7 @@
     <ItemGroup>
       <AssemblyAttribute Include="McMaster.NETCore.Plugins.Tests.TestProjectReferenceAttribute">
         <_Parameter1>%(PublishedTestProject.FileName)</_Parameter1>
-        <_Parameter2>$(TargetDir)%(PublishedTestProject.FileName)/plugin.config</_Parameter2>
+        <_Parameter2>$(TargetDir)%(PublishedTestProject.FileName)/%(PublishedTestProject.FileName).dll</_Parameter2>
       </AssemblyAttribute>
     </ItemGroup>
   </Target>

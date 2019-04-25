@@ -32,7 +32,7 @@ namespace McMaster.NETCore.Plugins.Tests
         [MethodImpl(MethodImplOptions.NoInlining)] // ensure no local vars are create
         private void ExecuteAndUnload(string path, out WeakReference weakRef)
         {
-            var loader = PluginLoader.CreateFromConfigFile(path, isUnloadable: true);
+            var loader = PluginLoader.CreateFromAssemblyFile(path, c => { c.IsUnloadable = true; });
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
@@ -57,7 +57,7 @@ namespace McMaster.NETCore.Plugins.Tests
         public void LoadsNetCoreProjectWithNativeDeps()
         {
             var path = TestResources.GetTestProjectAssembly("PowerShellPlugin");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
@@ -74,7 +74,7 @@ namespace McMaster.NETCore.Plugins.Tests
             // SqlClient has P/invoke that calls "sni.dll" on Windows. This test checks
             // that native libraries can still be resolved in this case.
             var path = TestResources.GetTestProjectAssembly("SqlClientApp");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
@@ -88,7 +88,7 @@ namespace McMaster.NETCore.Plugins.Tests
         public void LoadsNetCoreApp20Project()
         {
             var path = TestResources.GetTestProjectAssembly("NetCoreApp20App");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
@@ -102,7 +102,7 @@ namespace McMaster.NETCore.Plugins.Tests
         public void LoadsNetStandard20Project()
         {
             var path = TestResources.GetTestProjectAssembly("NetStandardClassLib");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var type = assembly.GetType("NetStandardClassLib.Class1", throwOnError: true);
@@ -119,7 +119,7 @@ namespace McMaster.NETCore.Plugins.Tests
             // In this case, the host will pick the rid-specific version
 
             var path = TestResources.GetTestProjectAssembly("DrawingApp");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var type = assembly.GetType("Finder", throwOnError: true);
@@ -151,7 +151,7 @@ namespace McMaster.NETCore.Plugins.Tests
         private IFruit GetPlátano()
         {
             var path = TestResources.GetTestProjectAssembly("Plátano");
-            var loader = PluginLoader.CreateFromConfigFile(path,
+            var loader = PluginLoader.CreateFromAssemblyFile(path,
 #if NETCOREAPP3_0
                 isUnloadable: true,
 #endif

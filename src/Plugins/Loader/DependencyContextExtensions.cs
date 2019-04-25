@@ -52,7 +52,6 @@ namespace McMaster.NETCore.Plugins.Loader
             using (var file = File.OpenRead(depsFilePath))
             {
                 var deps = reader.Read(file);
-                builder.SetBaseDirectory(Path.GetDirectoryName(depsFilePath));
                 builder.AddDependencyContext(deps);
             }
 

@@ -1,4 +1,0 @@
-<Project>
-  <Import Project="..\..\src\Plugins.Sdk\sdk\Sdk.targets" />
-  <Import Project="..\..\Directory.Build.targets" />
-</Project>

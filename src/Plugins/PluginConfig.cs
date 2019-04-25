@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Xml;
-using System.Xml.Linq;
 
 namespace McMaster.NETCore.Plugins
 {
@@ -16,78 +14,52 @@ namespace McMaster.NETCore.Plugins
     public class PluginConfig
     {
         /// <summary>
-        /// Initialize an instance of <see cref="PluginConfig" />.
+        /// Initializes a new instance of <see cref="PluginConfig" />
         /// </summary>
-        /// <param name="mainAssembly">The name of the main assembly.</param>
-        /// <param name="privateAssembly">A list of assemblies to treat as private, if possible.</param>
-        protected PluginConfig(AssemblyName mainAssembly, IReadOnlyCollection<AssemblyName> privateAssembly)
+        /// <param name="mainAssemblyPath">The full file path to the main assembly for the plugin.</param>
+        public PluginConfig(string mainAssemblyPath)
         {
-            MainAssembly = mainAssembly ?? throw new ArgumentNullException(nameof(mainAssembly));
-            PrivateAssemblies = privateAssembly ?? throw new ArgumentNullException(nameof(privateAssembly));
-        }
-
-
-        /// <summary>
-        /// Create an instance of <see cref="PluginConfig" /> from a file.
-        /// </summary>
-        /// <param name="filePath">The path the config file.</param>
-        /// <returns></returns>
-        public static PluginConfig CreateFromFile(string filePath)
-        {
-            using (var reader = File.OpenText(filePath))
+            if (string.IsNullOrEmpty(mainAssemblyPath))
             {
-                return PluginConfig.CreateFromReader(reader);
+                throw new ArgumentException("Value must be null or not empty", nameof(mainAssemblyPath));
             }
+
+            if (!Path.IsPathRooted(mainAssemblyPath))
+            {
+                throw new ArgumentException("Value must be an absolute file path", nameof(mainAssemblyPath));
+            }
+
+            MainAssemblyPath = mainAssemblyPath;
         }
 
         /// <summary>
-        /// Create an instance of <see cref="PluginConfig" /> from a file.
+        /// The file path to the main assembly.
         /// </summary>
-        /// <param name="reader">The reader containing the config file.</param>
-        /// <returns></returns>
-
-        public static PluginConfig CreateFromReader(TextReader reader)
-        {
-            var privateDeps = new HashSet<AssemblyName>();
-            var doc = XDocument.Load(reader, LoadOptions.SetLineInfo);
-
-            if (doc.Root.Name != "PluginConfig")
-            {
-                throw new InvalidDataException("Root element should be 'PluginConfig'");
-            }
-
-            var mainAssemblyAttr = doc.Root.Attribute("MainAssembly");
-            if (mainAssemblyAttr == null || string.IsNullOrEmpty(mainAssemblyAttr.Value))
-            {
-                IXmlLineInfo line = doc.Root;
-                throw new InvalidDataException($"Missing required attribute 'MainAssembly' for PluginConfig on line {line.LineNumber}");
-            }
-
-            var mainAssembly = new AssemblyName(mainAssemblyAttr.Value);
-
-            foreach (var dep in doc.Root.Descendants("PrivateDependency"))
-            {
-                var identity = dep.Attribute("Identity");
-                if (identity == null || string.IsNullOrEmpty(identity.Value))
-                {
-                    IXmlLineInfo line = dep;
-                    throw new InvalidDataException($"Missing required attribute 'Identity' for PrivateDependency on line {line.LineNumber}");
-                }
-
-                privateDeps.Add(new AssemblyName(identity.Value));
-            }
-
-            return new PluginConfig(mainAssembly, privateDeps);
-        }
+        public string MainAssemblyPath { get; }
 
         /// <summary>
         /// A list of assemblies which should be treated as private.
         /// </summary>
-        public IReadOnlyCollection<AssemblyName> PrivateAssemblies { get; protected set; }
+        public ICollection<AssemblyName> PrivateAssemblies { get; protected set; } = new List<AssemblyName>();
 
         /// <summary>
-        /// The name of the main assembly.
+        /// A list of assemblies which should be unified between the host and the plugin.
         /// </summary>
-        public AssemblyName MainAssembly { get; protected set; }
+        public ICollection<AssemblyName> SharedAssemblies { get; protected set; } = new List<AssemblyName>();
+
+        /// <summary>
+        /// Attempt to unify all types from a plugin with the host.
+        /// <para>
+        /// This does not guarantee types will unify.
+        /// </para>
+        /// </summary>
+        public bool PreferSharedTypes { get; set; }
+
+#if FEATURE_UNLOAD
+        /// <summary>
+        /// The plugin can be unloaded from memory.
+        /// </summary>
+        public bool IsUnloadable { get; set; }
+#endif
     }
 }

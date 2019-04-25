@@ -138,28 +138,3 @@ public class Program
     }
 }
 ```
-
-## Plugin config file
-
-This also supports using a [config file](./docs/plugin-config.md) to control the settings of the loader per-plugin. This plugin config file can be hand-crafted, or generated using `McMaster.NETCore.Plugins.Sdk`.
-
-```xml
-<!-- A project that produces the plugin. -->
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <IsPlugin>true</IsPlugin>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="McMaster.NETCore.Plugins.Sdk" Version="*" />
-  </ItemGroup>
-</Project>
-```
-
-You can then use `PluginLoader.CreateFromConfigFile` to load the plugin from the configuration file.
-
-```csharp
-PluginLoader.CreateFromConfigFile(
-    filePath: "./plugins/MyPlugin/plugin.config",
-    sharedTypes: new [] { typeof(IPlugin), typeof(IServiceCollection), typeof(ILogger) })
-```

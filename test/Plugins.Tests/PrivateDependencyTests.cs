@@ -10,9 +10,9 @@ namespace McMaster.NETCore.Plugins.Tests
         [Fact]
         public void EachContextHasPrivateVersions()
         {
-            var json9context = PluginLoader.CreateFromConfigFile(TestResources.GetTestProjectAssembly("JsonNet9"));
-            var json10context = PluginLoader.CreateFromConfigFile(TestResources.GetTestProjectAssembly("JsonNet10"));
-            var json11context = PluginLoader.CreateFromConfigFile(TestResources.GetTestProjectAssembly("JsonNet11"));
+            var json9context = PluginLoader.CreateFromAssemblyFile(TestResources.GetTestProjectAssembly("JsonNet9"));
+            var json10context = PluginLoader.CreateFromAssemblyFile(TestResources.GetTestProjectAssembly("JsonNet10"));
+            var json11context = PluginLoader.CreateFromAssemblyFile(TestResources.GetTestProjectAssembly("JsonNet11"));
 
             // Load newest first to prove we can load older assemblies later into the same process
             var json11 = GetJson(json11context);

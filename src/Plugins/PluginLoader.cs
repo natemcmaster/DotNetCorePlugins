@@ -21,134 +21,107 @@ namespace McMaster.NETCore.Plugins
     /// </summary>
     public class PluginLoader : IDisposable
     {
-        // we have to duplicate a large block of xml code because C# doesn't allow conditional XML elements
-#if FEATURE_UNLOAD
-        /// <summary>
-        /// Create a plugin loader using the settings from a plugin config file.
-        /// <seealso cref="PluginConfig" /> for defaults on the plugin configuration.
-        /// </summary>
-        /// <param name="filePath">The file path to the plugin config.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
-        /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
-        /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromConfigFile(string filePath, Type[] sharedTypes = null, bool isUnloadable = false)
-        {
-            var loaderOptions = isUnloadable
-                        ? PluginLoaderOptions.IsUnloadable
-                        : PluginLoaderOptions.None;
-#else
-        /// <summary>
-        /// Create a plugin loader using the settings from a plugin config file.
-        /// <seealso cref="PluginConfig" /> for defaults on the plugin configuration.
-        /// </summary>
-        /// <param name="filePath">The file path to the plugin config.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
-        /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromConfigFile(string filePath, Type[] sharedTypes = null)
-        {
-            var loaderOptions = PluginLoaderOptions.None;
-#endif
-            var config = PluginConfig.CreateFromFile(filePath);
-            var baseDir = Path.GetDirectoryName(filePath);
-            return new PluginLoader(config,
-                baseDir,
-                sharedTypes,
-                loaderOptions);
-        }
-
-#if FEATURE_UNLOAD
-        /// <summary>
-        /// Create a plugin loader using an existing <see cref="PluginConfig"/> instance.
-        /// </summary>
-        /// <param name="config">The <see cref="PluginConfig"/> instance.</param>
-        /// <param name="baseDir">The base directory from which to load / search for dependencies on disk.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
-        /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
-        /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromConfigFile(PluginConfig config, string baseDir, Type[] sharedTypes = null, bool isUnloadable = false)
-        {
-            var loaderOptions = isUnloadable
-                        ? PluginLoaderOptions.IsUnloadable
-                        : PluginLoaderOptions.None;
-#else
-        /// <summary>
-        /// Create a plugin loader using an existing <see cref="PluginConfig"/> instance.
-        /// </summary>
-        /// <param name="config">The <see cref="PluginConfig"/> instance.</param>
-        /// <param name="baseDir">The base directory from which to load / search for dependencies on disk.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
-        /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromConfigFile(PluginConfig config, string baseDir, Type[] sharedTypes = null)
-        {
-            var loaderOptions = PluginLoaderOptions.None;
-#endif
-            return new PluginLoader(config,
-                baseDir,
-                sharedTypes,
-                loaderOptions);
-        }
-
 #if FEATURE_UNLOAD
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
-        /// <param name="assemblyFile">The file path to the plugin config.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
         /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
         /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes = null, bool isUnloadable = false)
-        {
-            var loaderOptions = isUnloadable
-                        ? PluginLoaderOptions.IsUnloadable
-                        : PluginLoaderOptions.None;
-#else
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, Type[] sharedTypes)
+            => CreateFromAssemblyFile(assemblyFile,isUnloadable, sharedTypes, _ => { });
+
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
-        /// <param name="assemblyFile">The file path to the plugin config.</param>
+        /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
+        /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
         /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="configure">A function which can be used to configure advanced options for the plugin loader.</param>
         /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes = null)
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, Type[] sharedTypes, Action<PluginConfig> configure)
         {
-            var loaderOptions = PluginLoaderOptions.None;
-#endif
             return CreateFromAssemblyFile(assemblyFile,
                     sharedTypes,
-                    loaderOptions);
+                    config =>
+                    {
+                        config.IsUnloadable = isUnloadable;
+                        configure(config);
+                    });
+        }
+#endif
+
+        /// <summary>
+        /// Create a plugin loader for an assembly file.
+        /// </summary>
+        /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes)
+            => CreateFromAssemblyFile(assemblyFile, sharedTypes, _ => { });
+
+        /// <summary>
+        /// Create a plugin loader for an assembly file.
+        /// </summary>
+        /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="configure">A function which can be used to configure advanced options for the plugin loader.</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes, Action<PluginConfig> configure)
+        {
+            return CreateFromAssemblyFile(assemblyFile,
+                    config =>
+                    {
+                        if (sharedTypes != null)
+                        {
+                            foreach (var type in sharedTypes)
+                            {
+                                config.SharedAssemblies.Add(type.Assembly.GetName());
+                            }
+                        }
+                        configure(config);
+                    });
         }
 
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
-        /// <param name="assemblyFile">The file path to the plugin config.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
-        /// <param name="loaderOptions">Options for the loader</param>
+        /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
         /// <returns>A loader.</returns>
-        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes, PluginLoaderOptions loaderOptions)
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile)
+            => CreateFromAssemblyFile(assemblyFile, _ => { });
+
+        /// <summary>
+        /// Create a plugin loader for an assembly file.
+        /// </summary>
+        /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
+        /// <param name="configure">A function which can be used to configure advanced options for the plugin loader.</param>
+        /// <returns>A loader.</returns>
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Action<PluginConfig> configure)
         {
-            var config = new FileOnlyPluginConfig(assemblyFile);
-            var baseDir = Path.GetDirectoryName(assemblyFile);
-            return new PluginLoader(config, baseDir, sharedTypes, loaderOptions);
+            if (configure == null)
+            {
+                throw new ArgumentNullException(nameof(configure));
+            }
+
+            var config = new PluginConfig(assemblyFile);
+            configure(config);
+            return new PluginLoader(config);
         }
 
-        private class FileOnlyPluginConfig : PluginConfig
-        {
-            public FileOnlyPluginConfig(string filePath)
-                : base(new AssemblyName(Path.GetFileNameWithoutExtension(filePath)), Array.Empty<AssemblyName>())
-            { }
-        }
-
-        private readonly string _mainAssembly;
+        private readonly PluginConfig _config;
         private readonly AssemblyLoadContext _context;
         private volatile bool _disposed;
 
-        internal PluginLoader(PluginConfig config,
-            string baseDir,
-            Type[] sharedTypes,
-            PluginLoaderOptions loaderOptions)
+        /// <summary>
+        /// Initialize an instance of <see cref="PluginLoader" />
+        /// </summary>
+        /// <param name="config">The configuration for the plugin.</param>
+        public PluginLoader(PluginConfig config)
         {
-            _mainAssembly = Path.Combine(baseDir, config.MainAssembly.Name + ".dll");
-            _context = CreateLoadContext(baseDir, config, sharedTypes, loaderOptions);
+            _config = config ?? throw new ArgumentNullException(nameof(config));
+            _context = CreateLoadContext(config);
         }
 
         /// <summary>
@@ -174,7 +147,7 @@ namespace McMaster.NETCore.Plugins
         public Assembly LoadDefaultAssembly()
         {
             EnsureNotDisposed();
-            return _context.LoadFromAssemblyPath(_mainAssembly);
+            return _context.LoadFromAssemblyPath(_config.MainAssemblyPath);
         }
 
         /// <summary>
@@ -229,49 +202,44 @@ namespace McMaster.NETCore.Plugins
             }
         }
 
-        private static AssemblyLoadContext CreateLoadContext(
-            string baseDir,
-            PluginConfig config,
-            Type[] sharedTypes,
-            PluginLoaderOptions loaderOptions)
+        private static AssemblyLoadContext CreateLoadContext(PluginConfig config)
         {
-            var depsJsonFile = Path.Combine(baseDir, config.MainAssembly.Name + ".deps.json");
-
             var builder = new AssemblyLoadContextBuilder();
 
-            if (File.Exists(depsJsonFile))
-            {
-                builder.AddDependencyContext(depsJsonFile);
-            }
-
-            builder.SetBaseDirectory(baseDir);
+            builder.SetMainAssemblyPath(config.MainAssemblyPath);
 
             foreach (var ext in config.PrivateAssemblies)
             {
                 builder.PreferLoadContextAssembly(ext);
             }
 
-            if (loaderOptions.HasFlag(PluginLoaderOptions.PreferSharedTypes))
+            if (config.PreferSharedTypes)
             {
                 builder.PreferDefaultLoadContext(true);
             }
 
 #if FEATURE_UNLOAD
-            if (loaderOptions.HasFlag(PluginLoaderOptions.IsUnloadable))
+            if (config.IsUnloadable)
             {
                 builder.EnableUnloading();
             }
 #endif
 
-            if (sharedTypes != null)
+            foreach (var assemblyName in config.SharedAssemblies)
             {
-                foreach (var type in sharedTypes)
-                {
-                    builder.PreferDefaultLoadContextAssembly(type.Assembly.GetName());
-                }
+                builder.PreferDefaultLoadContextAssembly(assemblyName);
             }
 
-            var pluginRuntimeConfigFile = Path.Combine(baseDir, config.MainAssembly.Name + ".runtimeconfig.json");
+            var baseDir = Path.GetDirectoryName(config.MainAssemblyPath);
+            var assemblyFileName = Path.GetFileNameWithoutExtension(config.MainAssemblyPath);
+
+            var depsJsonFile = Path.Combine(baseDir, assemblyFileName + ".deps.json");
+            if (File.Exists(depsJsonFile))
+            {
+                builder.AddDependencyContext(depsJsonFile);
+            }
+
+            var pluginRuntimeConfigFile = Path.Combine(baseDir, assemblyFileName + ".runtimeconfig.json");
 
             builder.TryAddAdditionalProbingPathFromRuntimeConfig(pluginRuntimeConfigFile, includeDevConfig: true, out _);
 

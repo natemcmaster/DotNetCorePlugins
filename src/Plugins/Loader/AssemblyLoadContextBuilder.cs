@@ -23,7 +23,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
         private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
         private readonly HashSet<string> _defaultAssemblies = new HashSet<string>(StringComparer.Ordinal);
-        private string _basePath;
+        private string _mainAssemblyPath;
         private bool _preferDefaultLoadContext;
 
 #if FEATURE_UNLOAD
@@ -46,7 +46,7 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             return new ManagedLoadContext(
-                _basePath,
+                _mainAssemblyPath,
                 _managedLibraries,
                 _nativeLibraries,
                 _privateAssemblies,
@@ -62,12 +62,12 @@ namespace McMaster.NETCore.Plugins.Loader
         }
 
         /// <summary>
-        /// Set the base directory for the context. This is used as the starting point for loading
-        /// assemblies. Also known as the 'app local' directory.
+        /// Set the file path to the main assembly for the context. This is used as the starting point for loading
+        /// other assemblies. The directory that contains it is also known as the 'app local' directory.
         /// </summary>
         /// <param name="path">The file path. Must not be null or empty. Must be an absolute path.</param>
         /// <returns>The builder.</returns>
-        public AssemblyLoadContextBuilder SetBaseDirectory(string path)
+        public AssemblyLoadContextBuilder SetMainAssemblyPath(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -79,7 +79,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 throw new ArgumentException("Argument must be a full path.", nameof(path));
             }
 
-            _basePath = path;
+            _mainAssemblyPath = path;
             return this;
         }
 

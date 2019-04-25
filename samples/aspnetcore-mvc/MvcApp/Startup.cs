@@ -23,7 +23,9 @@ namespace MvcWebApp
 
                 var plugin = PluginLoader.CreateFromAssemblyFile(
                     Path.Combine(dir, pluginName + ".dll"), // create a plugin from for the .dll file
-                    sharedTypes: new [] { typeof(Controller) }); // this ensures that the version of MVC is shared between this app and the plugin
+                    config =>
+                        // this ensures that the version of MVC is shared between this app and the plugin
+                        config.PreferSharedTypes = true);
 
                 var pluginAssembly = plugin.LoadDefaultAssembly();
                 Console.WriteLine($"Loading application parts from plugin {pluginName}");

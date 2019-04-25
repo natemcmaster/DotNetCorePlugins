@@ -4,6 +4,11 @@
 Changes:
 * .NET Core 3.0 support
 * Support unloading plugins from memory (only .NET Core &gt;3.0)
+
+Breaking changes:
+* Support for loading plugin config from an XML file has been dropped. The APIs for PluginLoader.CreateFromConfigFile were removed
+  in favor of PluginLoader.CreateFromAssemblyFile
+* Merged PluginLoaderOptions with the PluginConfig class
     </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.2.4'">
 Bug fix:

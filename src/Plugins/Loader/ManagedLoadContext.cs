@@ -18,6 +18,7 @@ namespace McMaster.NETCore.Plugins.Loader
     internal class ManagedLoadContext : AssemblyLoadContext
     {
         private readonly string _basePath;
+        private readonly string _mainAssemblyPath;
         private readonly IReadOnlyDictionary<string, ManagedLibrary> _managedAssemblies;
         private readonly IReadOnlyDictionary<string, NativeLibrary> _nativeLibraries;
         private readonly IReadOnlyCollection<string> _privateAssemblies;
@@ -26,7 +27,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
 
-        public ManagedLoadContext(string baseDirectory,
+        public ManagedLoadContext(string mainAssemblyPath,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
             IReadOnlyDictionary<string, NativeLibrary> nativeLibraries,
             IReadOnlyCollection<string> privateAssemblies,
@@ -44,7 +45,8 @@ namespace McMaster.NETCore.Plugins.Loader
                 throw new ArgumentNullException(nameof(resourceProbingPaths));
             }
 
-            _basePath = baseDirectory ?? throw new ArgumentNullException(nameof(baseDirectory));
+            _mainAssemblyPath = mainAssemblyPath ?? throw new ArgumentNullException(nameof(mainAssemblyPath));
+            _basePath = Path.GetDirectoryName(mainAssemblyPath);
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
             _defaultAssemblies = defaultAssemblies ?? throw new ArgumentNullException(nameof(defaultAssemblies));

@@ -14,6 +14,7 @@ namespace McMaster.NETCore.Plugins.Tests
         {
             var samplePath = TestResources.GetTestProjectAssembly("XunitSample");
             var context = new AssemblyLoadContextBuilder()
+                .SetMainAssemblyPath(samplePath)
                 .AddProbingPath(samplePath)
                 .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "XunitSample.deps.json"))
                 .PreferDefaultLoadContext(true)
@@ -28,6 +29,7 @@ namespace McMaster.NETCore.Plugins.Tests
             var samplePath = TestResources.GetTestProjectAssembly("XunitSample");
 
             var context = new AssemblyLoadContextBuilder()
+               .SetMainAssemblyPath(samplePath)
                .AddProbingPath(samplePath)
                .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "XunitSample.deps.json"))
                .Build();
@@ -41,12 +43,14 @@ namespace McMaster.NETCore.Plugins.Tests
             var samplePath = TestResources.GetTestProjectAssembly("NetCoreApp20App");
 
             var defaultLoader = new AssemblyLoadContextBuilder()
+               .SetMainAssemblyPath(samplePath)
                .AddProbingPath(samplePath)
                .PreferDefaultLoadContext(false)
                .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "NetCoreApp20App.deps.json"))
                .Build();
 
             var unifedLoader = new AssemblyLoadContextBuilder()
+              .SetMainAssemblyPath(samplePath)
               .AddProbingPath(samplePath)
               .PreferDefaultLoadContext(true)
               .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "NetCoreApp20App.deps.json"))
