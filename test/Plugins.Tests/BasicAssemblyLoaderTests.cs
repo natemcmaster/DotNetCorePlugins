@@ -49,11 +49,7 @@ namespace McMaster.NETCore.Plugins.Tests
         }
 #endif
 
-#if NETCOREAPP3_0
-        [Fact(Skip = "Broken in .NET Core 3.0 - https://github.com/natemcmaster/DotNetCorePlugins/issues/34")]
-#else
         [Fact]
-#endif
         public void LoadsNetCoreProjectWithNativeDeps()
         {
             var path = TestResources.GetTestProjectAssembly("PowerShellPlugin");
@@ -128,11 +124,7 @@ namespace McMaster.NETCore.Plugins.Tests
             Assert.Contains("runtimes", (string)method.Invoke(null, Array.Empty<object>()));
         }
 
-#if NETCOREAPP3_0
-        [Fact(Skip = "Broken in .NET Core 3.0 Preview 3 - https://github.com/dotnet/coreclr/issues/22458")]
-#else
         [Fact]
-#endif
         [UseCulture("es")]
         public void ItLoadsSatelliteAssemblies()
         {

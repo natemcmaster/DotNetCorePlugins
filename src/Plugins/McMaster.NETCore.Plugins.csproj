@@ -14,6 +14,7 @@ files required to load .dll files.
     <PackageTags>.NET Core;plugins</PackageTags>
     <WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
     <DefineConstants Condition="'$(TargetFramework)' == 'netcoreapp3.0'">$(DefineConstants);FEATURE_UNLOAD</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'netcoreapp3.0'">$(DefineConstants);FEATURE_NATIVE_RESOLVER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

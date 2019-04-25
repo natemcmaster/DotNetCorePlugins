@@ -26,6 +26,9 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
+#if FEATURE_NATIVE_RESOLVER
+        private readonly AssemblyDependencyResolver _dependencyResolver;
+#endif
 
         public ManagedLoadContext(string mainAssemblyPath,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
@@ -46,6 +49,9 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             _mainAssemblyPath = mainAssemblyPath ?? throw new ArgumentNullException(nameof(mainAssemblyPath));
+#if FEATURE_NATIVE_RESOLVER
+            _dependencyResolver = new AssemblyDependencyResolver(mainAssemblyPath);
+#endif
             _basePath = Path.GetDirectoryName(mainAssemblyPath);
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
@@ -83,6 +89,14 @@ namespace McMaster.NETCore.Plugins.Loader
                     // Swallow errors in loading from the default context
                 }
             }
+
+#if FEATURE_NATIVE_RESOLVER
+            var resolvedPath = _dependencyResolver.ResolveAssemblyToPath(assemblyName);
+            if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
+            {
+                return LoadFromAssemblyPath(resolvedPath);
+            }
+#endif
 
             // Resource assembly binding does not use the TPA. Instead, it probes PLATFORM_RESOURCE_ROOTS (a list of folders)
             // for $folder/$culture/$assemblyName.dll
@@ -130,6 +144,14 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns></returns>
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
+#if FEATURE_NATIVE_RESOLVER
+            var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+            if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
+            {
+                return LoadUnmanagedDllFromPath(resolvedPath);
+            }
+#endif
+
             foreach (var prefix in PlatformInformation.NativeLibraryPrefixes)
             {
                 if (_nativeLibraries.TryGetValue(prefix + unmanagedDllName, out var library))

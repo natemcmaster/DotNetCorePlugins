@@ -230,6 +230,9 @@ namespace McMaster.NETCore.Plugins
                 builder.PreferDefaultLoadContextAssembly(assemblyName);
             }
 
+#if !FEATURE_NATIVE_RESOLVER
+
+            // In .NET Core 3.0, this code is unnecessary because the API, AssemblyDependencyResolver, handles parsing these files.
             var baseDir = Path.GetDirectoryName(config.MainAssemblyPath);
             var assemblyFileName = Path.GetFileNameWithoutExtension(config.MainAssemblyPath);
 
@@ -250,6 +253,7 @@ namespace McMaster.NETCore.Plugins
             {
                 builder.TryAddAdditionalProbingPathFromRuntimeConfig(runtimeconfig, includeDevConfig: true, out _);
             }
+#endif
 
             return builder.Build();
         }
