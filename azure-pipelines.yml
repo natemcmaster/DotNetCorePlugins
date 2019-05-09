@@ -11,7 +11,7 @@ variables:
 - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
   value: 1
 - name: DotNetCoreVersion
-  value: 3.0.100-preview5-011555
+  value: 3.0.100-preview5-011568
 - name: BuildNumber
   value: $[counter('buildnumber')]
 
