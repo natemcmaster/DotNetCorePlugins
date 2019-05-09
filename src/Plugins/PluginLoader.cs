@@ -64,6 +64,19 @@ namespace McMaster.NETCore.Plugins
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
+        /// <param name="assemblyFile">The file path to the plugin config.</param>
+        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="loaderOptions">Options for the loader</param>
+        [Obsolete("This API is obsolete and will be removed in a future version. The recommended replacement is one of the other overloads of this method which does not use PluginLoaderOptions.")]
+        public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes, PluginLoaderOptions loaderOptions)
+            => CreateFromAssemblyFile(assemblyFile, sharedTypes, o =>
+            {
+                o.PreferSharedTypes = loaderOptions.HasFlag(PluginLoaderOptions.PreferSharedTypes);
+            });
+
+        /// <summary>
+        /// Create a plugin loader for an assembly file.
+        /// </summary>
         /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
         /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
         /// <param name="configure">A function which can be used to configure advanced options for the plugin loader.</param>
