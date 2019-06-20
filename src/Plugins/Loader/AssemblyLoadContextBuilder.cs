@@ -148,6 +148,9 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns>The builder.</returns>
         public AssemblyLoadContextBuilder AddManagedLibrary(ManagedLibrary library)
         {
+            if (_managedLibraries.ContainsKey(library.Name.Name))
+                return this;
+
             ValidateRelativePath(library.AdditionalProbingPath);
 
             _managedLibraries.Add(library.Name.Name, library);
