@@ -15,7 +15,7 @@ namespace MvcWebApp
         {
             var mvcBuilder = services
                 .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             foreach (var dir in Directory.GetDirectories(Path.Combine(AppContext.BaseDirectory, "plugins")))
             {
@@ -56,7 +56,12 @@ namespace MvcWebApp
         public void Configure(IApplicationBuilder app)
         {
             app.UseDeveloperExceptionPage();
-            app.UseMvcWithDefaultRoute();
+            app
+                .UseRouting()
+                .UseEndpoints(r =>
+                {
+                    r.MapDefaultControllerRoute();
+                });
         }
     }
 }
