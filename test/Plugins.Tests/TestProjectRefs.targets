@@ -6,16 +6,18 @@
   <ItemDefinitionGroup>
     <TestProject>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
       <OutputItemType>_ResolvedTestProjectReference</OutputItemType>
     </TestProject>
     <PublishedTestProject>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
       <OutputItemType>_ResolvedPublishedTestProjectReference</OutputItemType>
     </PublishedTestProject>
   </ItemDefinitionGroup>
 
   <ItemGroup>
-    <ProjectReference Include="@(TestProject)" />
+    <ProjectReference Include="@(TestProject);@(PublishedTestProject)" />
   </ItemGroup>
 
   <Target Name="GeneratePathToTestProjects"
