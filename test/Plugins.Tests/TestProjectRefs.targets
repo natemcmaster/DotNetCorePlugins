@@ -8,11 +8,13 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
       <OutputItemType>_ResolvedTestProjectReference</OutputItemType>
+      <UndefineProperties>TargetFramework;TargetFrameworks</UndefineProperties>
     </TestProject>
     <PublishedTestProject>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
       <OutputItemType>_ResolvedPublishedTestProjectReference</OutputItemType>
+      <UndefineProperties>TargetFramework;TargetFrameworks</UndefineProperties>
     </PublishedTestProject>
   </ItemDefinitionGroup>
 
