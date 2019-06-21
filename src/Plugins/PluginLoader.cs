@@ -175,6 +175,14 @@ namespace McMaster.NETCore.Plugins
         }
 
         /// <summary>
+        /// Load an assembly from path.
+        /// </summary>
+        /// <param name="assemblyPath">The assembly path.</param>
+        /// <returns>The assembly.</returns>
+        public Assembly LoadAssemblyFromPath(string assemblyPath)
+            => _context.LoadFromAssemblyPath(assemblyPath);
+
+        /// <summary>
         /// Load an assembly by name.
         /// </summary>
         /// <param name="assemblyName">The assembly name.</param>
