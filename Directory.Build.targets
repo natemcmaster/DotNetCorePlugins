@@ -1,9 +1,5 @@
 <Project InitialTargets="UpdateCiSettings">
 
-  <PropertyGroup>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-  </PropertyGroup>
-
   <Target Name="UpdateCiSettings" Condition="'$(CI)' == 'true' AND '$(OS)' == 'Windows_NT'">
     <Message Importance="High" Text="##vso[build.updatebuildnumber]$(PackageVersion)" />
     <!-- These tags can be used in Azure release pipelines to filter actions based on the type of build. -->
