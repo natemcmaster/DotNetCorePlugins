@@ -5,8 +5,8 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace McMaster.NETCore.Plugins.Loader
 {
@@ -16,6 +16,10 @@ namespace McMaster.NETCore.Plugins.Loader
     public static class RuntimeConfigExtensions
     {
         private const string JsonExt = ".json";
+        private static JsonSerializerOptions _serializerOptions = new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
 
         /// <summary>
         /// Adds additional probing paths to a managed load context using settings found in the runtimeconfig.json
@@ -111,18 +115,8 @@ namespace McMaster.NETCore.Plugins.Loader
         {
             try
             {
-                using (var file = File.OpenText(path))
-                using (var json = new JsonTextReader(file))
-                {
-                    var serializer = new JsonSerializer
-                    {
-                        ContractResolver = new DefaultContractResolver
-                        {
-                            NamingStrategy = new CamelCaseNamingStrategy(),
-                        },
-                    };
-                    return serializer.Deserialize<RuntimeConfig>(json);
-                }
+                var file = File.ReadAllBytes(path);
+                return JsonSerializer.Parse<RuntimeConfig>(file, _serializerOptions);
             }
             catch
             {
