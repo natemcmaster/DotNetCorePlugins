@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,6 +16,7 @@ namespace McMaster.NETCore.Plugins.Loader
     /// An implementation of <see cref="AssemblyLoadContext" /> which attempts to load managed and native
     /// binaries at runtime immitating some of the behaviors of corehost.
     /// </summary>
+    [DebuggerDisplay("'{Name}' ({_mainAssemblyPath})")]
     internal class ManagedLoadContext : AssemblyLoadContext
     {
         private readonly string _basePath;
@@ -40,7 +42,7 @@ namespace McMaster.NETCore.Plugins.Loader
             bool preferDefaultLoadContext,
             bool isCollectible)
 #if FEATURE_UNLOAD
-            : base(isCollectible)
+            : base(Path.GetFileNameWithoutExtension(mainAssemblyPath), isCollectible)
 #endif
         {
             if (resourceProbingPaths == null)
