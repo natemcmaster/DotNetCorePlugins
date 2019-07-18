@@ -55,26 +55,28 @@ namespace McMaster.NETCore.Plugins
         private FileSystemWatcher _watcher;
 
         /// <summary>
-        /// 
+        /// Creates a instance using the AppContext.BaseDirector + the specified folder name for the plugins
         /// </summary>
         /// <param name="pluginFolderName"></param>
         /// <returns></returns>
         public static HotReloadManager<T> InitializeBasePath(string pluginFolderName) => new HotReloadManager<T>().Configure($@"{AppContext.BaseDirectory}\{pluginFolderName}\");
 
         /// <summary>
-        /// 
+        /// Creates a instance using a complete path for the plugins folder
         /// </summary>
         /// <param name="pluginsDirectory"></param>
         /// <returns></returns>
         public static HotReloadManager<T> InitializeFullPath(string pluginsDirectory) => new HotReloadManager<T>().Configure(pluginsDirectory);
 
         /// <summary>
-        /// 
+        /// Setup everything required
         /// </summary>
         /// <param name="pluginsDirectory"></param>
         /// <returns></returns>
         private HotReloadManager<T> Configure(string pluginsDirectory)
         {
+            Directory.CreateDirectory(pluginsDirectory);
+
             _plugins = new HashSet<Plugin>();
             _loaders = new Dictionary<int, PluginLoader>();
 
@@ -87,7 +89,7 @@ namespace McMaster.NETCore.Plugins
             _watcher.Changed += OnChanged;
             _watcher.Deleted += OnDeleted;
             _watcher.Renamed += OnRenamed;
-            _watcher.Path = pluginsDirectory ?? AppContext.BaseDirectory;
+            _watcher.Path = pluginsDirectory;
             _watcher.EnableRaisingEvents = true;
             _watcher.IncludeSubdirectories = true;
 
@@ -98,10 +100,7 @@ namespace McMaster.NETCore.Plugins
 
         private void OnCreated(object sender, FileSystemEventArgs e)
         {
-            var attr = File.GetAttributes(e.FullPath);
-
-            //Detect whether its a directory or file
-            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            if (IsDirectory(e.FullPath))
             {
                 LoadPluginsFromDirectory(e.FullPath);
             }
@@ -126,23 +125,10 @@ namespace McMaster.NETCore.Plugins
 
         private void OnDeleted(object sender, FileSystemEventArgs e)
         {
-            FileAttributes attr;
-
-            try
-            {
-                attr = File.GetAttributes(e.FullPath);
-            }
-            catch (Exception)
-            {
-                attr = FileAttributes.Directory;
-            }
-
-            //Detect whether its a directory or file
-            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            if (IsDirectory(e.FullPath))
             {
                 var plugins = _plugins.Where(p => p.FullPath.Contains(e.FullPath));
-
-                 RemoveAssembly(plugins.FirstOrDefault().FullPath);
+                RemoveAssembly(plugins.FirstOrDefault().FullPath);
             }
             else
             {
@@ -186,11 +172,11 @@ namespace McMaster.NETCore.Plugins
         private void RemoveAssembly(string name)
         {
             var plugins = _plugins.Where(p => p.FullPath.Contains(name)).ToList();
-            var loadersHashCode = plugins.Select(p => p.LoaderHashCode).Distinct();
+            var loadersHashCodes = plugins.Select(p => p.LoaderHashCode).Distinct();
 
             _plugins.ExceptWith(plugins);
 
-            foreach (var hashCode in loadersHashCode)
+            foreach (var hashCode in loadersHashCodes)
             {
                 _loaders[hashCode].Dispose();
                 _loaders.Remove(hashCode);
@@ -203,14 +189,32 @@ namespace McMaster.NETCore.Plugins
 
         private void ReloadAssembly(FileSystemEventArgs path)
         {
-            var attr = File.GetAttributes(path.FullPath);
-
-            //Detect whether its a directory or file
-            if (!((attr & FileAttributes.Directory) == FileAttributes.Directory))
+            if (!IsDirectory(path.FullPath))
             {
                 RemoveAssembly(Path.GetFileName(path.Name));
                 LoadAssembly(path.FullPath);
-            }      
+            }     
+        }
+
+        private bool IsDirectory(string path)
+        {
+            FileAttributes attr;
+
+            try
+            {
+                attr = File.GetAttributes(path);
+            }
+            catch (Exception)
+            {
+                attr = FileAttributes.Directory;
+            }
+
+            if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

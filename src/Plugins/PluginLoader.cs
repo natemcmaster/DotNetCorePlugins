@@ -161,7 +161,7 @@ namespace McMaster.NETCore.Plugins
         {
             EnsureNotDisposed();
 
-            if (!IsUnloadable)
+            if (IsUnloadable)
             {
                 using (var fs = new FileStream(_config.MainAssemblyPath, FileMode.Open, FileAccess.Read))
                 {
