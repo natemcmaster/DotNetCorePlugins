@@ -142,6 +142,9 @@ namespace McMaster.NETCore.Plugins
             }
         }
 
+        /// <summary>
+        /// Even fired when assembly is unloaded
+        /// </summary>
         public event Action<AssemblyLoadContext> AssemblyUnloaded;
         private void Unloading(AssemblyLoadContext obj)
         {
