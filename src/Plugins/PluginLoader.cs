@@ -127,6 +127,7 @@ namespace McMaster.NETCore.Plugins
         private readonly AssemblyLoadContext _context;
         private volatile bool _disposed;
 
+
         /// <summary>
         /// Initialize an instance of <see cref="PluginLoader" />
         /// </summary>
@@ -135,6 +136,16 @@ namespace McMaster.NETCore.Plugins
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _context = CreateLoadContext(config);
+            if (IsUnloadable)
+            {
+                _context.Unloading += Unloading;
+            }
+        }
+
+        public event Action<AssemblyLoadContext> AssemblyUnloaded;
+        private void Unloading(AssemblyLoadContext obj)
+        {
+            AssemblyUnloaded(obj);
         }
 
         /// <summary>

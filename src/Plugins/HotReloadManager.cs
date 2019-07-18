@@ -5,6 +5,7 @@ namespace McMaster.NETCore.Plugins
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Runtime.Loader;
     using System.Security.Permissions;
 
     /// <summary>
@@ -164,7 +165,17 @@ namespace McMaster.NETCore.Plugins
                     _plugins.Add(pluginType.FullName, new Plugin(pluginType.FullName, pluginDllFullPath, plugin, loader.GetHashCode()));
                 }
 
+                loader.AssemblyUnloaded += OnAssemblyUnloaded;
                 _loaders.Add(loader.GetHashCode(), loader);
+            }
+        }
+
+        public event Action<AssemblyLoadContext> AssemblyUnloaded;
+        private void OnAssemblyUnloaded(AssemblyLoadContext obj)
+        {
+            if (AssemblyUnloaded != null)
+            {
+                AssemblyUnloaded(obj);
             }
         }
 
