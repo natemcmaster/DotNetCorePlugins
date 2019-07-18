@@ -15,16 +15,43 @@ namespace McMaster.NETCore.Plugins
     {
         private class Plugin
         {
-            public string Name { get; set; }
-            public string FullPath { get; set; }
+            public string Name { get; }
+            public string FullPath { get; }
+            public T Module { get; }
+            public int LoaderHashCode { get; }
+
+            public Plugin(string name, string fullPath, T module, int loaderHashCode)
+            {
+                Name = name;
+                FullPath = fullPath;
+                Module = @module;
+                LoaderHashCode = loaderHashCode;
+            }
+
+            public override bool Equals(Object obj)
+            {
+                if (obj == null || !(obj is Plugin))
+                {
+                    return false;
+                }
+                else
+                {
+                    return Name == ((Plugin)obj).Name && FullPath == ((Plugin)obj).FullPath;
+                }
+            }
+
+            public override int GetHashCode()
+            {
+                return Tuple.Create(Name, FullPath).GetHashCode();
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public Dictionary<string, T> Plugins { get; private set; }
-        private Dictionary<string, string> _pluginsPaths { get; set; }
-        private Dictionary<string, PluginLoader> _loaders;
+        public IReadOnlyCollection<T> Plugins => _plugins.Select(p => p.Module).ToList();
+        private HashSet<Plugin> _plugins;
+        private Dictionary<int, PluginLoader> _loaders;
         private FileSystemWatcher _watcher;
 
         /// <summary>
@@ -48,9 +75,8 @@ namespace McMaster.NETCore.Plugins
         /// <returns></returns>
         private HotReloadManager<T> Configure(string pluginsDirectory)
         {
-            Plugins = new Dictionary<string, T>();
-            _pluginsPaths = new Dictionary<string, string>();
-            _loaders = new Dictionary<string, PluginLoader>();
+            _plugins = new HashSet<Plugin>();
+            _loaders = new Dictionary<int, PluginLoader>();
 
             _watcher = new FileSystemWatcher();
             _watcher.NotifyFilter = NotifyFilters.LastAccess
@@ -114,13 +140,9 @@ namespace McMaster.NETCore.Plugins
             //Detect whether its a directory or file
             if ((attr & FileAttributes.Directory) == FileAttributes.Directory)
             {
-                var values = _pluginsPaths.Where(pp => pp.Key.Contains(e.FullPath));
+                var plugins = _plugins.Where(p => p.FullPath.Contains(e.FullPath));
 
-                foreach (var item in values)
-                {
-                    _pluginsPaths.Remove(item.Key);
-                    RemoveAssembly(item.Value);
-                }
+                 RemoveAssembly(plugins.FirstOrDefault().FullPath);
             }
             else
             {
@@ -154,27 +176,24 @@ namespace McMaster.NETCore.Plugins
                 foreach (var pluginType in loader.LoadDefaultAssembly().GetTypes().Where(t => typeof(T).IsAssignableFrom(t) && !t.IsAbstract))
                 {
                     var plugin = (T)Activator.CreateInstance(pluginType);
-                    Plugins.Add(fileName, plugin);
-                    _pluginsPaths.Add(pluginDllFullPath, fileName);
-                    _loaders.Add(fileName, loader);
+                    _plugins.Add(new Plugin(pluginType.FullName, pluginDllFullPath, plugin, loader.GetHashCode()));
                 }
+
+                _loaders.Add(loader.GetHashCode(), loader);
             }
         }
 
         private void RemoveAssembly(string name)
         {
-            name = Path.GetFileName(name);
+            var plugins = _plugins.Where(p => p.FullPath.Contains(name)).ToList();
+            var loadersHashCode = plugins.Select(p => p.LoaderHashCode).Distinct();
 
-            if (Plugins.ContainsKey(name))
-            {
-                Plugins[name] = null;
-                Plugins.Remove(name);
-            }
+            _plugins.ExceptWith(plugins);
 
-            if (_loaders.ContainsKey(name))
+            foreach (var hashCode in loadersHashCode)
             {
-                _loaders[name].Dispose();
-                _loaders.Remove(name);
+                _loaders[hashCode].Dispose();
+                _loaders.Remove(hashCode);
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
