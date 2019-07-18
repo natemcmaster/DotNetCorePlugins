@@ -8,7 +8,7 @@ namespace McMaster.NETCore.Plugins
     using System.Security.Permissions;
 
     /// <summary>
-    /// 
+    /// Allows replacing the assemblys during runtime and manages all the changes in the specified folder
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public sealed class HotReloadManager<T> where T : class
@@ -47,7 +47,7 @@ namespace McMaster.NETCore.Plugins
         }
 
         /// <summary>
-        /// 
+        /// Property to access the plugins
         /// </summary>
         public IReadOnlyCollection<T> Plugins => _plugins.Select(p => p.Module).ToList();
         private HashSet<Plugin> _plugins;
