@@ -136,20 +136,25 @@ namespace McMaster.NETCore.Plugins
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _context = CreateLoadContext(config);
+#if FEATURE_UNLOAD
             if (IsUnloadable)
             {
                 _context.Unloading += Unloading;
             }
+#endif
         }
 
+#if FEATURE_UNLOAD
         /// <summary>
         /// Even fired when assembly is unloaded
         /// </summary>
+        
         public event Action<AssemblyLoadContext> AssemblyUnloaded;
         private void Unloading(AssemblyLoadContext obj)
         {
             AssemblyUnloaded(obj);
         }
+#endif
 
         /// <summary>
         /// True when this plugin is capable of being unloaded.
