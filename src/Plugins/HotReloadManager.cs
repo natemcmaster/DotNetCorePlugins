@@ -170,6 +170,7 @@ namespace McMaster.NETCore.Plugins
             }
         }
 
+        ///
         public event Action<AssemblyLoadContext> AssemblyUnloaded;
         private void OnAssemblyUnloaded(AssemblyLoadContext obj)
         {
