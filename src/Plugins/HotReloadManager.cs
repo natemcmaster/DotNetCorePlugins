@@ -156,7 +156,7 @@ namespace McMaster.NETCore.Plugins
             var fileName = Path.GetFileName(pluginDllFullPath);
             if (File.Exists(pluginDllFullPath))
             {
-                var loader = PluginLoader.CreateFromAssemblyFile(pluginDllFullPath, sharedTypes: new[] { typeof(T) }); //FALTA O TRUE
+                var loader = PluginLoader.CreateFromAssemblyFile(pluginDllFullPath, true, sharedTypes: new[] { typeof(T) });
 
                 foreach (var pluginType in loader.LoadDefaultAssembly().GetTypes().Where(t => typeof(T).IsAssignableFrom(t) && !t.IsAbstract))
                 {
