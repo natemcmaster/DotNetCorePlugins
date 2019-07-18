@@ -1,4 +1,4 @@
-﻿//#if FEATURE_UNLOAD
+﻿#if FEATURE_UNLOAD
 namespace McMaster.NETCore.Plugins
 {
     using System;
@@ -49,8 +49,8 @@ namespace McMaster.NETCore.Plugins
         /// <summary>
         /// Property to access the plugins
         /// </summary>
-        public IReadOnlyCollection<T> Plugins => _plugins.Select(p => p.Module).ToList();
-        private HashSet<Plugin> _plugins;
+        public IReadOnlyDictionary<string, T> Plugins => _plugins.Values.ToDictionary(p => p.Name, p => p.Module);
+        private Dictionary<string, Plugin> _plugins;
         private Dictionary<int, PluginLoader> _loaders;
         private FileSystemWatcher _watcher;
 
@@ -77,7 +77,7 @@ namespace McMaster.NETCore.Plugins
         {
             Directory.CreateDirectory(pluginsDirectory);
 
-            _plugins = new HashSet<Plugin>();
+            _plugins = new Dictionary<string, Plugin>();
             _loaders = new Dictionary<int, PluginLoader>();
 
             _watcher = new FileSystemWatcher();
@@ -127,8 +127,7 @@ namespace McMaster.NETCore.Plugins
         {
             if (IsDirectory(e.FullPath))
             {
-                var plugins = _plugins.Where(p => p.FullPath.Contains(e.FullPath));
-                RemoveAssembly(plugins.FirstOrDefault().FullPath);
+                RemoveAssembly(e.FullPath);
             }
             else
             {
@@ -143,7 +142,7 @@ namespace McMaster.NETCore.Plugins
 
         private void LoadPluginsFromDirectory(string pluginsDirectory)
         {
-            var plugins = System.IO.Directory.GetFiles(pluginsDirectory, "*.dll", SearchOption.AllDirectories);
+            var plugins = Directory.GetFiles(pluginsDirectory, "*.dll", SearchOption.AllDirectories);
 
             foreach (var plugin in plugins)
             {
@@ -162,7 +161,7 @@ namespace McMaster.NETCore.Plugins
                 foreach (var pluginType in loader.LoadDefaultAssembly().GetTypes().Where(t => typeof(T).IsAssignableFrom(t) && !t.IsAbstract))
                 {
                     var plugin = (T)Activator.CreateInstance(pluginType);
-                    _plugins.Add(new Plugin(pluginType.FullName, pluginDllFullPath, plugin, loader.GetHashCode()));
+                    _plugins.Add(pluginType.FullName, new Plugin(pluginType.FullName, pluginDllFullPath, plugin, loader.GetHashCode()));
                 }
 
                 _loaders.Add(loader.GetHashCode(), loader);
@@ -171,10 +170,13 @@ namespace McMaster.NETCore.Plugins
 
         private void RemoveAssembly(string name)
         {
-            var plugins = _plugins.Where(p => p.FullPath.Contains(name)).ToList();
-            var loadersHashCodes = plugins.Select(p => p.LoaderHashCode).Distinct();
+            var plugins = _plugins.Where(p => p.Value.FullPath.Contains(name)).ToList();
+            var loadersHashCodes = plugins.Select(p => p.Value.LoaderHashCode).Distinct();
 
-            _plugins.ExceptWith(plugins);
+            foreach (var plugin in plugins)
+            {
+                _plugins.Remove(plugin.Key);
+            }
 
             foreach (var hashCode in loadersHashCodes)
             {
@@ -218,4 +220,4 @@ namespace McMaster.NETCore.Plugins
         }
     }
 }
-//#endif
+#endif
