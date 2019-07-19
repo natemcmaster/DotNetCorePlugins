@@ -149,7 +149,7 @@ namespace McMaster.NETCore.Plugins
                 foreach (var pluginType in loader.LoadDefaultAssembly().GetTypes().Where(t => typeof(T).IsAssignableFrom(t) && !t.IsAbstract))
                 {
                     var plugin = (T)Activator.CreateInstance(pluginType);
-                    _plugins.Add(pluginType.Name, new Plugin(pluginType.Name, pluginDllFullPath, plugin, loader.GetHashCode()));
+                    _plugins.Add(pluginType.FullName, new Plugin(pluginType.FullName, pluginDllFullPath, plugin, loader.GetHashCode()));
                 }
 
                 _loaders.Add(loader.GetHashCode(), loader);
