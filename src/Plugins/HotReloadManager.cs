@@ -163,7 +163,7 @@ namespace McMaster.NETCore.Plugins
 
             foreach (var hashCode in loadersHashCodes)
             {
-                //_loaders[hashCode].Dispose();
+                _loaders[hashCode].Dispose();
 
                 try
                 {
