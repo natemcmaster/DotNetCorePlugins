@@ -1,4 +1,4 @@
-﻿//#if FEATURE_UNLOAD
+﻿#if FEATURE_UNLOAD
 namespace McMaster.NETCore.Plugins
 {
     using System;
