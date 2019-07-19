@@ -160,6 +160,15 @@ namespace McMaster.NETCore.Plugins
         public Assembly LoadDefaultAssembly()
         {
             EnsureNotDisposed();
+
+            if (!IsUnloadable)
+            {
+                using (var fs = new FileStream(_config.MainAssemblyPath, FileMode.Open, FileAccess.Read))
+                {
+                    return _context.LoadFromStream(fs);
+                }
+            }
+
             return _context.LoadFromAssemblyPath(_config.MainAssemblyPath);
         }
 
