@@ -1,4 +1,4 @@
-﻿#if FEATURE_UNLOAD
+﻿//#if FEATURE_UNLOAD
 namespace McMaster.NETCore.Plugins
 {
     using System;
@@ -164,19 +164,24 @@ namespace McMaster.NETCore.Plugins
             foreach (var hashCode in loadersHashCodes)
             {
                 _loaders[hashCode].Dispose();
-                try 
-	            {	  
+
+                try
+                {
                     _loaders[hashCode].LoadDefaultAssembly();
-		            throw new AppDomainUnloadedException(nameof(name));
-	            }
-	            catch (global::System.Exception)
-	            {
+                    throw new AppDomainUnloadedException(nameof(name));
+                }
+                catch (ObjectDisposedException)
+                {
                     foreach (var plugin in plugins)
                     {
                         _plugins.Remove(plugin.Key);
                     }
                     _loaders.Remove(hashCode);
-	            }
+                }
+                catch (AppDomainUnloadedException ex)
+                {
+                    throw new ObjectDisposedException(ex.Message);
+                }
 
                 GC.Collect();
                 GC.WaitForPendingFinalizers();
