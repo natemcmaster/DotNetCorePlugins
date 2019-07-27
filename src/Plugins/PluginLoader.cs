@@ -161,8 +161,7 @@ namespace McMaster.NETCore.Plugins
         {
             EnsureNotDisposed();
 
-#if FEATURE_UNLOAD
-            if (_context.IsCollectible)
+            if (IsUnloadable)
             {
                 using (var fs = new FileStream(_config.MainAssemblyPath, FileMode.Open, FileAccess.Read))
                 {
@@ -171,9 +170,6 @@ namespace McMaster.NETCore.Plugins
             }
 
             return _context.LoadFromAssemblyPath(_config.MainAssemblyPath);
-#else
-            return _context.LoadFromAssemblyPath(_config.MainAssemblyPath);
-#endif
         }
 
         /// <summary>
