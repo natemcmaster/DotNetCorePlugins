@@ -123,20 +123,8 @@ namespace McMaster.NETCore.Plugins.Manager
         /// <returns></returns>
         public ModuleManager(ModuleManagerConfiguration configurations, params object[] list)
         {
-#if FEATURE_UNLOAD
-            if (!Path.IsPathFullyQualified(configurations.Path))
-            {
-                configurations.Path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, configurations.Path));
-            }
-#else
-            if (Path.IsPathRooted(configurations.Path) && !Path.GetPathRoot(configurations.Path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
-            {
-                configurations.Path = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, configurations.Path));
-            }
-#endif
-
             _configurations = configurations;
-            Directory.CreateDirectory(configurations.Path);
+            Directory.CreateDirectory(configurations.ModuleFolderPath);
             _params = list;
 
             _modules = new Dictionary<string, TType>();
@@ -159,11 +147,11 @@ namespace McMaster.NETCore.Plugins.Manager
             watcher.Deleted += OnDeleted;
 #endif
             watcher.Renamed += OnRenamed;
-            watcher.Path = configurations.Path;
+            watcher.Path = configurations.ModuleFolderPath;
             watcher.EnableRaisingEvents = true;
             watcher.IncludeSubdirectories = true;
 
-            LoadPluginsFromDirectory(configurations.Path);
+            LoadPluginsFromDirectory(configurations.ModuleFolderPath);
 
             _configurations.Startup = false;
             _configurations.ModulesToLoadAtStartup = null;

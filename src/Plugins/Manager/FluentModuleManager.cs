@@ -14,7 +14,7 @@ namespace McMaster.NETCore.Plugins.Manager
 
         private FluentModuleManager(string path)
         {
-            _configuration = new ModuleManagerConfiguration {Path = path};
+            _configuration = new ModuleManagerConfiguration(path);
         }
 
         //■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

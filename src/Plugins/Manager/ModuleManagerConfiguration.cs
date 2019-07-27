@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace McMaster.NETCore.Plugins.Manager
 {
@@ -11,7 +13,7 @@ namespace McMaster.NETCore.Plugins.Manager
         /// <para>The path for the folder where the modules are.</para>
         /// <para>Can be either relative or absolute.</para>
         /// </summary>
-        public string Path { get; set; }
+        public string ModuleFolderPath { get; }
 
 #if FEATURE_UNLOAD
         /// <summary>
@@ -35,5 +37,31 @@ namespace McMaster.NETCore.Plugins.Manager
 
 
         internal bool Startup = true;
+
+        /// <summary>
+        /// Initializes the ModuleManagerConfiguration.
+        /// </summary>
+        /// <param name="path"></param>
+        public ModuleManagerConfiguration(string path)
+        {
+            if (!string.IsNullOrWhiteSpace(path))
+            {
+#if FEATURE_UNLOAD
+                if (!Path.IsPathFullyQualified(path))
+                {
+                    ModuleFolderPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, path));
+                }
+#else
+                if (Path.IsPathRooted(path) && !Path.GetPathRoot(path).Equals(Path.DirectorySeparatorChar.ToString(), StringComparison.Ordinal))
+                {
+                    ModuleFolderPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, path));
+                }
+#endif
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(path));
+            }
+        }
     }
 }
