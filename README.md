@@ -46,40 +46,13 @@ PluginLoader.CreateFromAssemblyFile(
 
 See example projects in [samples/](./samples/) for more detailed, example usage.
 
-### Support for MVC and Razor
-
-A common usage for plugins is to load class libraries that contain MVC controllers or Razor Pages. You can
-set up an ASP.NET Core to load controllers and views from a plugin using the `McMaster.NETCore.Plugins.Mvc`
-package.
-
-```
-dotnet add package McMaster.NETCore.Plugins.Mvc
-```
-
-The main API to use is `.AddPluginFromAssemblyFile()`, which can be chained onto the call to `.AddMvc()`
-or `.AddRazorPages()` in the `Startup.ConfigureServices` method.
-
-```c#
-public class Startup
-{
-    public void ConfigureServices(IServiceCollection services)
-    {
-        var pluginFile = Path.Combine(AppContext.BaseDirectory, "plugins/MyRazorPlugin/MyRazorPlugin.dll");
-        services
-            .AddMvc()
-            // The AddPluginFromAssemblyFile method comes from McMaster.NETCore.Plugins.Mvc
-            .AddPluginFromAssemblyFile(pluginFile);
-    }
-}
-```
-
-See example projects in [samples/aspnetcore-mvc/](./samples/aspnetcore-mvc/) for more detailed, example usage.
-
 ## Usage
 
 Using plugins requires at least two projects: (1) the 'host' app which loads plugins and (2) the plugin,
 but typically also uses a third, (3) an abstractions project which defines the interaction between the plugin
 and the host.
+
+For a fully functional sample of this, see [samples/hello-world/](./samples/hello-world/) .
 
 ### The plugin abstraction
 
@@ -167,3 +140,32 @@ public class Program
     }
 }
 ```
+
+## Support for MVC and Razor
+
+A common usage for plugins is to load class libraries that contain MVC controllers or Razor Pages. You can
+set up an ASP.NET Core to load controllers and views from a plugin using the `McMaster.NETCore.Plugins.Mvc`
+package.
+
+```
+dotnet add package McMaster.NETCore.Plugins.Mvc
+```
+
+The main API to use is `.AddPluginFromAssemblyFile()`, which can be chained onto the call to `.AddMvc()`
+or `.AddRazorPages()` in the `Startup.ConfigureServices` method.
+
+```c#
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        var pluginFile = Path.Combine(AppContext.BaseDirectory, "plugins/MyRazorPlugin/MyRazorPlugin.dll");
+        services
+            .AddMvc()
+            // The AddPluginFromAssemblyFile method comes from McMaster.NETCore.Plugins.Mvc
+            .AddPluginFromAssemblyFile(pluginFile);
+    }
+}
+```
+
+See example projects in [samples/aspnetcore-mvc/](./samples/aspnetcore-mvc/) for more detailed, example usage.
