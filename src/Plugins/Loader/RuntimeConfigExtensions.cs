@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace McMaster.NETCore.Plugins.Loader
 {
@@ -116,7 +115,7 @@ namespace McMaster.NETCore.Plugins.Loader
             try
             {
                 var file = File.ReadAllBytes(path);
-                return JsonSerializer.Parse<RuntimeConfig>(file, _serializerOptions);
+                return JsonSerializer.Deserialize<RuntimeConfig>(file, _serializerOptions);
             }
             catch
             {
