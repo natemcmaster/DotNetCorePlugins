@@ -23,8 +23,12 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
         private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
         private readonly HashSet<string> _defaultAssemblies = new HashSet<string>(StringComparer.Ordinal);
-        private string _basePath;
+        private string _mainAssemblyPath;
         private bool _preferDefaultLoadContext;
+
+#if FEATURE_UNLOAD
+        private bool _isCollectible;
+#endif
 
         /// <summary>
         /// Creates an assembly load context using settings specified on the builder.
@@ -42,23 +46,28 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             return new ManagedLoadContext(
-                _basePath,
+                _mainAssemblyPath,
                 _managedLibraries,
                 _nativeLibraries,
                 _privateAssemblies,
                 _defaultAssemblies,
                 _additionalProbingPaths,
                 resourceProbingPaths,
-                _preferDefaultLoadContext);
+                _preferDefaultLoadContext,
+#if FEATURE_UNLOAD
+                _isCollectible);
+#else
+                isCollectible: false);
+#endif
         }
 
         /// <summary>
-        /// Set the base directory for the context. This is used as the starting point for loading
-        /// assemblies. Also known as the 'app local' directory.
+        /// Set the file path to the main assembly for the context. This is used as the starting point for loading
+        /// other assemblies. The directory that contains it is also known as the 'app local' directory.
         /// </summary>
         /// <param name="path">The file path. Must not be null or empty. Must be an absolute path.</param>
         /// <returns>The builder.</returns>
-        public AssemblyLoadContextBuilder SetBaseDirectory(string path)
+        public AssemblyLoadContextBuilder SetMainAssemblyPath(string path)
         {
             if (string.IsNullOrEmpty(path))
             {
@@ -70,7 +79,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 throw new ArgumentException("Argument must be a full path.", nameof(path));
             }
 
-            _basePath = path;
+            _mainAssemblyPath = path;
             return this;
         }
 
@@ -200,6 +209,18 @@ namespace McMaster.NETCore.Plugins.Loader
             _resourceProbingPaths.Add(path);
             return this;
         }
+
+#if FEATURE_UNLOAD
+        /// <summary>
+        /// Enable unloading the assembly load context.
+        /// </summary>
+        /// <returns>The builder</returns>
+        public AssemblyLoadContextBuilder EnableUnloading()
+        {
+            _isCollectible = true;
+            return this;
+        }
+#endif
 
         /// <summary>
         /// Add a <paramref name="path"/> that should be use to search for resource assemblies (aka satellite assemblies)

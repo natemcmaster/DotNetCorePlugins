@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using McMaster.Extensions.Xunit;
 using Test.Referenced.Library;
 using Xunit;
@@ -8,11 +9,51 @@ namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
+#if NETCOREAPP3_0
+        [Fact]
+        public void PluginLoaderCanUnload()
+        {
+            var path = TestResources.GetTestProjectAssembly("NetCoreApp20App");
+
+            // See https://github.com/dotnet/coreclr/pull/22221
+
+            ExecuteAndUnload(path, out var weakRef);
+
+            // Force a GC collect to ensure unloaded has completed
+            for (var i = 0; weakRef.IsAlive && (i < 10); i++)
+            {
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+
+            Assert.False(weakRef.IsAlive);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)] // ensure no local vars are create
+        private void ExecuteAndUnload(string path, out WeakReference weakRef)
+        {
+            var loader = PluginLoader.CreateFromAssemblyFile(path, c => { c.IsUnloadable = true; });
+            var assembly = loader.LoadDefaultAssembly();
+
+            var method = assembly
+                .GetType("NetCoreApp20App.Program", throwOnError: true)
+                .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
+
+            Assert.True(loader.IsUnloadable);
+            Assert.NotNull(method);
+            Assert.Equal("Hello world!", method.Invoke(null, Array.Empty<object>()));
+            loader.Dispose();
+            Assert.Throws<ObjectDisposedException>(() => loader.LoadDefaultAssembly());
+
+            weakRef = new WeakReference(loader.LoadContext, trackResurrection: true);
+        }
+#endif
+
         [Fact]
         public void LoadsNetCoreProjectWithNativeDeps()
         {
             var path = TestResources.GetTestProjectAssembly("PowerShellPlugin");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
@@ -29,7 +70,7 @@ namespace McMaster.NETCore.Plugins.Tests
             // SqlClient has P/invoke that calls "sni.dll" on Windows. This test checks
             // that native libraries can still be resolved in this case.
             var path = TestResources.GetTestProjectAssembly("SqlClientApp");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
@@ -43,7 +84,7 @@ namespace McMaster.NETCore.Plugins.Tests
         public void LoadsNetCoreApp20Project()
         {
             var path = TestResources.GetTestProjectAssembly("NetCoreApp20App");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
@@ -57,7 +98,7 @@ namespace McMaster.NETCore.Plugins.Tests
         public void LoadsNetStandard20Project()
         {
             var path = TestResources.GetTestProjectAssembly("NetStandardClassLib");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var type = assembly.GetType("NetStandardClassLib.Class1", throwOnError: true);
@@ -74,7 +115,7 @@ namespace McMaster.NETCore.Plugins.Tests
             // In this case, the host will pick the rid-specific version
 
             var path = TestResources.GetTestProjectAssembly("DrawingApp");
-            var loader = PluginLoader.CreateFromConfigFile(path);
+            var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var type = assembly.GetType("Finder", throwOnError: true);
@@ -102,7 +143,12 @@ namespace McMaster.NETCore.Plugins.Tests
         private IFruit GetPlátano()
         {
             var path = TestResources.GetTestProjectAssembly("Plátano");
-            var loader = PluginLoader.CreateFromConfigFile(path, sharedTypes: new[] { typeof(IFruit) });
+            var loader = PluginLoader.CreateFromAssemblyFile(path,
+#if NETCOREAPP3_0
+                isUnloadable: true,
+#endif
+                sharedTypes: new[] { typeof(IFruit) });
+
             var assembly = loader.LoadDefaultAssembly();
             var type = Assert.Single(assembly.GetTypes(), t => typeof(IFruit).IsAssignableFrom(t));
             return (IFruit)Activator.CreateInstance(type);

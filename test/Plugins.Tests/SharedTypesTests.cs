@@ -17,7 +17,7 @@ namespace McMaster.NETCore.Plugins.Tests
             var loaders = new List<PluginLoader>();
             foreach (var name in pluginsNames)
             {
-                var loader = PluginLoader.CreateFromConfigFile(
+                var loader = PluginLoader.CreateFromAssemblyFile(
                     TestResources.GetTestProjectAssembly(name),
                     sharedTypes: new[] { typeof(IFruit) });
                 loaders.Add(loader);

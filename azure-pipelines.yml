@@ -1,7 +1,5 @@
-name: $(Date:yyMMdd).$(Rev:r)
-
 trigger:
-- '*'
+- master
 
 pr:
 - '*'
@@ -12,18 +10,31 @@ variables:
 - group: AzureKeyVault
 - name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
   value: 1
+- name: BuildNumber
+  value: $[counter('buildnumber')]
 
 jobs:
 - job: Windows
   pool:
-    vmImage: vs2017-win2016
+    vmImage: windows-2019
   steps:
-  - task: DotNetCoreInstaller@0
+  - task: UseDotNet@2
+    displayName: Install .NET Core 3.0
+    inputs:
+      version: '3.0.x'
+      packageType: sdk
+      includePreviewVersions: true
+  - task: UseDotNet@2
     displayName: Install .NET Core 2.2
     inputs:
-      version: '2.2.103'
-  - powershell: ./build.ps1 -ci /p:AzureKeyVaultClientSecret=$(kv-access-token)
+      version: '2.2.x'
+      packageType: runtime
+  - powershell: ./build.ps1 -ci
     displayName: Invoke build.ps1
+    condition: eq(variables['kv-access-token'], '')
+  - powershell: ./build.ps1 -ci /p:AzureKeyVaultClientSecret=$(kv-access-token)
+    displayName: Invoke build.ps1 with code signing
+    condition: ne(variables['kv-access-token'], '')
   - task: PublishTestResults@2
     displayName: Upload test results
     condition: always()
@@ -41,10 +52,17 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
-  - task: DotNetCoreInstaller@0
+  - task: UseDotNet@2
+    displayName: Install .NET Core 3.0
+    inputs:
+      version: '3.0.x'
+      packageType: sdk
+      includePreviewVersions: true
+  - task: UseDotNet@2
     displayName: Install .NET Core 2.2
     inputs:
-      version: '2.2.103'
+      version: '2.2.x'
+      packageType: runtime
   - script: ./build.ps1 -ci
     displayName: Invoke build.ps1
   - task: PublishTestResults@2

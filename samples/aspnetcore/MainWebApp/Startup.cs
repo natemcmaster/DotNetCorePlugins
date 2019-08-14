@@ -18,9 +18,11 @@ namespace MainWebApp
 
         public Startup()
         {
-            foreach (var pluginFile in Directory.GetFiles(AppContext.BaseDirectory, "plugin.config", SearchOption.AllDirectories))
+            foreach (var pluginDir in Directory.GetDirectories(Path.Combine(AppContext.BaseDirectory, "plugins")))
             {
-                var loader = PluginLoader.CreateFromConfigFile(pluginFile,
+                var dirName = Path.GetFileName(pluginDir);
+                var pluginFile = Path.Combine(pluginDir, dirName + ".dll");
+                var loader = PluginLoader.CreateFromAssemblyFile(pluginFile,
                     // this ensures that the plugin resolves to the same version of DependencyInjection
                     // and ASP.NET Core that the current app uses
                     sharedTypes: new[]

@@ -23,10 +23,11 @@ This plugin uses AutoMapper, Version=7.0.1.0, Culture=neutral, PublicKeyToken=be
 
 There are some important types, however, which must share the same identity between the plugins and the host.
 To ensure type exchange works between the host and the plugins, the MainWebApp project uses the `sharedTypes`
-parameter on `PluginLoader.CreateFromConfigFile`.
+parameter on `PluginLoader.CreateFromAssemblyFile`.
 
 ```csharp
-    var loader = PluginLoader.CreateFromConfigFile(pluginFile,
+    var loader = PluginLoader.CreateFromAssemblyFile(
+        pluginAssembly,
         sharedTypes: new[]
         {
             typeof(IApplicationBuilder),

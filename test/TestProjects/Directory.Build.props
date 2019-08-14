@@ -1,6 +1,5 @@
 <Project>
   <Import Project="..\..\Directory.Build.props" />
-  <Import Project="..\..\src\Plugins.Sdk\sdk\Sdk.props" />
 
   <PropertyGroup>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>

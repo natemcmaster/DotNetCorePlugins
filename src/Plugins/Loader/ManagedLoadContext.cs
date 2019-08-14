@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,9 +16,11 @@ namespace McMaster.NETCore.Plugins.Loader
     /// An implementation of <see cref="AssemblyLoadContext" /> which attempts to load managed and native
     /// binaries at runtime immitating some of the behaviors of corehost.
     /// </summary>
+    [DebuggerDisplay("'{Name}' ({_mainAssemblyPath})")]
     internal class ManagedLoadContext : AssemblyLoadContext
     {
         private readonly string _basePath;
+        private readonly string _mainAssemblyPath;
         private readonly IReadOnlyDictionary<string, ManagedLibrary> _managedAssemblies;
         private readonly IReadOnlyDictionary<string, NativeLibrary> _nativeLibraries;
         private readonly IReadOnlyCollection<string> _privateAssemblies;
@@ -25,22 +28,33 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
+#if FEATURE_NATIVE_RESOLVER
+        private readonly AssemblyDependencyResolver _dependencyResolver;
+#endif
 
-        public ManagedLoadContext(string baseDirectory,
+        public ManagedLoadContext(string mainAssemblyPath,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
             IReadOnlyDictionary<string, NativeLibrary> nativeLibraries,
             IReadOnlyCollection<string> privateAssemblies,
             IReadOnlyCollection<string> defaultAssemblies,
             IReadOnlyCollection<string> additionalProbingPaths,
             IReadOnlyCollection<string> resourceProbingPaths,
-            bool preferDefaultLoadContext)
+            bool preferDefaultLoadContext,
+            bool isCollectible)
+#if FEATURE_UNLOAD
+            : base(Path.GetFileNameWithoutExtension(mainAssemblyPath), isCollectible)
+#endif
         {
             if (resourceProbingPaths == null)
             {
                 throw new ArgumentNullException(nameof(resourceProbingPaths));
             }
 
-            _basePath = baseDirectory ?? throw new ArgumentNullException(nameof(baseDirectory));
+            _mainAssemblyPath = mainAssemblyPath ?? throw new ArgumentNullException(nameof(mainAssemblyPath));
+#if FEATURE_NATIVE_RESOLVER
+            _dependencyResolver = new AssemblyDependencyResolver(mainAssemblyPath);
+#endif
+            _basePath = Path.GetDirectoryName(mainAssemblyPath);
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
             _defaultAssemblies = defaultAssemblies ?? throw new ArgumentNullException(nameof(defaultAssemblies));
@@ -77,6 +91,14 @@ namespace McMaster.NETCore.Plugins.Loader
                     // Swallow errors in loading from the default context
                 }
             }
+
+#if FEATURE_NATIVE_RESOLVER
+            var resolvedPath = _dependencyResolver.ResolveAssemblyToPath(assemblyName);
+            if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
+            {
+                return LoadFromAssemblyPath(resolvedPath);
+            }
+#endif
 
             // Resource assembly binding does not use the TPA. Instead, it probes PLATFORM_RESOURCE_ROOTS (a list of folders)
             // for $folder/$culture/$assemblyName.dll
@@ -124,6 +146,14 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns></returns>
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
+#if FEATURE_NATIVE_RESOLVER
+            var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
+            if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
+            {
+                return LoadUnmanagedDllFromPath(resolvedPath);
+            }
+#endif
+
             foreach (var prefix in PlatformInformation.NativeLibraryPrefixes)
             {
                 if (_nativeLibraries.TryGetValue(prefix + unmanagedDllName, out var library))

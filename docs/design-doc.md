@@ -56,10 +56,12 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        foreach (var pluginFile in Glob("plugins/*/plugin.config"))
+        foreach (var pluginDirectory in Directory.GetDirectories("plugins/"))
         {
-            var loader = PluginLoader.CreateFromConfigFile(
-                configFile: pluginFile,
+            var pluginDirName = Path.GetFileName(pluginDir);
+            var assemblyFile = Path.Combine(pluginDir, pluginDirName + ".dll");
+            var loader = PluginLoader.CreateFromAssemblyFile(
+                assemblyFile: pluginFile,
                 sharedTypes: new [] { typeof(IFruit) });
 
             var plugin = loader.LoadDefaultAssembly();
@@ -79,9 +81,7 @@ A plugin author could implement the shared abstraction and distribute a plugin w
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
-  <Sdk Name="McMaster.NETCore.Plugins.Sdk" />
   <PropertyGroup>
-    <IsPlugin>true</IsPlugin>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 </Project>

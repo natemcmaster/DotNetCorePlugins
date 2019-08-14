@@ -1,7 +1,8 @@
 <Project>
 
   <Import Project="version.props" />
-  <Import Project="releasenotes.props"/>
+  <Import Project="$(MSBuildProjectDirectory)\releasenotes.props"
+          Condition="Exists('$(MSBuildProjectDirectory)\releasenotes.props')" />
 
   <PropertyGroup>
     <Authors>Nate McMaster</Authors>
@@ -29,7 +30,8 @@
     <NoWarn>$(NoWarn);NU5105</NoWarn>
 
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <GenerateFullPaths Condition="'$(VSCODE_CWD)' != ''">true</GenerateFullPaths>
+    <GenerateFullPaths Condition="'$(TERM_PROGRAM)' == 'vscode'">true</GenerateFullPaths>
+    <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory).build\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <BaseOutputPath>$(MSBuildThisFileDirectory).build\bin\$(MSBuildProjectName)\</BaseOutputPath>
   </PropertyGroup>

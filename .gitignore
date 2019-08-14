@@ -5,3 +5,4 @@ artifacts/
 .idea/
 *.user
 launchSettings.json
+.dotnet/
