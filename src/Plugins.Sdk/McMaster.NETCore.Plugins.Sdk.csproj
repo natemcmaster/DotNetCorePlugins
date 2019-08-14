@@ -10,6 +10,7 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <IncludeSymbols>false</IncludeSymbols>
     <IsPackable>true</IsPackable>
+    <DisablePublicApiAnalyzer>true</DisablePublicApiAnalyzer>
   </PropertyGroup>
 
   <ItemGroup>

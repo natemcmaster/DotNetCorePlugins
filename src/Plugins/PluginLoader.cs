@@ -35,13 +35,15 @@ namespace McMaster.NETCore.Plugins
             return new PluginLoader(config, baseDir, sharedTypes, PluginLoaderOptions.None);
         }
 
-        /// <summary>
-        /// Create a plugin loader for an assembly file.
-        /// </summary>
-        /// <param name="assemblyFile">The file path to the plugin config.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
-        /// <returns>A loader.</returns>
+#pragma warning disable RS0027 // Public API with optional parameter(s) should have the most parameters amongst its public overloads.
+                              /// <summary>
+                              /// Create a plugin loader for an assembly file.
+                              /// </summary>
+                              /// <param name="assemblyFile">The file path to the plugin config.</param>
+                              /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+                              /// <returns>A loader.</returns>
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes = null)
+#pragma warning restore RS0027 // Public API with optional parameter(s) should have the most parameters amongst its public overloads.
         {
             var config = new FileOnlyPluginConfig(assemblyFile);
             var baseDir = Path.GetDirectoryName(assemblyFile);
