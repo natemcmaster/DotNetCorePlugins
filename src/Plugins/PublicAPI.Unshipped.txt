@@ -1,0 +1,22 @@
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.EnableUnloading() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetMainAssemblyPath(string path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.PluginConfig.IsUnloadable.get -> bool
+McMaster.NETCore.Plugins.PluginConfig.IsUnloadable.set -> void
+McMaster.NETCore.Plugins.PluginConfig.MainAssemblyPath.get -> string
+McMaster.NETCore.Plugins.PluginConfig.PluginConfig(string mainAssemblyPath) -> void
+McMaster.NETCore.Plugins.PluginConfig.PreferSharedTypes.get -> bool
+McMaster.NETCore.Plugins.PluginConfig.PreferSharedTypes.set -> void
+McMaster.NETCore.Plugins.PluginConfig.PrivateAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName>
+McMaster.NETCore.Plugins.PluginConfig.SharedAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName>
+McMaster.NETCore.Plugins.PluginConfig.SharedAssemblies.set -> void
+McMaster.NETCore.Plugins.PluginLoader.Dispose() -> void
+McMaster.NETCore.Plugins.PluginLoader.IsUnloadable.get -> bool
+McMaster.NETCore.Plugins.PluginLoader.LoadAssemblyFromPath(string assemblyPath) -> System.Reflection.Assembly
+McMaster.NETCore.Plugins.PluginLoader.PluginLoader(McMaster.NETCore.Plugins.PluginConfig config) -> void
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile) -> McMaster.NETCore.Plugins.PluginLoader
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, System.Action<McMaster.NETCore.Plugins.PluginConfig> configure) -> McMaster.NETCore.Plugins.PluginLoader
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, System.Type[] sharedTypes) -> McMaster.NETCore.Plugins.PluginLoader
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, System.Type[] sharedTypes, McMaster.NETCore.Plugins.PluginLoaderOptions loaderOptions) -> McMaster.NETCore.Plugins.PluginLoader
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, System.Type[] sharedTypes, System.Action<McMaster.NETCore.Plugins.PluginConfig> configure) -> McMaster.NETCore.Plugins.PluginLoader
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, System.Type[] sharedTypes) -> McMaster.NETCore.Plugins.PluginLoader
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, System.Type[] sharedTypes, System.Action<McMaster.NETCore.Plugins.PluginConfig> configure) -> McMaster.NETCore.Plugins.PluginLoader

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// Extends
+    /// Extends the MVC builder.
     /// </summary>
     public static class MvcPluginExtensions
     {
