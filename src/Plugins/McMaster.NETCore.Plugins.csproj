@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;netcoreapp3.0</TargetFrameworks>
+    <!--
+      The netcoreapp2.0 API is a subset of the API available in netcoreapp3.0. The public API tool doesn't handle multiple TFMs.
+      https://github.com/dotnet/roslyn-analyzers/issues/2621
+    -->
+    <DisablePublicApiAnalyzer Condition="'$(TargetFramework)' == 'netcoreapp2.0'">true</DisablePublicApiAnalyzer>
     <OutputType>library</OutputType>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>

@@ -1,0 +1,2 @@
+Microsoft.Extensions.DependencyInjection.MvcPluginExtensions
+static Microsoft.Extensions.DependencyInjection.MvcPluginExtensions.AddPluginFromAssemblyFile(this Microsoft.Extensions.DependencyInjection.IMvcBuilder mvcBuilder, string assemblyFile) -> Microsoft.Extensions.DependencyInjection.IMvcBuilder
