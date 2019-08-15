@@ -23,7 +23,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
         private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
         private readonly HashSet<string> _defaultAssemblies = new HashSet<string>(StringComparer.Ordinal);
-        private string _mainAssemblyPath;
+        private string? _mainAssemblyPath;
         private bool _preferDefaultLoadContext;
 
 #if FEATURE_UNLOAD
@@ -43,6 +43,11 @@ namespace McMaster.NETCore.Plugins.Loader
                 {
                     resourceProbingPaths.Add(Path.Combine(additionalPath, subPath));
                 }
+            }
+
+            if (_mainAssemblyPath == null)
+            {
+                throw new InvalidOperationException($"Missing required property. You must call '{nameof(SetMainAssemblyPath)}' to configure the default assembly.");
             }
 
             return new ManagedLoadContext(
@@ -104,7 +109,11 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns>The builder.</returns>
         public AssemblyLoadContextBuilder PreferLoadContextAssembly(AssemblyName assemblyName)
         {
-            _privateAssemblies.Add(assemblyName.Name);
+            if (assemblyName.Name != null)
+            {
+                _privateAssemblies.Add(assemblyName.Name);
+            }
+
             return this;
         }
 
@@ -118,7 +127,11 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns>The builder.</returns>
         public AssemblyLoadContextBuilder PreferDefaultLoadContextAssembly(AssemblyName assemblyName)
         {
-            _defaultAssemblies.Add(assemblyName.Name);
+            if (assemblyName.Name != null)
+            {
+                _defaultAssemblies.Add(assemblyName.Name);
+            }
+
             return this;
         }
 
@@ -150,7 +163,11 @@ namespace McMaster.NETCore.Plugins.Loader
         {
             ValidateRelativePath(library.AdditionalProbingPath);
 
-            _managedLibraries.Add(library.Name.Name, library);
+            if (library.Name.Name != null)
+            {
+                _managedLibraries.Add(library.Name.Name, library);
+            }
+
             return this;
         }
 

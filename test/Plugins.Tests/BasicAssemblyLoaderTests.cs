@@ -36,12 +36,12 @@ namespace McMaster.NETCore.Plugins.Tests
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
-                .GetType("NetCoreApp20App.Program", throwOnError: true)
+                .GetType("NetCoreApp20App.Program", throwOnError: true)!
                 .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
 
             Assert.True(loader.IsUnloadable);
             Assert.NotNull(method);
-            Assert.Equal("Hello world!", method.Invoke(null, Array.Empty<object>()));
+            Assert.Equal("Hello world!", method!.Invoke(null, Array.Empty<object>()));
             loader.Dispose();
             Assert.Throws<ObjectDisposedException>(() => loader.LoadDefaultAssembly());
 
@@ -57,10 +57,10 @@ namespace McMaster.NETCore.Plugins.Tests
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
-                .GetType("PowerShellPlugin.Program", throwOnError: true)
+                .GetType("PowerShellPlugin.Program", throwOnError: true)!
                 .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
             Assert.NotNull(method);
-            Assert.Equal("hello", method.Invoke(null, Array.Empty<object>()));
+            Assert.Equal("hello", method!.Invoke(null, Array.Empty<object>()));
         }
 
         [SkippableFact]
@@ -74,10 +74,10 @@ namespace McMaster.NETCore.Plugins.Tests
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
-                .GetType("SqlClientApp.Program", throwOnError: true)
+                .GetType("SqlClientApp.Program", throwOnError: true)!
                 .GetMethod("Run", BindingFlags.Static | BindingFlags.Public);
             Assert.NotNull(method);
-            Assert.Equal(true, method.Invoke(null, Array.Empty<object>()));
+            Assert.Equal(true, method!.Invoke(null, Array.Empty<object>()));
         }
 
         [Fact]
@@ -88,10 +88,10 @@ namespace McMaster.NETCore.Plugins.Tests
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
-                .GetType("NetCoreApp20App.Program", throwOnError: true)
+                .GetType("NetCoreApp20App.Program", throwOnError: true)!
                 .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
             Assert.NotNull(method);
-            Assert.Equal("Hello world!", method.Invoke(null, Array.Empty<object>()));
+            Assert.Equal("Hello world!", method!.Invoke(null, Array.Empty<object>()));
         }
 
         [Fact]
@@ -102,9 +102,9 @@ namespace McMaster.NETCore.Plugins.Tests
             var assembly = loader.LoadDefaultAssembly();
 
             var type = assembly.GetType("NetStandardClassLib.Class1", throwOnError: true);
-            var method = type.GetMethod("GetColor", BindingFlags.Instance | BindingFlags.Public);
+            var method = type!.GetMethod("GetColor", BindingFlags.Instance | BindingFlags.Public);
             Assert.NotNull(method);
-            Assert.Equal("Red", method.Invoke(Activator.CreateInstance(type), Array.Empty<object>()));
+            Assert.Equal("Red", method!.Invoke(Activator.CreateInstance(type), Array.Empty<object>()));
         }
 
         [Fact]
@@ -118,10 +118,10 @@ namespace McMaster.NETCore.Plugins.Tests
             var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
-            var type = assembly.GetType("Finder", throwOnError: true);
+            var type = assembly.GetType("Finder", throwOnError: true)!;
             var method = type.GetMethod("FindDrawingAssembly", BindingFlags.Static | BindingFlags.Public);
             Assert.NotNull(method);
-            Assert.Contains("runtimes", (string)method.Invoke(null, Array.Empty<object>()));
+            Assert.Contains("runtimes", (string?)method!.Invoke(null, Array.Empty<object>()));
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace McMaster.NETCore.Plugins.Tests
 
             var assembly = loader.LoadDefaultAssembly();
             var type = Assert.Single(assembly.GetTypes(), t => typeof(IFruit).IsAssignableFrom(t));
-            return (IFruit)Activator.CreateInstance(type);
+            return (IFruit)Activator.CreateInstance(type)!;
         }
     }
 }

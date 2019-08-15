@@ -25,8 +25,8 @@ namespace McMaster.NETCore.Plugins.Tests
 
             foreach (var plugin in loaders.Select(l => l.LoadDefaultAssembly()))
             {
-                var fruitType = Assert.Single(plugin.GetTypes()); //, t => typeof(IFruit).IsAssignableFrom(t));
-                var fruit = (IFruit)Activator.CreateInstance(fruitType);
+                var fruitType = Assert.Single(plugin.GetTypes(), t => typeof(IFruit).IsAssignableFrom(t));
+                var fruit = (IFruit)Activator.CreateInstance(fruitType)!;
                 Assert.NotNull(fruit.GetFlavor());
             }
         }

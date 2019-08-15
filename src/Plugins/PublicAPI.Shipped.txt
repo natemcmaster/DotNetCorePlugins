@@ -1,13 +1,11 @@
 McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary
 McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.AdditionalProbingPath.get -> string
 McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.AppLocalPath.get -> string
-McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.ManagedLibrary() -> void
 McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.Name.get -> System.Reflection.AssemblyName
 McMaster.NETCore.Plugins.LibraryModel.NativeLibrary
 McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.AdditionalProbingPath.get -> string
 McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.AppLocalPath.get -> string
 McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.Name.get -> string
-McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.NativeLibrary() -> void
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddManagedLibrary(McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary library) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddNativeLibrary(McMaster.NETCore.Plugins.LibraryModel.NativeLibrary library) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder

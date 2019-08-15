@@ -16,7 +16,7 @@ namespace McMaster.NETCore.Plugins.Tests
             var context = new AssemblyLoadContextBuilder()
                 .SetMainAssemblyPath(samplePath)
                 .AddProbingPath(samplePath)
-                .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "XunitSample.deps.json"))
+                .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "XunitSample.deps.json"))
                 .PreferDefaultLoadContext(true)
                 .Build();
 
@@ -31,7 +31,7 @@ namespace McMaster.NETCore.Plugins.Tests
             var context = new AssemblyLoadContextBuilder()
                .SetMainAssemblyPath(samplePath)
                .AddProbingPath(samplePath)
-               .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "XunitSample.deps.json"))
+               .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "XunitSample.deps.json"))
                .Build();
 
             Assert.NotSame(typeof(TheoryData).Assembly, LoadAssembly(context, "xunit.core"));
@@ -46,14 +46,14 @@ namespace McMaster.NETCore.Plugins.Tests
                .SetMainAssemblyPath(samplePath)
                .AddProbingPath(samplePath)
                .PreferDefaultLoadContext(false)
-               .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "NetCoreApp20App.deps.json"))
+               .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "NetCoreApp20App.deps.json"))
                .Build();
 
             var unifedLoader = new AssemblyLoadContextBuilder()
               .SetMainAssemblyPath(samplePath)
               .AddProbingPath(samplePath)
               .PreferDefaultLoadContext(true)
-              .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath), "NetCoreApp20App.deps.json"))
+              .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "NetCoreApp20App.deps.json"))
               .Build();
 
             Assert.Equal(new Version("2.0.0.0"), LoadAssembly(defaultLoader, "Test.Referenced.Library").GetName().Version);

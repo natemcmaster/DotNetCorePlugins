@@ -10,7 +10,6 @@
 This package should be used by the host application which needs to load plugins.
     </PackageDescription>
     <PackageTags>.NET Core;plugins;aspnetcore</PackageTags>
-    <WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
   </PropertyGroup>
 
   <ItemGroup>

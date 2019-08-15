@@ -24,7 +24,7 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <param name="depsFilePath">The full path to the .deps.json file.</param>
         /// <param name="error">An error, if one occurs while reading .deps.json</param>
         /// <returns>The builder.</returns>
-        public static AssemblyLoadContextBuilder TryAddDependencyContext(this AssemblyLoadContextBuilder builder, string depsFilePath, out Exception error)
+        public static AssemblyLoadContextBuilder TryAddDependencyContext(this AssemblyLoadContextBuilder builder, string depsFilePath, out Exception? error)
         {
             error = null;
             try
@@ -143,11 +143,16 @@ namespace McMaster.NETCore.Plugins.Loader
                      * In this case, probing should happen in $packageRoot/example/1.0.0/lib/netcoreapp2.0
                      */
 
-                    var path = Path.Combine(library.Name.ToLowerInvariant(),
-                        library.Version,
-                        Path.GetDirectoryName(Path.GetDirectoryName(resource.Path)));
+                    var resourceDir = Path.GetDirectoryName(Path.GetDirectoryName(resource.Path));
 
-                    builder.AddResourceProbingSubpath(path);
+                    if (resourceDir != null)
+                    {
+                        var path = Path.Combine(library.Name.ToLowerInvariant(),
+                            library.Version,
+                            resourceDir);
+
+                        builder.AddResourceProbingSubpath(path);
+                    }
                 }
             }
 

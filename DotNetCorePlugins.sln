@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.152
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{471CA3C0-0BC9-4C0C-A013-D9356DBD0F38}"
 EndProject
@@ -41,7 +41,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PowerShellPlugin", "test\Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9E47E94A-3F50-4B3B-8937-1FCF832ABEB6}"
 	ProjectSection(SolutionItems) = preProject
-		.appveyor.yml = .appveyor.yml
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		build.ps1 = build.ps1
@@ -70,7 +69,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{F49F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "aspnetcoremvc", "aspnetcoremvc", "{610E8065-1F29-41E8-A3FC-07ABDF16C8BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "McMaster.NETCore.Plugins.Mvc", "src\Plugins.Mvc\McMaster.NETCore.Plugins.Mvc.csproj", "{263CD320-FAC5-4F0C-8FFB-788DD3C455D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "McMaster.NETCore.Plugins.Mvc", "src\Plugins.Mvc\McMaster.NETCore.Plugins.Mvc.csproj", "{263CD320-FAC5-4F0C-8FFB-788DD3C455D4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

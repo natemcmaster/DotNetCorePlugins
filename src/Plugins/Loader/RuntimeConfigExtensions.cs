@@ -15,7 +15,7 @@ namespace McMaster.NETCore.Plugins.Loader
     public static class RuntimeConfigExtensions
     {
         private const string JsonExt = ".json";
-        private static JsonSerializerOptions _serializerOptions = new JsonSerializerOptions()
+        private static readonly JsonSerializerOptions s_serializerOptions = new JsonSerializerOptions()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
@@ -33,7 +33,7 @@ namespace McMaster.NETCore.Plugins.Loader
             this AssemblyLoadContextBuilder builder,
             string runtimeConfigPath,
             bool includeDevConfig,
-            out Exception error)
+            out Exception? error)
         {
             error = null;
             try
@@ -44,7 +44,7 @@ namespace McMaster.NETCore.Plugins.Loader
                     return builder;
                 }
 
-                RuntimeConfig devConfig = null;
+                RuntimeConfig? devConfig = null;
                 if (includeDevConfig)
                 {
                     var configDevPath = runtimeConfigPath.Substring(0, runtimeConfigPath.Length - JsonExt.Length) + ".dev.json";
@@ -69,7 +69,10 @@ namespace McMaster.NETCore.Plugins.Loader
                     if (string.Equals(Path.GetFileNameWithoutExtension(dotnet), "dotnet", StringComparison.OrdinalIgnoreCase))
                     {
                         var dotnetHome = Path.GetDirectoryName(dotnet);
-                        builder.AddProbingPath(Path.Combine(dotnetHome, "store", RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant(), tfm));
+                        if (dotnetHome != null)
+                        {
+                            builder.AddProbingPath(Path.Combine(dotnetHome, "store", RuntimeInformation.OSArchitecture.ToString().ToLowerInvariant(), tfm));
+                        }
                     }
                 }
             }
@@ -80,7 +83,7 @@ namespace McMaster.NETCore.Plugins.Loader
             return builder;
         }
 
-        private static void AddProbingPaths(AssemblyLoadContextBuilder builder, RuntimeOptions options, string tfm)
+        private static void AddProbingPaths(AssemblyLoadContextBuilder builder, RuntimeOptions options, string? tfm)
         {
             if (options.AdditionalProbingPaths == null)
             {
@@ -110,12 +113,12 @@ namespace McMaster.NETCore.Plugins.Loader
             }
         }
 
-        private static RuntimeConfig TryReadConfig(string path)
+        private static RuntimeConfig? TryReadConfig(string path)
         {
             try
             {
                 var file = File.ReadAllBytes(path);
-                return JsonSerializer.Deserialize<RuntimeConfig>(file, _serializerOptions);
+                return JsonSerializer.Deserialize<RuntimeConfig>(file, s_serializerOptions);
             }
             catch
             {

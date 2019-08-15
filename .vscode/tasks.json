@@ -3,11 +3,24 @@
   "tasks": [
     {
       "command": "dotnet",
-      "taskName": "build",
-      "args": [],
-      "isBuildCommand": true,
-      "showOutput": "silent",
-      "problemMatcher": "$msCompile"
+      "label": "build",
+      "args": [
+        "build",
+        "--no-restore"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": "$msCompile",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

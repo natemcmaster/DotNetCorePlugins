@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Nate McMaster.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -13,6 +14,13 @@ namespace McMaster.NETCore.Plugins.LibraryModel
     [DebuggerDisplay("{Name} = {AdditionalProbingPath}")]
     public class ManagedLibrary
     {
+        private ManagedLibrary(AssemblyName name, string additionalProbingPath, string appLocalPath)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            AdditionalProbingPath = additionalProbingPath ?? throw new ArgumentNullException(nameof(additionalProbingPath));
+            AppLocalPath = appLocalPath ?? throw new ArgumentNullException(nameof(appLocalPath));
+        }
+
         /// <summary>
         /// Name of the managed library
         /// </summary>
@@ -55,12 +63,11 @@ namespace McMaster.NETCore.Plugins.LibraryModel
                 ? Path.GetFileName(assetPath)
                 : assetPath;
 
-            return new ManagedLibrary
-            {
-                Name = new AssemblyName(Path.GetFileNameWithoutExtension(assetPath)),
-                AdditionalProbingPath = Path.Combine(packageId.ToLowerInvariant(), packageVersion, assetPath),
-                AppLocalPath = appLocalPath,
-            };
+            return new ManagedLibrary(
+                new AssemblyName(Path.GetFileNameWithoutExtension(assetPath)),
+                Path.Combine(packageId.ToLowerInvariant(), packageVersion, assetPath),
+                appLocalPath
+            );
         }
     }
 }

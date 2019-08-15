@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Nate McMaster.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -13,6 +14,13 @@ namespace McMaster.NETCore.Plugins.LibraryModel
     [DebuggerDisplay("{Name} = {AdditionalProbingPath}")]
     public class NativeLibrary
     {
+        private NativeLibrary(string name, string appLocalPath, string additionalProbingPath)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            AppLocalPath = appLocalPath ?? throw new ArgumentNullException(nameof(appLocalPath));
+            AdditionalProbingPath = additionalProbingPath ?? throw new ArgumentNullException(nameof(additionalProbingPath));
+        }
+
         /// <summary>
         /// Name of the native library. This should match the name of the P/Invoke call.
         /// <para>
@@ -51,12 +59,11 @@ namespace McMaster.NETCore.Plugins.LibraryModel
         /// <returns></returns>
         public static NativeLibrary CreateFromPackage(string packageId, string packageVersion, string assetPath)
         {
-            return new NativeLibrary
-            {
-                Name = Path.GetFileNameWithoutExtension(assetPath),
-                AppLocalPath = assetPath,
-                AdditionalProbingPath = Path.Combine(packageId.ToLowerInvariant(), packageVersion, assetPath),
-            };
+            return new NativeLibrary(
+                Path.GetFileNameWithoutExtension(assetPath),
+                assetPath,
+                Path.Combine(packageId.ToLowerInvariant(), packageVersion, assetPath)
+            );
         }
     }
 }
