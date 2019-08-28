@@ -37,9 +37,9 @@ namespace HelloWorld
                     .Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsAbstract))
                 {
                     // This assumes the implementation of IPlugin has a parameterless constructor
-                    IPlugin plugin = (IPlugin)Activator.CreateInstance(pluginType);
+                    var plugin = Activator.CreateInstance(pluginType) as IPlugin;
 
-                    Console.WriteLine($"Created plugin instance '{plugin.GetName()}'.");
+                    Console.WriteLine($"Created plugin instance '{plugin?.GetName()}'.");
                 }
             }
         }
