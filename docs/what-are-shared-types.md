@@ -55,9 +55,9 @@ You could solve this problem by
 #### Type unification (option 2)
 
 Type unification is .NET's solution for the diamond dependency problem. In the simple example above,
-.NET's build system<sup>1</sup> would pick the higher version (D.2) and write this into the application manifest 
-(the .deps.json file in build output.) Then, when the application is running and encounters usages of D.1, .NET binds
-hat usage to D.2 instead.
+.NET's build system picks the higher version (D.2) and writes this into the application manifest 
+(the .deps.json or .config file in build output.) Then, when the application is running and encounters usages of D.1, .NET binds
+the usage to D.2 instead.
 
 In other words, .NET will ignore assembly version when evaluating type identity.
 
@@ -100,7 +100,8 @@ PluginLoader.CreateFromAssemblyFile("./plugins/MyPlugin/MyPlugin1.dll",
     sharedTypes: new [] { typeof(ILogger) });
 ```
 
-Finally, you can invert the default completely to **always attempt to unify** by setting `PreferSharedTypes`.
+Finally, you can invert the default completely to **always attempt to unify** by setting `PreferSharedTypes`. In this mode,
+the assembly version provided by the host uses is always used.
 ```csharp
 PluginLoader.CreateFromAssemblyFile("./plugins/MyPlugin/MyPlugin1.dll",
     config => config.PreferSharedTypes = true);
