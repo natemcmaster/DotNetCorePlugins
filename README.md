@@ -17,7 +17,7 @@ Unlike other approaches to dynamic assembly loading, like `Assembly.LoadFrom`, t
 and `runtimeconfig.json` files to probe for dependencies, load native (unmanaged) libraries, and to
 find binaries from runtime stores or package caches. In addition, it allows for fine-grained control over
 which types should be unified between the loader and the plugin, and which can remain isolated from the main
-application.
+application. (Read [more details here](./docs/what-are-shared-types.md).)
 
 Blog post introducing this project: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/)
 
@@ -41,7 +41,7 @@ PluginLoader.CreateFromAssemblyFile(
 ```
 
 * assemblyFile = the file path to the main .dll of the plugin
-* sharedTypes = a list of types which the loader should ensure are unified
+* sharedTypes = a list of types which the loader should ensure are unified. (Read [more details here](./docs/what-are-shared-types.md).)
 * isUnloadable = (.NET Core 3+ only). Allow this plugin to be unloaded from memory at some point in the future. (Requires ensuring that you have cleaned up all usages of types from the plugin before unloading actually happens.)
 
 See example projects in [samples/](./samples/) for more detailed, example usage.
