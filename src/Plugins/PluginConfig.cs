@@ -45,6 +45,9 @@ namespace McMaster.NETCore.Plugins
         /// <summary>
         /// A list of assemblies which should be unified between the host and the plugin.
         /// </summary>
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// </seealso>
         public ICollection<AssemblyName> SharedAssemblies { get; protected set; } = new List<AssemblyName>();
 
         /// <summary>
@@ -52,6 +55,9 @@ namespace McMaster.NETCore.Plugins
         /// <para>
         /// This does not guarantee types will unify.
         /// </para>
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// </seealso>
         /// </summary>
         public bool PreferSharedTypes { get; set; }
 

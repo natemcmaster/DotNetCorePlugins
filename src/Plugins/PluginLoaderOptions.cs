@@ -22,6 +22,11 @@ namespace McMaster.NETCore.Plugins
         /// <para>
         /// This does not guarantee types will unify.
         /// </para>
+        /// <para>
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// </seealso>
+        /// </para>
         /// </summary>
         PreferSharedTypes = 1 << 0,
     }

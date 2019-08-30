@@ -27,7 +27,16 @@ namespace McMaster.NETCore.Plugins
         /// </summary>
         /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
         /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="sharedTypes">
+        /// <para>
+        /// A list of types which should be shared between the host and the plugin.
+        /// </para>
+        /// <para>
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// </seealso>
+        /// </para>
+        /// </param>
         /// <returns>A loader.</returns>
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, Type[] sharedTypes)
             => CreateFromAssemblyFile(assemblyFile,isUnloadable, sharedTypes, _ => { });
@@ -37,7 +46,16 @@ namespace McMaster.NETCore.Plugins
         /// </summary>
         /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
         /// <param name="isUnloadable">Enable unloading the plugin from memory.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="sharedTypes">
+        /// <para>
+        /// A list of types which should be shared between the host and the plugin.
+        /// </para>
+        /// <para>
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// </seealso>
+        /// </para>
+        /// </param>
         /// <param name="configure">A function which can be used to configure advanced options for the plugin loader.</param>
         /// <returns>A loader.</returns>
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, Type[] sharedTypes, Action<PluginConfig> configure)
@@ -56,7 +74,16 @@ namespace McMaster.NETCore.Plugins
         /// Create a plugin loader for an assembly file.
         /// </summary>
         /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="sharedTypes">
+        /// <para>
+        /// A list of types which should be shared between the host and the plugin.
+        /// </para>
+        /// <para>
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// </seealso>
+        /// </para>
+        /// </param>
         /// <returns>A loader.</returns>
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes)
             => CreateFromAssemblyFile(assemblyFile, sharedTypes, _ => { });
@@ -72,7 +99,7 @@ namespace McMaster.NETCore.Plugins
             {
                 o.PreferSharedTypes = loaderOptions.HasFlag(PluginLoaderOptions.PreferSharedTypes);
             });
-        
+
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
@@ -90,7 +117,16 @@ namespace McMaster.NETCore.Plugins
         /// Create a plugin loader for an assembly file.
         /// </summary>
         /// <param name="assemblyFile">The file path to the main assembly for the plugin.</param>
-        /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
+        /// <param name="sharedTypes">
+        /// <para>
+        /// A list of types which should be shared between the host and the plugin.
+        /// </para>
+        /// <para>
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// </seealso>
+        /// </para>
+        /// </param>
         /// <param name="configure">A function which can be used to configure advanced options for the plugin loader.</param>
         /// <returns>A loader.</returns>
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes, Action<PluginConfig> configure)
