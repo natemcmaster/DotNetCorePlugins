@@ -1,6 +1,6 @@
-# An Explanation of the Shared Types
+# An Explanation of Shared Types
 
-The PluginLoader API mentions "shared types". This document explains what it means.
+The PluginLoader API uses the term "shared types". This document explains what it means.
 
 ```csharp
 PluginLoader.CreateFromAssemblyFile("./plugins/MyPlugin/MyPlugin1.dll",
