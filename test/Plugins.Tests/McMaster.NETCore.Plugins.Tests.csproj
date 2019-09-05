@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Plugins\McMaster.NETCore.Plugins.csproj" />
     <ProjectReference Include="..\TestProjects\ReferencedLibv1\ReferencedLibv1.csproj" />
+    <ProjectReference Include="..\TestProjects\SharedAbstraction.v2\SharedAbstraction.v2.csproj" />
     <TestProject Include="..\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj" />
     <TestProject Include="..\TestProjects\DrawingApp\DrawingApp.csproj" />
     <TestProject Include="..\TestProjects\NetCoreApp20App\NetCoreApp20App.csproj" />
@@ -26,6 +27,7 @@
     <TestProject Include="..\TestProjects\Plátano\Plátano.csproj" />
     <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
     <TestProject Include="..\TestProjects\SqlClientApp\SqlClientApp.csproj" />
+    <TestProject Include="..\TestProjects\TransitivePlugin\TransitivePlugin.csproj" />
     <PublishedTestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
   </ItemGroup>
 

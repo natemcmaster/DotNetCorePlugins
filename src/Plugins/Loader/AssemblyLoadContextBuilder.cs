@@ -127,9 +127,21 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns>The builder.</returns>
         public AssemblyLoadContextBuilder PreferDefaultLoadContextAssembly(AssemblyName assemblyName)
         {
-            if (assemblyName.Name != null)
+            if (assemblyName.Name == null || _defaultAssemblies.Contains(assemblyName.Name))
             {
-                _defaultAssemblies.Add(assemblyName.Name);
+                // base cases
+                return this;
+            }
+
+            _defaultAssemblies.Add(assemblyName.Name);
+
+            // Recursively load and find all dependencies of default assemblies.
+            // This sacrifices some performance for determinism in how transitive
+            // dependencies will be shared between host and plugin.
+            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(assemblyName);
+            foreach (var reference in assembly.GetReferencedAssemblies())
+            {
+                PreferDefaultLoadContextAssembly(reference);
             }
 
             return this;

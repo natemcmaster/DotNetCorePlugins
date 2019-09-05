@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using Test.Referenced.Library;
+using Test.Shared.Abstraction;
 using Xunit;
 
 namespace McMaster.NETCore.Plugins.Tests
@@ -29,6 +30,26 @@ namespace McMaster.NETCore.Plugins.Tests
                 var fruit = (IFruit)Activator.CreateInstance(fruitType)!;
                 Assert.NotNull(fruit.GetFlavor());
             }
+        }
+
+        /// <summary>
+        /// This is a carefully crafted example which tests
+        /// that the assembly dependencies of shared types are
+        /// accounted for. Without this, the order in which code loads
+        /// could cause different assembly versions to be loaded.
+        /// </summary>
+        [Fact]
+        public void TransitiveAssembliesOfSharedTypesAreResolved()
+        {
+            using var loader = PluginLoader.CreateFromAssemblyFile(
+                    TestResources.GetTestProjectAssembly("TransitivePlugin"),
+                    sharedTypes: new[] { typeof(SharedType) });
+
+            var assembly = loader.LoadDefaultAssembly();
+            var configType = assembly.GetType("TransitivePlugin.PluginConfig", throwOnError: true)!;
+            var config = Activator.CreateInstance(configType);
+            var transitiveInstance = configType.GetMethod("GetTransitiveType")?.Invoke(config, null);
+            Assert.IsType<Test.Transitive.TransitiveSharedType>(transitiveInstance);
         }
     }
 }
