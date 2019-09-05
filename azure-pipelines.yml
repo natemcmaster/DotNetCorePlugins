@@ -5,11 +5,7 @@ pr:
 - '*'
 
 variables:
-- name: kv-access-token
-  value: ''
 - group: AzureKeyVault
-- name: DOTNET_SKIP_FIRST_TIME_EXPERIENCE
-  value: 1
 - name: BuildNumber
   value: $[counter('buildnumber')]
 
@@ -31,10 +27,8 @@ jobs:
       packageType: runtime
   - powershell: ./build.ps1 -ci
     displayName: Invoke build.ps1
-    condition: eq(variables['kv-access-token'], '')
-  - powershell: ./build.ps1 -ci /p:AzureKeyVaultClientSecret=$(kv-access-token)
-    displayName: Invoke build.ps1 with code signing
-    condition: ne(variables['kv-access-token'], '')
+    env:
+      KEYVAULT_CLIENT_SECRET: $(kv-access-token)
   - task: PublishTestResults@2
     displayName: Upload test results
     condition: always()
@@ -43,11 +37,9 @@ jobs:
       testRunTitle: Windows
       testRunner: vstest
       testResultsFiles: '**/*.trx'
-  - task: PublishBuildArtifacts@1
+  - publish: 'artifacts/'
+    artifact: 'Packages'
     displayName: Publish artifacts
-    inputs:
-      pathtoPublish: 'artifacts/'
-      artifactName: 'Packages'
 - job: Linux
   pool:
     vmImage: 'Ubuntu-16.04'

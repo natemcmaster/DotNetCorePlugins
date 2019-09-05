@@ -1,9 +1,5 @@
 <Project>
 
-  <Import Project="version.props" />
-  <Import Project="$(MSBuildProjectDirectory)\releasenotes.props"
-          Condition="Exists('$(MSBuildProjectDirectory)\releasenotes.props')" />
-
   <PropertyGroup>
     <Authors>Nate McMaster</Authors>
     <Product>DotNetCorePlugins</Product>
@@ -37,5 +33,20 @@
     <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory).build\obj\$(MSBuildProjectName)\</BaseIntermediateOutputPath>
     <BaseOutputPath>$(MSBuildThisFileDirectory).build\bin\$(MSBuildProjectName)\</BaseOutputPath>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <VersionPrefix>0.3.0</VersionPrefix>
+    <VersionSuffix>beta</VersionSuffix>
+    <IncludePreReleaseLabelInPackageVersion Condition="'$(IsStableBuild)' != 'true'">true</IncludePreReleaseLabelInPackageVersion>
+    <BuildNumber Condition=" '$(BuildNumber)' == '' ">$([MSBuild]::ValueOrDefault($(BUILD_NUMBER), 0))</BuildNumber>
+    <VersionSuffix>$(VersionSuffix).$(BuildNumber)</VersionSuffix>
+    <SourceRevisionId Condition="'$(SourceRevisionId)' == ''">$(BUILD_SOURCEVERSION)</SourceRevisionId>
+    <PackageVersion>$(VersionPrefix)</PackageVersion>
+    <PackageVersion Condition="'$(IncludePreReleaseLabelInPackageVersion)' == 'true'">$(PackageVersion)-$(VersionSuffix)</PackageVersion>
+    <InformationalVersion Condition="'$(SourceRevisionId)' != ''">$(PackageVersion)+$(SourceRevisionId)</InformationalVersion>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildProjectDirectory)\releasenotes.props"
+          Condition="Exists('$(MSBuildProjectDirectory)\releasenotes.props')" />
 
 </Project>
