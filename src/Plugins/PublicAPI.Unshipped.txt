@@ -1,0 +1,9 @@
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreloadAssembliesIntoMemory() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.get -> bool
+McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.set -> void
+McMaster.NETCore.Plugins.PluginLoader.Reload() -> void
+McMaster.NETCore.Plugins.PluginLoader.Reloaded -> McMaster.NETCore.Plugins.PluginReloadedEventHandler
+McMaster.NETCore.Plugins.PluginReloadedEventArgs
+McMaster.NETCore.Plugins.PluginReloadedEventArgs.Loader.get -> McMaster.NETCore.Plugins.PluginLoader
+McMaster.NETCore.Plugins.PluginReloadedEventArgs.PluginReloadedEventArgs(McMaster.NETCore.Plugins.PluginLoader loader) -> void
+McMaster.NETCore.Plugins.PluginReloadedEventHandler

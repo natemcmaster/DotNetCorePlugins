@@ -62,10 +62,22 @@ namespace McMaster.NETCore.Plugins
         public bool PreferSharedTypes { get; set; }
 
 #if FEATURE_UNLOAD
+        private bool _isUnloadable;
+
         /// <summary>
         /// The plugin can be unloaded from memory.
         /// </summary>
-        public bool IsUnloadable { get; set; }
+        public bool IsUnloadable
+        {
+            get => _isUnloadable || EnableHotReload;
+            set => _isUnloadable = value;
+        }
+
+        /// <summary>
+        /// When any of the loaded files changes on disk, the plugin will be reloaded.
+        /// Use the event <see cref="PluginLoader.Reloaded" /> to be notified of changes.
+        /// </summary>
+        public bool EnableHotReload { get; set; }
 #endif
     }
 }

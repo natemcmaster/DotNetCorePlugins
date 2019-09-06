@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!--
+      Required for the samples in this repo only.
+      Normally, you should replace this with a PackageReference to McMaster.NETCore.Plugins.
+    -->
+    <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.NETCore.Plugins.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -28,6 +28,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
+        private bool _loadInMemory;
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif
@@ -40,7 +41,8 @@ namespace McMaster.NETCore.Plugins.Loader
             IReadOnlyCollection<string> additionalProbingPaths,
             IReadOnlyCollection<string> resourceProbingPaths,
             bool preferDefaultLoadContext,
-            bool isCollectible)
+            bool isCollectible,
+            bool loadInMemory)
 #if FEATURE_UNLOAD
             : base(Path.GetFileNameWithoutExtension(mainAssemblyPath), isCollectible)
 #endif
@@ -61,6 +63,7 @@ namespace McMaster.NETCore.Plugins.Loader
             _nativeLibraries = nativeLibraries ?? throw new ArgumentNullException(nameof(nativeLibraries));
             _additionalProbingPaths = additionalProbingPaths ?? throw new ArgumentNullException(nameof(additionalProbingPaths));
             _preferDefaultLoadContext = preferDefaultLoadContext;
+            _loadInMemory = loadInMemory;
 
             _resourceRoots = new[] { _basePath }
                 .Concat(resourceProbingPaths)
@@ -143,6 +146,17 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             return null;
+        }
+
+        private new Assembly LoadFromAssemblyPath(string path)
+        {
+            if (!_loadInMemory)
+            {
+                return base.LoadFromAssemblyPath(path);
+            }
+
+            using var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return LoadFromStream(file);
         }
 
         /// <summary>
