@@ -254,8 +254,9 @@ namespace McMaster.NETCore.Plugins.Loader
         }
 
         /// <summary>
-        /// Read .dll files into memory to avoid file locks from dotnet.exe.
-        /// This is not as effecient, so is not enabled by default.
+        /// Read .dll files into memory to avoid locking the files.
+        /// This is not as efficient, so is not enabled by default, but is required for scenarios
+        /// like hot reloading.
         /// </summary>
         /// <returns>The builder</returns>
         public AssemblyLoadContextBuilder PreloadAssembliesIntoMemory()

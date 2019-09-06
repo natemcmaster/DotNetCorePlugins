@@ -257,15 +257,18 @@ namespace McMaster.NETCore.Plugins
 
             _fileWatcher = new FileSystemWatcher();
             _fileWatcher.Path = Path.GetDirectoryName(_config.MainAssemblyPath);
-            _fileWatcher.Changed += OnChanged;
+            _fileWatcher.Changed += OnFileChanged;
             _fileWatcher.Filter = "*.dll";
             _fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
             _fileWatcher.EnableRaisingEvents = true;
         }
 
-        private void OnChanged(object source, FileSystemEventArgs e)
+        private void OnFileChanged(object source, FileSystemEventArgs e)
         {
-            Reload();
+            if (!_disposed)
+            {
+                Reload();
+            }
         }
 #endif
 
@@ -328,7 +331,7 @@ namespace McMaster.NETCore.Plugins
             if (_fileWatcher != null)
             {
                 _fileWatcher.EnableRaisingEvents = false;
-                _fileWatcher.Changed -= OnChanged;
+                _fileWatcher.Changed -= OnFileChanged;
                 _fileWatcher.Dispose();
             }
 
