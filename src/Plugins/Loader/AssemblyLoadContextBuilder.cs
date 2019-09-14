@@ -28,6 +28,7 @@ namespace McMaster.NETCore.Plugins.Loader
 
 #if FEATURE_UNLOAD
         private bool _isCollectible;
+        private bool _loadInMemory;
 #endif
 
         /// <summary>
@@ -60,9 +61,11 @@ namespace McMaster.NETCore.Plugins.Loader
                 resourceProbingPaths,
                 _preferDefaultLoadContext,
 #if FEATURE_UNLOAD
-                _isCollectible);
+                _isCollectible,
+                _loadInMemory);
 #else
-                isCollectible: false);
+                isCollectible: false,
+                loadInMemory: false);
 #endif
         }
 
@@ -247,6 +250,18 @@ namespace McMaster.NETCore.Plugins.Loader
         public AssemblyLoadContextBuilder EnableUnloading()
         {
             _isCollectible = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Read .dll files into memory to avoid locking the files.
+        /// This is not as efficient, so is not enabled by default, but is required for scenarios
+        /// like hot reloading.
+        /// </summary>
+        /// <returns>The builder</returns>
+        public AssemblyLoadContextBuilder PreloadAssembliesIntoMemory()
+        {
+            _loadInMemory = true; // required to prevent dotnet from locking loaded files
             return this;
         }
 #endif
