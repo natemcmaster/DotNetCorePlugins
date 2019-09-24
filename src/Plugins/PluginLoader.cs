@@ -89,11 +89,19 @@ namespace McMaster.NETCore.Plugins
             => CreateFromAssemblyFile(assemblyFile, sharedTypes, _ => { });
 
         /// <summary>
+        /// <para>
+        /// Obsolete. Use <see cref="CreateFromAssemblyFile(string, Action{PluginConfig})" /> instead.
+        /// See https://github.com/natemcmaster/DotNetCorePlugins/issues/76 for details.
+        /// </para>
+        /// <para>
         /// Create a plugin loader for an assembly file.
+        /// </para>
         /// </summary>
         /// <param name="assemblyFile">The file path to the plugin config.</param>
         /// <param name="loaderOptions">Options for the loader</param>
-        [Obsolete("This API is obsolete and will be removed in a future version. The recommended replacement is one of the other overloads of this method which does not use PluginLoaderOptions.")]
+        [Obsolete("This API is obsolete and will be removed in a future version. The recommended replacement " +
+                  " is one of the other overloads of this method which does not use PluginLoaderOptions. " +
+                  "See  https://github.com/natemcmaster/DotNetCorePlugins/issues/76 for more details.")]
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, PluginLoaderOptions loaderOptions)
             => CreateFromAssemblyFile(assemblyFile, o =>
             {
@@ -101,12 +109,20 @@ namespace McMaster.NETCore.Plugins
             });
 
         /// <summary>
+        /// <para>
+        /// Obsolete. Use <see cref="CreateFromAssemblyFile(string, Type[], Action{PluginConfig})" /> instead.
+        /// See https://github.com/natemcmaster/DotNetCorePlugins/issues/76 for details.
+        /// </para>
+        /// <para>
         /// Create a plugin loader for an assembly file.
+        /// </para>
         /// </summary>
         /// <param name="assemblyFile">The file path to the plugin config.</param>
         /// <param name="sharedTypes">A list of types which should be shared between the host and the plugin.</param>
         /// <param name="loaderOptions">Options for the loader</param>
-        [Obsolete("This API is obsolete and will be removed in a future version. The recommended replacement is one of the other overloads of this method which does not use PluginLoaderOptions.")]
+        [Obsolete("This API is obsolete and will be removed in a future version. The recommended replacement " +
+                  "is one of the other overloads of this method which does not use PluginLoaderOptions. " +
+                  "See https://github.com/natemcmaster/DotNetCorePlugins/issues/76 for more details.")]
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, Type[] sharedTypes, PluginLoaderOptions loaderOptions)
             => CreateFromAssemblyFile(assemblyFile, sharedTypes, o =>
             {

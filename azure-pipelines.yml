@@ -19,7 +19,6 @@ jobs:
     inputs:
       version: '3.0.x'
       packageType: sdk
-      includePreviewVersions: true
   - task: UseDotNet@2
     displayName: Install .NET Core 2.2
     inputs:
@@ -49,7 +48,6 @@ jobs:
     inputs:
       version: '3.0.x'
       packageType: sdk
-      includePreviewVersions: true
   - task: UseDotNet@2
     displayName: Install .NET Core 2.2
     inputs:

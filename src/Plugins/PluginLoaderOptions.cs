@@ -9,7 +9,8 @@ namespace McMaster.NETCore.Plugins
     /// Options for how <see cref="PluginLoader"/> behaves.
     /// </summary>
     [Flags]
-    [Obsolete("This API is obsolete and will be removed in a future version. The recommended replacement is PluginConfig")]
+    [Obsolete("This API is obsolete and will be removed in a future version. The recommended replacement is PluginConfig. " +
+              "See https://github.com/natemcmaster/DotNetCorePlugins/issues/76 for more details.")]
     public enum PluginLoaderOptions
     {
         /// <summary>

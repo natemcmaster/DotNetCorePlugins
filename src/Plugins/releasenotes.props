@@ -4,6 +4,7 @@
 Changes:
 * .NET Core 3.0 support
 * Support unloading plugins from memory (only .NET Core &gt;3.0)
+* Support hot reloading (only .NET Core &gt;3.0)
 
 Fixes:
 * Fix errors in loading the transitive dependencies of shared types
