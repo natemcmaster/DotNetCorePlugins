@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  elasticsearchtest:
+    image: ${DOCKER_REGISTRY-}elasticsearchtest
+    build:
+      context: .
+      dockerfile: ElasticSearchTest/Dockerfile
+  elasticsearchtest:
+    image: elasticsearch
