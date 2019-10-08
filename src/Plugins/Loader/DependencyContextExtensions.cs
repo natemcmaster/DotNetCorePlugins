@@ -105,7 +105,7 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns>The builder.</returns>
         public static AssemblyLoadContextBuilder AddDependencyContext(this AssemblyLoadContextBuilder builder, DependencyContext dependencyContext)
         {
-            var ridGraph = dependencyContext.RuntimeGraph.Any()
+            var ridGraph = dependencyContext.RuntimeGraph.Any() || DependencyContext.Default == null
                ? dependencyContext.RuntimeGraph
                : DependencyContext.Default.RuntimeGraph;
 
