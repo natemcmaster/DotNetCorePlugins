@@ -11,7 +11,8 @@ namespace ServiceImplementation
     {
         public void Configure(IServiceCollection services)
         {
-           // services.AddSingleton<IFruitService, OverrideFruiteService>();
+            //this service override the standard one. unload this plugin or comment this to use the basic service
+            services.AddSingleton<IFruitService, OverrideFruiteService>();
         }
     }
 }
