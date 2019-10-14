@@ -8,7 +8,7 @@
   <ItemGroup>
     <!--
       Required for the samples in this repo only.
-      Normally, you should replace this with a PackageReference to McMaster.NETCore.Pluginsc.
+      Normally, you should replace this with a PackageReference to McMaster.NETCore.Plugins.
     -->
     <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.NETCore.Plugins.csproj" />
     <ProjectReference Include="..\SharedAbstractions\SharedAbstractions.csproj" />

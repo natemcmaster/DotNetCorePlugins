@@ -1,9 +1,5 @@
 ﻿using Contracts;
 using Microsoft.Extensions.DependencyInjection;
-using ServiceImplementation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ServiceImplementation
 {

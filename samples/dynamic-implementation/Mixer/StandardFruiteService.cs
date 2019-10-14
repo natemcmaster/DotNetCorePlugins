@@ -1,7 +1,5 @@
-﻿using Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Contracts;
 
 namespace Mixer
 {
@@ -11,9 +9,9 @@ namespace Mixer
         {
             return new List<Fruit>()
             {
-                new Fruit(){ Name="Banana"},
-                new Fruit(){ Name="Apple"},
-                new Fruit(){ Name="Carrot"},
+                new Fruit { Name="Banana" },
+                new Fruit { Name="Apple" },
+                new Fruit { Name="Carrot" },
             };
         }
     }

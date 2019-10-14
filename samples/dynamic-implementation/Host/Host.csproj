@@ -7,7 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="McMaster.NETCore.Plugins" Version="0.3.0" />
+    <!--
+      Required for the samples in this repo only.
+      Normally, you should replace this with a PackageReference to McMaster.NETCore.Plugins.
+    -->
+    <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.NETCore.Plugins.csproj" />
+
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
   </ItemGroup>
 

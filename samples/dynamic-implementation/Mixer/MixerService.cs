@@ -1,14 +1,10 @@
-﻿using Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using System.Linq;
+using Contracts;
 
 namespace Mixer
 {
-    public class MixerService:IMixerService
+    public class MixerService : IMixerService
     {
-
         protected IFruitService fruit;
         public MixerService(IFruitService fruit)
         {
@@ -17,7 +13,7 @@ namespace Mixer
 
         public string MixIt()
         {
-            return string.Join(",", this.fruit.GetFruits().Select(x => x.Name).ToArray());
+            return string.Join(",", fruit.GetFruits().Select(x => x.Name).ToArray());
         }
     }
 }

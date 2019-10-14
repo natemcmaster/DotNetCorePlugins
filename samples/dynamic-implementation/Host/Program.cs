@@ -1,11 +1,10 @@
-﻿using Contracts;
-using McMaster.NETCore.Plugins;
-using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
+using Contracts;
+using McMaster.NETCore.Plugins;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Host
 {
@@ -18,10 +17,10 @@ namespace Host
 
             ConfigureServices(services, loaders);
 
-             var serviceProvider = services.BuildServiceProvider();
+            var serviceProvider = services.BuildServiceProvider();
 
             var mixer = serviceProvider.GetRequiredService<IMixerService>();
-            var result=mixer.MixIt();
+            var result = mixer.MixIt();
         }
 
         private static List<PluginLoader> GetPluginLoaders()
