@@ -329,6 +329,18 @@ namespace McMaster.NETCore.Plugins
             return LoadAssembly(new AssemblyName(assemblyName));
         }
 
+#if NETCOREAPP3_0
+        /// <summary>
+        /// Sets the scope used by some System.Reflection APIs which might trigger assembly loading.
+        /// <para>
+        /// See https://github.com/dotnet/coreclr/blob/v3.0.0/Documentation/design-docs/AssemblyLoadContext.ContextualReflection.md for more details.
+        /// </para>
+        /// </summary>
+        /// <returns></returns>
+        public AssemblyLoadContext.ContextualReflectionScope EnterContextualReflection()
+            => _context.EnterContextualReflection();
+#endif
+
         /// <summary>
         /// Disposes the plugin loader. This only does something if <see cref="IsUnloadable" /> is true.
         /// When true, this will unload assemblies which which were loaded during the lifetime

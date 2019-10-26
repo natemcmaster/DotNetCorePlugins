@@ -1,1 +1,1 @@
-
+McMaster.NETCore.Plugins.PluginLoader.EnterContextualReflection() -> System.Runtime.Loader.AssemblyLoadContext.ContextualReflectionScope
