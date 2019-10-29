@@ -16,6 +16,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <DebugType>portable</DebugType>
     <IsPackable>false</IsPackable>
+    <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
     <LangVersion>8.0</LangVersion>
     <Nullable>annotations</Nullable>
     <Nullable Condition="'$(TargetFramework)' == 'netcoreapp3.0'">enable</Nullable>
