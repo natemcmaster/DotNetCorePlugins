@@ -1,5 +1,10 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
+Changes:
+* Add an API to enable contextual reflection in .NET Core 3+
+* Remove API that was made obsolete in 0.3.0
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.3.1'">
 Fixes:
 * @CopaDataPM: Support CoreCLR in native apps (#80)

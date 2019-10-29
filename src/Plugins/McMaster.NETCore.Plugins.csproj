@@ -10,9 +10,10 @@
     <OutputType>library</OutputType>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageDescription>Provides API for consuming .NET Core and .NET Standard assemblies as plugins to a .NET Core application.
+    <PackageDescription>Provides API for dynamically loading assemblies into a .NET application.
 
 This package should be used by the host application which needs to load plugins.
+See https://github.com/natemcmaster/DotNetCorePlugins/blob/master/README.md for more samples and documentaiton.
     </PackageDescription>
     <PackageTags>.NET Core;plugins</PackageTags>
     <DefineConstants Condition="'$(TargetFramework)' == 'netcoreapp3.0'">$(DefineConstants);FEATURE_UNLOAD</DefineConstants>

@@ -32,6 +32,7 @@ McMaster.NETCore.Plugins.PluginReloadedEventArgs.PluginReloadedEventArgs(McMaste
 McMaster.NETCore.Plugins.PluginReloadedEventHandler
 McMaster.NETCore.Plugins.PluginConfig.PrivateAssemblies.set -> void
 McMaster.NETCore.Plugins.PluginLoader
+McMaster.NETCore.Plugins.PluginLoader.EnterContextualReflection() -> System.Runtime.Loader.AssemblyLoadContext.ContextualReflectionScope
 McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(System.Reflection.AssemblyName assemblyName) -> System.Reflection.Assembly
 McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(string assemblyName) -> System.Reflection.Assembly
 McMaster.NETCore.Plugins.PluginLoader.LoadDefaultAssembly() -> System.Reflection.Assembly

@@ -5,7 +5,7 @@
     <OutputType>library</OutputType>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageDescription>Provides API for consuming .NET Core and .NET Standard assemblies as plugins to a ASP.NET Core web application.
+    <PackageDescription>Provides API for dynamically loading MVC controllers into an ASP.NET Core web application.
 
 This package should be used by the host application which needs to load plugins.
     </PackageDescription>
