@@ -1,15 +1,12 @@
 .NET Core Plugins
 =================
 
-[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=master)](https://dev.azure.com/natemcmaster/github/_build/latest?definitionId=6&branchName=master)
+[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=master)](https://dev.azure.com/natemcmaster/github/_build/latest?definitionId=6&branchName=master) 
 
 [![NuGet][main-nuget-badge]][main-nuget]
-[![MyGet][main-myget-badge]][main-myget]
 
 [main-nuget]: https://www.nuget.org/packages/McMaster.NETCore.Plugins/
 [main-nuget-badge]: https://img.shields.io/nuget/v/McMaster.NETCore.Plugins.svg?style=flat-square&label=nuget
-[main-myget]: https://www.myget.org/feed/natemcmaster/package/nuget/McMaster.NETCore.Plugins
-[main-myget-badge]: https://img.shields.io/www.myget/natemcmaster/vpre/McMaster.NETCore.Plugins.svg?style=flat-square&label=myget
 
 This project provides API for loading .NET Core assemblies dynamically, executing them as extensions to the main application, and finding and **isolating** the dependencies of the plugin from the main application.
 
@@ -22,8 +19,6 @@ application. (Read [more details here](./docs/what-are-shared-types.md).)
 Blog post introducing this project: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/)
 
 ## Getting started
-
-Pre-release builds and symbols: https://www.myget.org/gallery/natemcmaster/
 
 You can install the plugin loading API using the `McMaster.NETCore.Plugins` NuGet package.
 
