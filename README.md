@@ -1,7 +1,7 @@
 .NET Core Plugins
 =================
 
-[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=master)](https://dev.azure.com/natemcmaster/github/_build/latest?definitionId=6&branchName=master) 
+[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=master)](https://dev.azure.com/natemcmaster/github/_build/latest?definitionId=6&branchName=master)
 
 [![NuGet][main-nuget-badge]][main-nuget]
 
@@ -164,3 +164,24 @@ public class Startup
 ```
 
 See example projects in [samples/aspnetcore-mvc/](./samples/aspnetcore-mvc/) for more detailed, example usage.
+
+### Reflection
+
+Sometimes you may want to use a plugin along with reflection APIs such as `Type.GetType(string typeName)`
+or `Assembly.Load(string assemblyString)`. Depending on where these APIs are used, they might fail to
+load the assemblies in your plugin. In .NET Core 3+, there is an API which you can use to set the _ambient context_
+which .NET's reflection APIs will use to load the correct assemblies from your plugin.
+
+Example:
+```c#
+var loader = PluginLoader.CreateFromAssemblyFile("./plugins/MyPlugin/MyPlugin1.dll");
+
+using (loader.EnterContextualReflection())
+{
+    var myPluginType = Type.GetType("MyPlugin.PluginClass");
+    var myPluginAssembly = Assembly.Load("MyPlugin1");
+}
+
+```
+
+Read [this post written by .NET Core engineers](https://github.com/dotnet/coreclr/blob/v3.0.0/Documentation/design-docs/AssemblyLoadContext.ContextualReflection.md) for even more details on contextual reflection.

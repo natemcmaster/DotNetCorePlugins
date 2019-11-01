@@ -2,7 +2,7 @@
   <PropertyGroup>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
 Changes:
-* Add an API to enable contextual reflection in .NET Core 3+
+* Add an API to enable contextual reflection in .NET Core 3+ (see https://github.com/natemcmaster/DotNetCorePlugins/blob/v1.0.0/README.md#Reflection for details)
 * Remove API that was made obsolete in 0.3.0
     </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.3.1'">
