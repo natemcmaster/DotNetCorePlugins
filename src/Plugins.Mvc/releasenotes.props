@@ -1,0 +1,8 @@
+﻿<Project>
+  <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
+Changes:
+* Add new API: IMvcBuilder.AddPluginLoader(PluginLoader pluginLoader)
+    </PackageReleaseNotes>
+  </PropertyGroup>
+</Project>
