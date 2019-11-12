@@ -133,11 +133,27 @@ namespace WebHost
                        });
             var implLoadedLib = implLoader.LoadDefaultAssembly();
 
-            // Invoke configuration
+            //Load plugin implementation Override
+            var assImplOverride = Path.Combine(AppContext.BaseDirectory, @"PluginImplOverride\PluginImplOverride\PluginImplOverride.dll");
+            var implLoaderOverride = PluginLoader.CreateFromAssemblyFile(
+                       assImplOverride,
+                       sharedTyes.ToArray(),
+                       conf => {
+                           conf.PreferSharedTypes = true;
+                       });
+            var implOverrideLoadedLib = implLoaderOverride.LoadDefaultAssembly();
+
+            // Invoke configuration for implementation
             var configType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImpl")).First().GetTypes()
                 .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
             var plugin = Activator.CreateInstance(configType) as IPluginFactory;
             plugin.Configure(services);
+
+            // Invoke configuration for Override
+            var configOverrideType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImplOverride")).First().GetTypes()
+                .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
+            var pluginOverride = Activator.CreateInstance(configOverrideType) as IPluginFactory;
+            pluginOverride.Configure(services);
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
