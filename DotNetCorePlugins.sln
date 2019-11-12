@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29209.152
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{471CA3C0-0BC9-4C0C-A013-D9356DBD0F38}"
 EndProject
@@ -99,21 +99,31 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPlugin2", "samples\depend
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DI.SharedAbstractions", "samples\dependency-injection\DI.SharedAbstractions\DI.SharedAbstractions.csproj", "{40E1EB3E-0CAE-45B1-B146-C7C8B3865C65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransitiveDep.v2", "test\TestProjects\TransitiveDep.v2\TransitiveDep.v2.csproj", "{CE0C0288-E0A3-4B06-B05F-CCBFFC4E7BF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransitiveDep.v2", "test\TestProjects\TransitiveDep.v2\TransitiveDep.v2.csproj", "{CE0C0288-E0A3-4B06-B05F-CCBFFC4E7BF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedAbstraction.v1", "test\TestProjects\SharedAbstraction.v1\SharedAbstraction.v1.csproj", "{D5519A45-AD22-41DB-ADDA-589C3E7D6C0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedAbstraction.v1", "test\TestProjects\SharedAbstraction.v1\SharedAbstraction.v1.csproj", "{D5519A45-AD22-41DB-ADDA-589C3E7D6C0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransitiveDep.v1", "test\TestProjects\TransitiveDep.v1\TransitiveDep.v1.csproj", "{704EA4BF-71D9-442B-96D9-9B3E81068CC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransitiveDep.v1", "test\TestProjects\TransitiveDep.v1\TransitiveDep.v1.csproj", "{704EA4BF-71D9-442B-96D9-9B3E81068CC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedAbstraction.v2", "test\TestProjects\SharedAbstraction.v2\SharedAbstraction.v2.csproj", "{3549E707-E4B0-428F-9CF4-5B5B86219B6D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedAbstraction.v2", "test\TestProjects\SharedAbstraction.v2\SharedAbstraction.v2.csproj", "{3549E707-E4B0-428F-9CF4-5B5B86219B6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TransitivePlugin", "test\TestProjects\TransitivePlugin\TransitivePlugin.csproj", "{1EA2BACF-3D44-4B05-A0E7-727AE13E693D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransitivePlugin", "test\TestProjects\TransitivePlugin\TransitivePlugin.csproj", "{1EA2BACF-3D44-4B05-A0E7-727AE13E693D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "hot-reload", "hot-reload", "{07E0093F-F05C-4AED-A489-1254C9854E21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotReloadApp", "samples\hot-reload\HotReloadApp\HotReloadApp.csproj", "{D815817F-CC0D-42CC-9C9C-8E229B9C03A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotReloadApp", "samples\hot-reload\HotReloadApp\HotReloadApp.csproj", "{D815817F-CC0D-42CC-9C9C-8E229B9C03A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimestampedPlugin", "samples\hot-reload\TimestampedPlugin\TimestampedPlugin.csproj", "{FAB78955-5E1F-4E6D-A79B-F85D8D18BDF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimestampedPlugin", "samples\hot-reload\TimestampedPlugin\TimestampedPlugin.csproj", "{FAB78955-5E1F-4E6D-A79B-F85D8D18BDF4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dynamic-web-implementation", "dynamic-web-implementation", "{99D8E112-6357-4D7B-98AD-D9197BEBC1DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost", "samples\dynamic-web-implementation\WebHost\WebHost.csproj", "{D217589D-4164-4730-A7A0-F56B7035D175}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginLib", "samples\dynamic-web-implementation\PluginLib\PluginLib.csproj", "{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginImpl", "samples\dynamic-web-implementation\PluginImpl\PluginImpl.csproj", "{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library", "samples\dynamic-web-implementation\Library\Library.csproj", "{D01816AF-9B5B-4B2F-A147-B212E1A62101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -569,6 +579,54 @@ Global
 		{FAB78955-5E1F-4E6D-A79B-F85D8D18BDF4}.Release|x64.Build.0 = Release|Any CPU
 		{FAB78955-5E1F-4E6D-A79B-F85D8D18BDF4}.Release|x86.ActiveCfg = Release|Any CPU
 		{FAB78955-5E1F-4E6D-A79B-F85D8D18BDF4}.Release|x86.Build.0 = Release|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Debug|x64.Build.0 = Debug|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Debug|x86.Build.0 = Debug|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Release|x64.ActiveCfg = Release|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Release|x64.Build.0 = Release|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Release|x86.ActiveCfg = Release|Any CPU
+		{D217589D-4164-4730-A7A0-F56B7035D175}.Release|x86.Build.0 = Release|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Debug|x64.Build.0 = Debug|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Debug|x86.Build.0 = Debug|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Release|x64.ActiveCfg = Release|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Release|x64.Build.0 = Release|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}.Release|x86.Build.0 = Release|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Debug|x64.Build.0 = Debug|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Debug|x86.Build.0 = Debug|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Release|x64.ActiveCfg = Release|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Release|x64.Build.0 = Release|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Release|x86.ActiveCfg = Release|Any CPU
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}.Release|x86.Build.0 = Release|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Debug|x64.Build.0 = Debug|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Debug|x86.Build.0 = Debug|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Release|x64.ActiveCfg = Release|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Release|x64.Build.0 = Release|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Release|x86.ActiveCfg = Release|Any CPU
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -617,6 +675,11 @@ Global
 		{07E0093F-F05C-4AED-A489-1254C9854E21} = {F49FFE3B-E1AE-483E-951F-D498F6ABA08E}
 		{D815817F-CC0D-42CC-9C9C-8E229B9C03A8} = {07E0093F-F05C-4AED-A489-1254C9854E21}
 		{FAB78955-5E1F-4E6D-A79B-F85D8D18BDF4} = {07E0093F-F05C-4AED-A489-1254C9854E21}
+		{99D8E112-6357-4D7B-98AD-D9197BEBC1DF} = {F49FFE3B-E1AE-483E-951F-D498F6ABA08E}
+		{D217589D-4164-4730-A7A0-F56B7035D175} = {99D8E112-6357-4D7B-98AD-D9197BEBC1DF}
+		{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF} = {99D8E112-6357-4D7B-98AD-D9197BEBC1DF}
+		{E512CC43-D060-49D5-8D0B-4A0E758EDBBD} = {99D8E112-6357-4D7B-98AD-D9197BEBC1DF}
+		{D01816AF-9B5B-4B2F-A147-B212E1A62101} = {99D8E112-6357-4D7B-98AD-D9197BEBC1DF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B1AF41DC-A03E-47B1-BBDB-3DC27ABD9F74}

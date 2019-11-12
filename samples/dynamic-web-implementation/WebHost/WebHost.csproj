@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Plugins.Mvc\McMaster.NETCore.Plugins.Mvc.csproj" />
+    <ProjectReference Include="..\..\..\src\Plugins\McMaster.NETCore.Plugins.csproj" />
+    <ProjectReference Include="..\Library\Library.csproj" />
+  </ItemGroup>
+
+  <Target Name="BuildPlugin" BeforeTargets="Build">
+    <MSBuild Projects="..\PluginLib\PluginLib.csproj" Targets="Publish" Properties="Configuration=$(Configuration);PublishDir=$(OutputPath)/PluginLib/PluginLib/" />
+    <MSBuild Projects="..\PluginImpl\PluginImpl.csproj" Targets="Publish" Properties="Configuration=$(Configuration);PublishDir=$(OutputPath)/PluginImpl/PluginImpl/" />
+  </Target>
+
+</Project>
