@@ -35,15 +35,19 @@ namespace WebHost
             //*****************************//
             // Call First impelementazion //
 
-            FirstScenario(services);
+            //FirstScenario(services);
 
             //*****************************//
             // Call second impelementazion //
 
             //SecondScenario(builder, services);
 
+            //*****************************//
+            // Call Third impelementazion //
+
+            ThirdScenario(services);
+
             // Register controller
-            
             var a = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginLib")).FirstOrDefault();
             builder.AddApplicationPart(a).AddControllersAsServices();
             //var prov = services.BuildServiceProvider();
@@ -106,6 +110,35 @@ namespace WebHost
             plugin.Configure(services);
         }
 
+        private void ThirdScenario(IServiceCollection services)
+        {
+            var sharedTyes = new List<Type> { typeof(IServiceProvider), typeof(IServiceCollection), typeof(IPluginFactory) };
+            ////Load plugin library
+            //var assLib = Path.Combine(AppContext.BaseDirectory, @"PluginLib\PluginLib\PluginLib.dll");
+            //var libLoader = PluginLoader.CreateFromAssemblyFile(
+            //           assLib,
+            //           sharedTyes.ToArray(),
+            //           conf => {
+            //               conf.PreferSharedTypes = true;
+            //           });
+            //var assLoadedLib = libLoader.LoadDefaultAssembly();
+
+            //Load plugin implementation
+            var assImpl = Path.Combine(AppContext.BaseDirectory, @"PluginImpl\PluginImpl\PluginImpl.dll");
+            var implLoader = PluginLoader.CreateFromAssemblyFile(
+                       assImpl,
+                       sharedTyes.ToArray(),
+                       conf => {
+                           conf.PreferSharedTypes = true;
+                       });
+            var implLoadedLib = implLoader.LoadDefaultAssembly();
+
+            // Invoke configuration
+            var configType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImpl")).First().GetTypes()
+                .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
+            var plugin = Activator.CreateInstance(configType) as IPluginFactory;
+            plugin.Configure(services);
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
