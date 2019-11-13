@@ -34,18 +34,27 @@ namespace WebHost
 
             //*****************************//
             // Call First impelementazion //
+            // Load plugin library and plugin implementation (not work)
 
             //FirstScenario(services);
 
             //*****************************//
             // Call second impelementazion //
+            // Load plugin library and plugin implementation (not work)
 
             //SecondScenario(builder, services);
 
             //*****************************//
             // Call Third impelementazion //
+            // Load plugin implementation (Work)
 
-            ThirdScenario(services);
+            //ThirdScenario(services);
+
+            //*****************************//
+            // Call Fourth impelementazion //
+            // Load plugin implementation and plugin override (Work)
+
+            FourthScenario(services);
 
             // Register controller
             var a = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginLib")).FirstOrDefault();
@@ -113,15 +122,6 @@ namespace WebHost
         private void ThirdScenario(IServiceCollection services)
         {
             var sharedTyes = new List<Type> { typeof(IServiceProvider), typeof(IServiceCollection), typeof(IPluginFactory) };
-            ////Load plugin library
-            //var assLib = Path.Combine(AppContext.BaseDirectory, @"PluginLib\PluginLib\PluginLib.dll");
-            //var libLoader = PluginLoader.CreateFromAssemblyFile(
-            //           assLib,
-            //           sharedTyes.ToArray(),
-            //           conf => {
-            //               conf.PreferSharedTypes = true;
-            //           });
-            //var assLoadedLib = libLoader.LoadDefaultAssembly();
 
             //Load plugin implementation
             var assImpl = Path.Combine(AppContext.BaseDirectory, @"PluginImpl\PluginImpl\PluginImpl.dll");
@@ -133,13 +133,38 @@ namespace WebHost
                        });
             var implLoadedLib = implLoader.LoadDefaultAssembly();
 
+            // Invoke configuration for implementation
+            var configType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImpl")).First().GetTypes()
+                .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
+            var plugin = Activator.CreateInstance(configType) as IPluginFactory;
+            plugin.Configure(services);
+
+        }
+
+        private void FourthScenario(IServiceCollection services)
+        {
+            var sharedTyes = new List<Type> { typeof(IServiceProvider), typeof(IServiceCollection), typeof(IPluginFactory) };
+
+            //Load plugin implementation
+            var assImpl = Path.Combine(AppContext.BaseDirectory, @"PluginImpl\PluginImpl\PluginImpl.dll");
+            var implLoader = PluginLoader.CreateFromAssemblyFile(
+                       assImpl,
+                       sharedTyes.ToArray(),
+                       conf => {
+                           conf.PreferSharedTypes = true;
+                       });
+            var implLoadedLib = implLoader.LoadDefaultAssembly();
+
+            //var libAssembly = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginLib")).FirstOrDefault();
+            //var types = libAssembly.GetTypes().Where(x => x.IsInterface).ToList();
+            //sharedTyes.AddRange(types);
             //Load plugin implementation Override
             var assImplOverride = Path.Combine(AppContext.BaseDirectory, @"PluginImplOverride\PluginImplOverride\PluginImplOverride.dll");
             var implLoaderOverride = PluginLoader.CreateFromAssemblyFile(
                        assImplOverride,
                        sharedTyes.ToArray(),
                        conf => {
-                           conf.PreferSharedTypes = true;
+                           conf.PreferSharedTypes = false;
                        });
             var implOverrideLoadedLib = implLoaderOverride.LoadDefaultAssembly();
 

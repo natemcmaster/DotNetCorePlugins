@@ -14,7 +14,7 @@ namespace PluginLib
         public FruitController(IFruitService service)
         {
            _fruitService = service;
-            // If inject IServiceProvider provider this not have any registrationn
+            // If inject IServiceProvider this not have any registrationn on first, second and fouth scenario
             // HttpContext.RequestServices not have any registration
         }
 
