@@ -11,13 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\Plugins.Mvc\McMaster.NETCore.Plugins.Mvc.csproj" />
     <ProjectReference Include="..\..\..\src\Plugins\McMaster.NETCore.Plugins.csproj" />
     <ProjectReference Include="..\Library\Library.csproj" />
   </ItemGroup>
 
   <Target Name="BuildPlugin" BeforeTargets="Build">
-    <MSBuild Projects="..\PluginLib\PluginLib.csproj" Targets="Publish" Properties="Configuration=$(Configuration);PublishDir=$(OutputPath)/PluginLib/PluginLib/" />
+    <MSBuild Projects="..\PluginContract\PluginContract.csproj" Targets="Publish" Properties="Configuration=$(Configuration);PublishDir=$(OutputPath)/PluginContract/PluginContract/" />
     <MSBuild Projects="..\PluginImpl\PluginImpl.csproj" Targets="Publish" Properties="Configuration=$(Configuration);PublishDir=$(OutputPath)/PluginImpl/PluginImpl/" />
     <MSBuild Projects="..\PluginImplOverride\PluginImplOverride.csproj" Targets="Publish" Properties="Configuration=$(Configuration);PublishDir=$(OutputPath)/PluginImplOverride/PluginImplOverride/" />
   </Target>

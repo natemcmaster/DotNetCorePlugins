@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Library;
 using McMaster.NETCore.Plugins;
@@ -32,96 +33,11 @@ namespace WebHost
             // Add MVC Services
             var builder = services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            //*****************************//
-            // Call First impelementazion //
-            // Load plugin library and plugin implementation (not work)
-
-            //FirstScenario(services);
-
-            //*****************************//
-            // Call second impelementazion //
-            // Load plugin library and plugin implementation (not work)
-
-            //SecondScenario(builder, services);
-
-            //*****************************//
-            // Call Third impelementazion //
-            // Load plugin implementation (Work)
-
-            //ThirdScenario(services);
-
-            //*****************************//
-            // Call Fourth impelementazion //
-            // Load plugin implementation and plugin override (Work)
-
-            FourthScenario(services);
-
-            // Register controller
-            var a = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginLib")).FirstOrDefault();
-            builder.AddApplicationPart(a).AddControllersAsServices();
-            //var prov = services.BuildServiceProvider();
-        }
-
-        /// <summary>
-        /// Simple scenario that load minimun types
-        /// </summary>
-        /// <param name="services"></param>
-        private void FirstScenario(IServiceCollection services)
-        {
             var sharedTyes = new List<Type> { typeof(IServiceProvider), typeof(IServiceCollection), typeof(IPluginFactory) };
-            //Load plugin library
-            var assLib = Path.Combine(AppContext.BaseDirectory, @"PluginLib\PluginLib\PluginLib.dll");
-            var libLoader = PluginLoader.CreateFromAssemblyFile(
-                       assLib,
-                       sharedTyes.ToArray(),
-                       conf => {
-                           conf.PreferSharedTypes = true;
-                       });
-            var assLoadedLib = libLoader.LoadDefaultAssembly();
 
-            //Load plugin implementation
-            var assImpl = Path.Combine(AppContext.BaseDirectory, @"PluginImpl\PluginImpl\PluginImpl.dll");
-            var implLoader = PluginLoader.CreateFromAssemblyFile(
-                       assImpl,
-                       sharedTyes.ToArray(),
-                       conf => {
-                           conf.PreferSharedTypes = true;
-                       });
-            var implLoadedLib = implLoader.LoadDefaultAssembly();
-
-            // Invoke configuration
-            var configType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImpl")).First().GetTypes()
-                .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
-            var plugin = Activator.CreateInstance(configType) as IPluginFactory;
-            plugin.Configure(services);
-        }
-
-        /// <summary>
-        /// Scenario with Plugin MVC registration
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <param name="services"></param>
-        private void SecondScenario(IMvcBuilder builder, IServiceCollection services)
-        {
-            
-            //Load plugin library
-            var assLib = Path.Combine(AppContext.BaseDirectory, @"PluginLib\PluginLib\PluginLib.dll");
-            builder = builder.AddPluginFromAssemblyFile(assLib);
-
-            //Load plugin implementation
-            var assImpl = Path.Combine(AppContext.BaseDirectory, @"PluginImpl\PluginImpl\PluginImpl.dll");
-            builder = builder.AddPluginFromAssemblyFile(assImpl);
-
-            // Invoke configuration
-            var configType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImpl")).First().GetTypes()
-                .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
-            var plugin = Activator.CreateInstance(configType) as IPluginFactory;
-            plugin.Configure(services);
-        }
-
-        private void ThirdScenario(IServiceCollection services)
-        {
-            var sharedTyes = new List<Type> { typeof(IServiceProvider), typeof(IServiceCollection), typeof(IPluginFactory) };
+            ////Load plugin contract
+            var assLib = Path.Combine(AppContext.BaseDirectory, @"PluginContract\PluginContract\PluginContract.dll");
+            AssemblyLoadContext.Default.LoadFromAssemblyPath(assLib);
 
             //Load plugin implementation
             var assImpl = Path.Combine(AppContext.BaseDirectory, @"PluginImpl\PluginImpl\PluginImpl.dll");
@@ -139,47 +55,32 @@ namespace WebHost
             var plugin = Activator.CreateInstance(configType) as IPluginFactory;
             plugin.Configure(services);
 
-        }
-
-        private void FourthScenario(IServiceCollection services)
-        {
-            var sharedTyes = new List<Type> { typeof(IServiceProvider), typeof(IServiceCollection), typeof(IPluginFactory) };
-
-            //Load plugin implementation
-            var assImpl = Path.Combine(AppContext.BaseDirectory, @"PluginImpl\PluginImpl\PluginImpl.dll");
-            var implLoader = PluginLoader.CreateFromAssemblyFile(
-                       assImpl,
-                       sharedTyes.ToArray(),
-                       conf => {
-                           conf.PreferSharedTypes = true;
-                       });
-            var implLoadedLib = implLoader.LoadDefaultAssembly();
-
-            //var libAssembly = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginLib")).FirstOrDefault();
-            //var types = libAssembly.GetTypes().Where(x => x.IsInterface).ToList();
-            //sharedTyes.AddRange(types);
-            //Load plugin implementation Override
+            //Load plugin implementation Override/Exstencion
             var assImplOverride = Path.Combine(AppContext.BaseDirectory, @"PluginImplOverride\PluginImplOverride\PluginImplOverride.dll");
             var implLoaderOverride = PluginLoader.CreateFromAssemblyFile(
                        assImplOverride,
                        sharedTyes.ToArray(),
                        conf => {
-                           conf.PreferSharedTypes = false;
+                           conf.PreferSharedTypes = true;
                        });
             var implOverrideLoadedLib = implLoaderOverride.LoadDefaultAssembly();
 
-            // Invoke configuration for implementation
-            var configType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImpl")).First().GetTypes()
-                .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
-            var plugin = Activator.CreateInstance(configType) as IPluginFactory;
-            plugin.Configure(services);
 
-            // Invoke configuration for Override
+
+            // Invoke configuration for Override or extend capability
             var configOverrideType = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.Contains("PluginImplOverride")).First().GetTypes()
                 .Where(t => typeof(IPluginFactory).IsAssignableFrom(t) && !t.IsAbstract).FirstOrDefault();
             var pluginOverride = Activator.CreateInstance(configOverrideType) as IPluginFactory;
             pluginOverride.Configure(services);
+
+            // Register controllers
+            var ass = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var a in ass)
+            {
+                builder.AddApplicationPart(a).AddControllersAsServices();
+            }
         }
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

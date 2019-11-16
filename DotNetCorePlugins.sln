@@ -119,7 +119,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dynamic-web-implementation"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost", "samples\dynamic-web-implementation\WebHost\WebHost.csproj", "{D217589D-4164-4730-A7A0-F56B7035D175}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginLib", "samples\dynamic-web-implementation\PluginLib\PluginLib.csproj", "{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginContract", "samples\dynamic-web-implementation\PluginContract\PluginContract.csproj", "{FA5DFFC6-D099-43EE-B912-E82D5FFC0DCF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginImpl", "samples\dynamic-web-implementation\PluginImpl\PluginImpl.csproj", "{E512CC43-D060-49D5-8D0B-4A0E758EDBBD}"
 EndProject
