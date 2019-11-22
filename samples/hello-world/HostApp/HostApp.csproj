@@ -11,7 +11,7 @@
       Normally, you should replace this with a PackageReference to McMaster.NETCore.Plugins.
     -->
     <ProjectReference Include="$(RepoRoot)src\Plugins\McMaster.NETCore.Plugins.csproj" />
-    <ProjectReference Include="..\SharedAbstractions\SharedAbstractions.csproj" />
+    <ProjectReference Include="..\PluginContract\PluginContract.csproj" />
   </ItemGroup>
 
   <Target Name="BuildPlugin" BeforeTargets="Build">

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostApp", "HostApp\HostApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPlugin", "MyPlugin\MyPlugin.csproj", "{EF895D6F-B174-46AF-936C-F4E3FE2B96E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedAbstractions", "SharedAbstractions\SharedAbstractions.csproj", "{5F3E90BD-7D9E-4469-A89A-63B0A8F77465}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginContract", "PluginContract\PluginContract.csproj", "{5F3E90BD-7D9E-4469-A89A-63B0A8F77465}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

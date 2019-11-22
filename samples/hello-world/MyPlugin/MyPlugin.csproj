@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharedAbstractions\SharedAbstractions.csproj" />
+    <ProjectReference Include="..\PluginContract\PluginContract.csproj" />
   </ItemGroup>
 
 </Project>

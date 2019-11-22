@@ -36,7 +36,7 @@ PluginLoader.CreateFromAssemblyFile(
 ```
 
 * assemblyFile = the file path to the main .dll of the plugin
-* sharedTypes = a list of types which the loader should ensure are unified. (Read [more details here](./docs/what-are-shared-types.md).)
+* sharedTypes = a list of types which the loader should ensure are unified. (See [What is a shared type?](#shared-types))
 * isUnloadable = (.NET Core 3+ only). Allow this plugin to be unloaded from memory at some point in the future. (Requires ensuring that you have cleaned up all usages of types from the plugin before unloading actually happens.)
 
 See example projects in [samples/](./samples/) for more detailed, example usage.
@@ -44,14 +44,14 @@ See example projects in [samples/](./samples/) for more detailed, example usage.
 ## Usage
 
 Using plugins requires at least two projects: (1) the 'host' app which loads plugins and (2) the plugin,
-but typically also uses a third, (3) an abstractions project which defines the interaction between the plugin
+but typically also uses a third, (3) an contracts project which defines the interaction between the plugin
 and the host.
 
 For a fully functional sample of this, see [samples/hello-world/](./samples/hello-world/) .
 
-### The plugin abstraction
+### The plugin contract
 
-You can define your own plugin abstractions. A minimal plugin might look like this.
+You can define your own plugin contract. A minimal plugin might look like this.
 
 ```csharp
 public interface IPlugin
@@ -135,6 +135,30 @@ public class Program
     }
 }
 ```
+
+<a id="shared-types"></a>
+
+### What is a shared type?
+
+By default, each instance of `PluginLoader` represents a unique collection of assemblies loaded into memory.
+This can make it difficult to use the plugin if you want to pass information from plugin to the host and vice versa.
+Shared types allow you define the kinds of objects that will be passed between plugin and host.
+
+For example, let's say you have a simple host app like [samples/hello-world/](./samples/hello-world/), and
+two plugins which were compiled with a reference `interface IPlugin`. This interface comes from `Contracts.dll`.
+When the application runs, by default, each plugin and the host will have their own version of `Contracts.dll`
+which .NET Core will keep isolated.
+
+The problem with this isolation is that an object of `IPlugin` created within the "PluginApple" or "PluginBanana" context does not appear to be an instance of `IPlugin` in any of the other plugin contexts.
+
+![DefaultConfigDiagram](https://i.imgur.com/fHEMBO6.png)
+
+Configuring a shared type of `IPlugin` allows the .NET to pass objects of this type across the plugin isolation
+boundary. It does this by ignoring the version of `Contracts.dll` in each plugin folder, and sharing the version that comes with the Host.
+
+![SharedTypes](https://i.imgur.com/sTGqPxa.png)
+
+Read [more details about shared types here](./docs/what-are-shared-types.md).
 
 ## Support for MVC and Razor
 
