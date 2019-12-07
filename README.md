@@ -189,7 +189,7 @@ public class Startup
 
 See example projects in [samples/aspnetcore-mvc/](./samples/aspnetcore-mvc/) for more detailed, example usage.
 
-### Reflection
+## Reflection
 
 Sometimes you may want to use a plugin along with reflection APIs such as `Type.GetType(string typeName)`
 or `Assembly.Load(string assemblyString)`. Depending on where these APIs are used, they might fail to

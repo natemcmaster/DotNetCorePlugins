@@ -87,7 +87,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HostApp", "samples\hello-wo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPlugin", "samples\hello-world\MyPlugin\MyPlugin.csproj", "{2573526D-A764-4507-B2F6-1A2BF7A3FA93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedAbstractions", "samples\hello-world\SharedAbstractions\SharedAbstractions.csproj", "{6842C9FD-6720-43EA-83AD-DE315531DDA9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginContract", "samples\hello-world\PluginContract\PluginContract.csproj", "{6842C9FD-6720-43EA-83AD-DE315531DDA9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dependency-injection", "dependency-injection", "{D17C19AC-EC11-4661-BD23-DC8308CF71C0}"
 EndProject
