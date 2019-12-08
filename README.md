@@ -51,7 +51,7 @@ For a fully functional sample of this, see [samples/hello-world/](./samples/hell
 
 ### The plugin contract
 
-You can define your own plugin contract. A minimal plugin might look like this.
+You can define your own plugin contract. A minimal contract might look like this.
 
 ```csharp
 public interface IPlugin
@@ -60,17 +60,24 @@ public interface IPlugin
 }
 ```
 
+There is nothing special about the name "IPlugin" or the fact that it's an interface. This is just here to illustrate a concept. Look at [samples/](./samples/) for additional examples of ways you could define the interaction between host and plugins.
+
 ### The plugins
 
 Typically, it is best to implement plugins by targeting `netcoreapp2.0` or higher. They can target `netstandard2.0` as well, but using `netcoreapp2.0` is better because it reduces the number of redundant System.\* assemblies in the plugin output.
 
 A minimal implementation of the plugin could be as simple as this.
+
 ```csharp
 internal class MyPlugin1 : IPlugin
 {
     public string GetName() => "My plugin v1";
 }
 ```
+
+As mentioned above, this is just an example. This library doesn't require the use of "IPlugin" or interfaces or "GetName()"
+methods. This code is only here to demonstrates how you can decouple hosts and plugins, but still use interfaces for type-safe
+interactions.
 
 ### The host
 
@@ -86,13 +93,18 @@ plugins/
         $PluginName2.dll
 ```
 
-For example, you could prepare the sample plugin above by running
+**It is important that each plugin is published into a separate directory.** This will avoid contention between plugins
+and duplicate dependency issues.
+
+You can prepare the sample plugin above by running
 
 ```
 dotnet publish MyPlugin1.csproj --output plugins/MyPlugin1/
 ```
 
-An implementation of a host which finds and loads this plugin might look like this:
+An implementation of a host which finds and loads this plugin might look like this. This sample uses reflection to find
+all types in plugins which implement `IPlugin`, and then initializes the types' parameter-less constructors.
+This is just one way to implement a host. More examples of how to use plugins can be found in [samples/](./samples/).
 
 ```csharp
 using McMaster.NETCore.Plugins;
