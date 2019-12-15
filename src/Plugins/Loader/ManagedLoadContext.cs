@@ -105,7 +105,7 @@ namespace McMaster.NETCore.Plugins.Loader
             var resolvedPath = _dependencyResolver.ResolveAssemblyToPath(assemblyName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
-                return LoadFromAssemblyPath(resolvedPath);
+                return LoadAssemblyFromFilePath(resolvedPath);
             }
 #endif
 
@@ -120,7 +120,7 @@ namespace McMaster.NETCore.Plugins.Loader
                     var resourcePath = Path.Combine(resourceRoot, assemblyName.CultureName, assemblyName.Name + ".dll");
                     if (File.Exists(resourcePath))
                     {
-                        return LoadFromAssemblyPath(resourcePath);
+                        return LoadAssemblyFromFilePath(resourcePath);
                     }
                 }
 
@@ -131,7 +131,7 @@ namespace McMaster.NETCore.Plugins.Loader
             {
                 if (SearchForLibrary(library, out var path) && path != null)
                 {
-                    return LoadFromAssemblyPath(path);
+                    return LoadAssemblyFromFilePath(path);
                 }
             }
             else
@@ -141,18 +141,18 @@ namespace McMaster.NETCore.Plugins.Loader
                 var localFile = Path.Combine(_basePath, assemblyName.Name + ".dll");
                 if (File.Exists(localFile))
                 {
-                    return LoadFromAssemblyPath(localFile);
+                    return LoadAssemblyFromFilePath(localFile);
                 }
             }
 
             return null;
         }
 
-        private new Assembly LoadFromAssemblyPath(string path)
+        public Assembly LoadAssemblyFromFilePath(string path)
         {
             if (!_loadInMemory)
             {
-                return base.LoadFromAssemblyPath(path);
+                return LoadFromAssemblyPath(path);
             }
 
             using var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);

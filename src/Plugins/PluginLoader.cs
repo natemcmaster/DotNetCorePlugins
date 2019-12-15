@@ -147,7 +147,7 @@ namespace McMaster.NETCore.Plugins
         }
 
         private readonly PluginConfig _config;
-        private AssemblyLoadContext _context;
+        private ManagedLoadContext _context;
         private readonly AssemblyLoadContextBuilder _contextBuilder;
         private volatile bool _disposed;
 
@@ -163,7 +163,7 @@ namespace McMaster.NETCore.Plugins
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _contextBuilder = CreateLoadContextBuilder(config);
-            _context = _contextBuilder.Build();
+            _context = (ManagedLoadContext)_contextBuilder.Build();
 #if FEATURE_UNLOAD
             if (config.EnableHotReload)
             {
@@ -210,7 +210,7 @@ namespace McMaster.NETCore.Plugins
             }
 
             _context.Unload();
-            _context = _contextBuilder.Build();
+            _context = (ManagedLoadContext)_contextBuilder.Build();
             GC.Collect();
             GC.WaitForPendingFinalizers();
             Reloaded?.Invoke(this, new PluginReloadedEventArgs(this));
@@ -255,7 +255,7 @@ namespace McMaster.NETCore.Plugins
         public Assembly LoadDefaultAssembly()
         {
             EnsureNotDisposed();
-            return _context.LoadFromAssemblyPath(_config.MainAssemblyPath);
+            return _context.LoadAssemblyFromFilePath(_config.MainAssemblyPath);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace McMaster.NETCore.Plugins
         /// <param name="assemblyPath">The assembly path.</param>
         /// <returns>The assembly.</returns>
         public Assembly LoadAssemblyFromPath(string assemblyPath)
-            => _context.LoadFromAssemblyPath(assemblyPath);
+            => _context.LoadAssemblyFromFilePath(assemblyPath);
 
         /// <summary>
         /// Load an assembly by name.
