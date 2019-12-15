@@ -1,5 +1,9 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.3.2'">
+Fixes:
+* Fix issue preventing hot reload from working on Windows (#108)
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.3.1'">
 Fixes:
 * @CopaDataPM: Support CoreCLR in native apps (#80)
