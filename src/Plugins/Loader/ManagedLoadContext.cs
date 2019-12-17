@@ -29,6 +29,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
         private bool _loadInMemory;
+        private AssemblyLoadContext _defaultLoadContext;
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif
@@ -40,6 +41,7 @@ namespace McMaster.NETCore.Plugins.Loader
             IReadOnlyCollection<string> defaultAssemblies,
             IReadOnlyCollection<string> additionalProbingPaths,
             IReadOnlyCollection<string> resourceProbingPaths,
+            AssemblyLoadContext defaultLoadContext,
             bool preferDefaultLoadContext,
             bool isCollectible,
             bool loadInMemory)
@@ -62,6 +64,7 @@ namespace McMaster.NETCore.Plugins.Loader
             _defaultAssemblies = defaultAssemblies ?? throw new ArgumentNullException(nameof(defaultAssemblies));
             _nativeLibraries = nativeLibraries ?? throw new ArgumentNullException(nameof(nativeLibraries));
             _additionalProbingPaths = additionalProbingPaths ?? throw new ArgumentNullException(nameof(additionalProbingPaths));
+            _defaultLoadContext = defaultLoadContext;
             _preferDefaultLoadContext = preferDefaultLoadContext;
             _loadInMemory = loadInMemory;
 
@@ -88,11 +91,13 @@ namespace McMaster.NETCore.Plugins.Loader
                 // If default context is preferred, check first for types in the default context unless the dependency has been declared as private
                 try
                 {
-                    var defaultAssembly = Default.LoadFromAssemblyName(assemblyName);
+                    var defaultAssembly = _defaultLoadContext.LoadFromAssemblyName(assemblyName);
                     if (defaultAssembly != null)
                     {
-                        // return null so ALC will fallback to loading from Default ALC directly
-                        return null;
+                        // Older versions used to return null here such that returned assembly would be resolved from the default ALC.
+                        // However, with the addition of custom default ALCs, the Default ALC may not be the user's chosen ALC when
+                        // this context was built. As such, we simply return the Assembly from the user's chosen default load context.
+                        return defaultAssembly;
                     }
                 }
                 catch

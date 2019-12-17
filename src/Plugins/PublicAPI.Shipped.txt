@@ -14,16 +14,19 @@ McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddResourceProbingPat
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AssemblyLoadContextBuilder() -> void
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.Build() -> System.Runtime.Loader.AssemblyLoadContext
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContext(bool preferDefaultLoadContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContextAssembly(System.Reflection.AssemblyName assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferLoadContextAssembly(System.Reflection.AssemblyName assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.DependencyContextExtensions
 McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.EnableUnloading() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreloadAssembliesIntoMemory() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetMainAssemblyPath(string path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContextAssembly(System.Reflection.AssemblyName assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferLoadContextAssembly(System.Reflection.AssemblyName assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetDefaultContext(System.Runtime.Loader.AssemblyLoadContext context) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.PluginConfig
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.get -> bool
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.set -> void
+McMaster.NETCore.Plugins.PluginConfig.DefaultContext.get -> System.Runtime.Loader.AssemblyLoadContext
+McMaster.NETCore.Plugins.PluginConfig.DefaultContext.set -> void
 McMaster.NETCore.Plugins.PluginLoader.Reload() -> void
 McMaster.NETCore.Plugins.PluginLoader.Reloaded -> McMaster.NETCore.Plugins.PluginReloadedEventHandler
 McMaster.NETCore.Plugins.PluginReloadedEventArgs
