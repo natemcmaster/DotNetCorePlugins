@@ -342,6 +342,7 @@ namespace McMaster.NETCore.Plugins
             var builder = new AssemblyLoadContextBuilder();
 
             builder.SetMainAssemblyPath(config.MainAssemblyPath);
+            builder.SetDefaultContext(config.DefaultContext);
 
             foreach (var ext in config.PrivateAssemblies)
             {
