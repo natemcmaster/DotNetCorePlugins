@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0;netcoreapp2.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\Plugins\McMaster.NETCore.Plugins.csproj" />
+    <ProjectReference Include="..\WithOurPluginsPluginA\WithOurPluginsPluginA.csproj" PrivateAssets="All" ReferenceOutputAssembly="false" OutputItemType="Content" CopyToOutputDirectory="Always" Link="Plugins/%(RecursiveDir)%(Filename).dll" />
+    <ProjectReference Include="..\WithOurPluginsPluginB\WithOurPluginsPluginB.csproj" PrivateAssets="All" ReferenceOutputAssembly="false" OutputItemType="Content" CopyToOutputDirectory="Always" Link="Plugins/%(RecursiveDir)%(Filename).dll" />
+    <ProjectReference Include="..\WithOurPluginsPluginContract\WithOurPluginsPluginContract.csproj" />
+    <ProjectReference Include="..\WithOwnPluginsContract\WithOwnPluginsContract.csproj" />
+  </ItemGroup>
+
+</Project>
