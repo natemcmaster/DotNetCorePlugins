@@ -67,7 +67,7 @@ namespace McMaster.NETCore.Plugins
         /// Use this feature if the <see cref="AssemblyLoadContext"/> of the <see cref="Assembly"/> is not the Runtime's default load context.
         /// i.e. (AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly) != <see cref="AssemblyLoadContext.Default"/>
         /// </summary>
-        public AssemblyLoadContext DefaultContext { get; set; } = AssemblyLoadContext.Default;
+        public AssemblyLoadContext DefaultContext { get; set; } = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
 
 #if FEATURE_UNLOAD
         private bool _isUnloadable;

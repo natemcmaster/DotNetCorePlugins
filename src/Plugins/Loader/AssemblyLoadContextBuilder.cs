@@ -23,7 +23,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
         private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
         private readonly HashSet<string> _defaultAssemblies = new HashSet<string>(StringComparer.Ordinal);
-        private AssemblyLoadContext _defaultLoadContext = AssemblyLoadContext.Default;
+        private AssemblyLoadContext _defaultLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
         private string? _mainAssemblyPath;
         private bool _preferDefaultLoadContext;
 
