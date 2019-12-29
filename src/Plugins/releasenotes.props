@@ -3,6 +3,7 @@
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
 Changes:
 * Add an API to enable contextual reflection in .NET Core 3+ (see https://github.com/natemcmaster/DotNetCorePlugins/blob/v1.0.0/README.md#Reflection for details)
+* @Sewer56 - Add support for non-default AssemblyLoadContext's (useful for plugins which load more plugins and native .NET Core hosting) (#111)
 * Remove API that was made obsolete in 0.3.0
     </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '0.3.2'">
