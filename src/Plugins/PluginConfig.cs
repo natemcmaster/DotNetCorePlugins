@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Loader;
 
 namespace McMaster.NETCore.Plugins
 {
@@ -60,6 +61,13 @@ namespace McMaster.NETCore.Plugins
         /// </seealso>
         /// </summary>
         public bool PreferSharedTypes { get; set; }
+
+        /// <summary>
+        /// If set, replaces the default <see cref="AssemblyLoadContext"/> used by the <see cref="PluginLoader"/>.
+        /// Use this feature if the <see cref="AssemblyLoadContext"/> of the <see cref="Assembly"/> is not the Runtime's default load context.
+        /// i.e. (AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly) != <see cref="AssemblyLoadContext.Default"/>
+        /// </summary>
+        public AssemblyLoadContext DefaultContext { get; set; } = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
 
 #if FEATURE_UNLOAD
         private bool _isUnloadable;

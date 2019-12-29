@@ -221,3 +221,16 @@ using (loader.EnterContextualReflection())
 ```
 
 Read [this post written by .NET Core engineers](https://github.com/dotnet/coreclr/blob/v3.0.0/Documentation/design-docs/AssemblyLoadContext.ContextualReflection.md) for even more details on contextual reflection.
+
+## Non-Default AssemblyLoadContext(s)
+
+By default, DotNetCorePlugins assumes that you are working from the *Default* `ApplicationLoadContext`. However, sometimes, in certain advanced scenarios and situations, this may not be the case.
+
+For example: You may be creating plugins from inside a plugin or running .NET inside a runtime host created natively from native code (which automatically creates a load context).
+
+`CreateFromAssemblyFile`, as well as other under the hood APIs support this kind of workflow:
+
+```csharp
+// Overriding default ALC to use: `config => config.DefaultContext = _loadContext`
+PluginLoader.CreateFromAssemblyFile(dllPath, isUnloadable, sharedTypes, config => config.DefaultContext = _loadContext);
+```

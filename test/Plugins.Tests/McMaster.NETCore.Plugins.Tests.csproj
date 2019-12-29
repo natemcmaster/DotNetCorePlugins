@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Plugins\McMaster.NETCore.Plugins.csproj" />
+    <ProjectReference Include="..\TestProjects\WithOwnPluginsContract\WithOwnPluginsContract.csproj" />
     <ProjectReference Include="..\TestProjects\ReferencedLibv1\ReferencedLibv1.csproj" />
     <ProjectReference Include="..\TestProjects\SharedAbstraction.v2\SharedAbstraction.v2.csproj" />
     <TestProject Include="..\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj" />
@@ -29,6 +30,7 @@
     <TestProject Include="..\TestProjects\SqlClientApp\SqlClientApp.csproj" />
     <TestProject Include="..\TestProjects\TransitivePlugin\TransitivePlugin.csproj" />
     <PublishedTestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
+    <MultitargetTestProject Include="..\TestProjects\WithOwnPlugins\WithOwnPlugins.csproj" />
   </ItemGroup>
 
   <Import Project="TestProjectRefs.targets" />

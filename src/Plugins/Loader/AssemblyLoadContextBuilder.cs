@@ -23,6 +23,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
         private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
         private readonly HashSet<string> _defaultAssemblies = new HashSet<string>(StringComparer.Ordinal);
+        private AssemblyLoadContext _defaultLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
         private string? _mainAssemblyPath;
         private bool _preferDefaultLoadContext;
 
@@ -59,6 +60,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 _defaultAssemblies,
                 _additionalProbingPaths,
                 resourceProbingPaths,
+                _defaultLoadContext,
                 _preferDefaultLoadContext,
 #if FEATURE_UNLOAD
                 _isCollectible,
@@ -88,6 +90,19 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             _mainAssemblyPath = path;
+            return this;
+        }
+
+        /// <summary>
+        /// Replaces the default <see cref="AssemblyLoadContext"/> used by the <see cref="AssemblyLoadContextBuilder"/>.
+        /// Use this feature if the <see cref="AssemblyLoadContext"/> of the <see cref="Assembly"/> is not the Runtime's default load context.
+        /// i.e. (AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly) != <see cref="AssemblyLoadContext.Default"/>
+        /// </summary>
+        /// <param name="context">The context to set.</param>
+        /// <returns>The builder.</returns>
+        public AssemblyLoadContextBuilder SetDefaultContext(AssemblyLoadContext context)
+        {
+            _defaultLoadContext = context ?? throw new ArgumentException($"Bad Argument: AssemblyLoadContext in {nameof(AssemblyLoadContextBuilder)}.{nameof(SetDefaultContext)} is null.");
             return this;
         }
 
@@ -141,7 +156,7 @@ namespace McMaster.NETCore.Plugins.Loader
             // Recursively load and find all dependencies of default assemblies.
             // This sacrifices some performance for determinism in how transitive
             // dependencies will be shared between host and plugin.
-            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(assemblyName);
+            var assembly = _defaultLoadContext.LoadFromAssemblyName(assemblyName);
             foreach (var reference in assembly.GetReferencedAssemblies())
             {
                 PreferDefaultLoadContextAssembly(reference);
