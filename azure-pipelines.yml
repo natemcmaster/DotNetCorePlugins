@@ -10,19 +10,27 @@ variables:
   value: $[counter('buildnumber')]
 
 jobs:
-- job: Windows
+- job: Build
+  strategy:
+    matrix:
+      Linux:
+        vmImage: ubuntu-16.04
+      MacOS:
+        vmImage: macOS-latest
+      Windows:
+        vmImage: windows-2019
   pool:
-    vmImage: windows-2019
+    vmImage: $(vmImage)
   steps:
   - task: UseDotNet@2
-    displayName: Install .NET Core 3.0
+    displayName: Install .NET Core 3.1 SDK
     inputs:
-      version: '3.0.x'
+      version: '3.1.x'
       packageType: sdk
   - task: UseDotNet@2
-    displayName: Install .NET Core 2.2
+    displayName: Install .NET Core 2.1 runtime
     inputs:
-      version: '2.2.x'
+      version: '2.1.x'
       packageType: runtime
   - powershell: ./build.ps1 -ci
     displayName: Invoke build.ps1
@@ -33,33 +41,10 @@ jobs:
     condition: always()
     continueOnError: true
     inputs:
-      testRunTitle: Windows
+      testRunTitle: $(vmImage)
       testRunner: vstest
       testResultsFiles: '**/*.trx'
   - publish: 'artifacts/'
     artifact: 'Packages'
     displayName: Publish artifacts
-- job: Linux
-  pool:
-    vmImage: 'Ubuntu-16.04'
-  steps:
-  - task: UseDotNet@2
-    displayName: Install .NET Core 3.0
-    inputs:
-      version: '3.0.x'
-      packageType: sdk
-  - task: UseDotNet@2
-    displayName: Install .NET Core 2.2
-    inputs:
-      version: '2.2.x'
-      packageType: runtime
-  - script: ./build.ps1 -ci
-    displayName: Invoke build.ps1
-  - task: PublishTestResults@2
-    displayName: Upload test results
-    condition: always()
-    continueOnError: true
-    inputs:
-      testRunTitle: Linux
-      testRunner: vstest
-      testResultsFiles: '**/*.trx'
+    condition: and(succeeded(), eq('windows-2019', variables['vmImage']))
