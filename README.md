@@ -9,6 +9,7 @@
 [main-nuget-badge]: https://img.shields.io/nuget/v/McMaster.NETCore.Plugins.svg?style=flat-square&label=nuget
 
 This project provides API for loading .NET Core assemblies dynamically, executing them as extensions to the main application, and finding and **isolating** the dependencies of the plugin from the main application.
+This library supports .NET Core 2 and up, but works best in .NET Core 3.
 
 Unlike other approaches to dynamic assembly loading, like `Assembly.LoadFrom`, this API attempts to imitate the behavior of `.deps.json`
 and `runtimeconfig.json` files to probe for dependencies, load native (unmanaged) libraries, and to
@@ -222,15 +223,34 @@ using (loader.EnterContextualReflection())
 
 Read [this post written by .NET Core engineers](https://github.com/dotnet/coreclr/blob/v3.0.0/Documentation/design-docs/AssemblyLoadContext.ContextualReflection.md) for even more details on contextual reflection.
 
-## Non-Default AssemblyLoadContext(s)
+## Overriding the Default AssemblyLoadContexts
 
-By default, DotNetCorePlugins assumes that you are working from the *Default* `ApplicationLoadContext`. However, sometimes, in certain advanced scenarios and situations, this may not be the case.
+Under the hood, DotNetCorePlugins is using a .NET Core API called [ApplicationLoadContext][alc-api].
+This creates a scope for resolving assemblies. By default, `PluginLoader` will create a new context
+and fallback to a **default context** if it cannot find an assembly or if type sharing is enabled.
+The default fallback context is inferred when `PluginLoader` is instantiated. In certain advanced scenarios,
+you may need to manually change the default context, for instance, plugins which then load more plugins,
+or when running .NET in a custom native host.
 
-For example: You may be creating plugins from inside a plugin or running .NET inside a runtime host created natively from native code (which automatically creates a load context).
+[alc-api]: https://docs.microsoft.com/dotnet/api/system.runtime.loader.assemblyloadcontext
 
-`CreateFromAssemblyFile`, as well as other under the hood APIs support this kind of workflow:
+To override the default assembly load context, set `PluginConfig.DefaultContext`. Examples:
+
 
 ```csharp
-// Overriding default ALC to use: `config => config.DefaultContext = _loadContext`
-PluginLoader.CreateFromAssemblyFile(dllPath, isUnloadable, sharedTypes, config => config.DefaultContext = _loadContext);
+AssemblyLoadContext myCustomDefaultContext = // (something).
+PluginLoader.CreateFromAssemblyFile(dllPath,
+     config => config.DefaultContext = myCustomDefaultContext);
 ```
+
+## Don't want to use this library?
+
+If you are using .NET Core 3 or newer, you can replicate the most important feature of this library by following
+this tutorial from Microsoft's official documentation: [Create a .NET Core application with plugins][plugin-tutorial].
+
+[plugin-tutorial]: https://docs.microsoft.co/dotnet/core/tutorials/creating-app-with-plugin-support
+
+This tutorial will help you create a simple load context that isolates assemblies. It would be missing other features
+that this library offers, like an API for unifying types across the load context boundary and hot reload, but
+if you don't need those, you might be able to use AssemblyLoadContext and AssemblyDependencyResolver without using
+this library. Of course, your mileage may vary.
