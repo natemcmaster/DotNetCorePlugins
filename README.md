@@ -20,7 +20,7 @@ application. (Read [more details here](./docs/what-are-shared-types.md).)
 Blog post introducing this project: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/). Since this post in mid 2018, .NET Core 3
 has been released which added API to improve assembly loading. If you are interested in understanding that API, see "[Create a .NET Core application with plugins][plugin-tutorial]" on docs.microsoft.com. The result of this tutorial would be simple version of DotNetCorePlugins, but missing some features like an API for unifying types across the load context boundary, hot reload, and .NET Core 2.1 support.
 
-[plugin-tutorial]: https://docs.microsoft.co/dotnet/core/tutorials/creating-app-with-plugin-support
+[plugin-tutorial]: https://docs.microsoft.com/dotnet/core/tutorials/creating-app-with-plugin-support
 
 ## Getting started
 
