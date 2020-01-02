@@ -17,7 +17,10 @@ find binaries from runtime stores or package caches. In addition, it allows for 
 which types should be unified between the loader and the plugin, and which can remain isolated from the main
 application. (Read [more details here](./docs/what-are-shared-types.md).)
 
-Blog post introducing this project: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/)
+Blog post introducing this project: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/). Since this post in mid 2018, .NET Core 3
+has been released which added API to improve assembly loading. If you are interested in understanding that API, see "[Create a .NET Core application with plugins][plugin-tutorial]" on docs.microsoft.com. The result of this tutorial would be simple version of DotNetCorePlugins, but missing some features like an API for unifying types across the load context boundary, hot reload, and .NET Core 2.1 support.
+
+[plugin-tutorial]: https://docs.microsoft.co/dotnet/core/tutorials/creating-app-with-plugin-support
 
 ## Getting started
 
@@ -223,7 +226,7 @@ using (loader.EnterContextualReflection())
 
 Read [this post written by .NET Core engineers](https://github.com/dotnet/coreclr/blob/v3.0.0/Documentation/design-docs/AssemblyLoadContext.ContextualReflection.md) for even more details on contextual reflection.
 
-## Overriding the Default AssemblyLoadContexts
+## Overriding the Default Load Context
 
 Under the hood, DotNetCorePlugins is using a .NET Core API called [ApplicationLoadContext][alc-api].
 This creates a scope for resolving assemblies. By default, `PluginLoader` will create a new context
@@ -242,15 +245,3 @@ AssemblyLoadContext myCustomDefaultContext = // (something).
 PluginLoader.CreateFromAssemblyFile(dllPath,
      config => config.DefaultContext = myCustomDefaultContext);
 ```
-
-## Don't want to use this library?
-
-If you are using .NET Core 3 or newer, you can replicate the most important feature of this library by following
-this tutorial from Microsoft's official documentation: [Create a .NET Core application with plugins][plugin-tutorial].
-
-[plugin-tutorial]: https://docs.microsoft.co/dotnet/core/tutorials/creating-app-with-plugin-support
-
-This tutorial will help you create a simple load context that isolates assemblies. It would be missing other features
-that this library offers, like an API for unifying types across the load context boundary and hot reload, but
-if you don't need those, you might be able to use AssemblyLoadContext and AssemblyDependencyResolver without using
-this library. Of course, your mileage may vary.
