@@ -236,7 +236,7 @@ or when running .NET in a custom native host.
 
 [alc-api]: https://docs.microsoft.com/dotnet/api/system.runtime.loader.assemblyloadcontext
 
-To override the default assembly load context, set `PluginConfig.DefaultContext`. Examples:
+To override the default assembly load context, set `PluginConfig.DefaultContext`. Example:
 
 
 ```csharp
