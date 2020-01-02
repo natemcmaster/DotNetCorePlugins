@@ -3,28 +3,27 @@
 
 [![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=master)](https://dev.azure.com/natemcmaster/github/_build/latest?definitionId=6&branchName=master)
 
-[![NuGet][main-nuget-badge]][main-nuget]
+[![NuGet][main-nuget-badge] ![NuGet Downloads][nuget-download-badge]][main-nuget]
 
 [main-nuget]: https://www.nuget.org/packages/McMaster.NETCore.Plugins/
 [main-nuget-badge]: https://img.shields.io/nuget/v/McMaster.NETCore.Plugins.svg?style=flat-square&label=nuget
+[nuget-download-badge]: https://img.shields.io/nuget/dt/McMaster.NETCore.Plugins?style=flat-square
+
 
 This project provides API for loading .NET Core assemblies dynamically, executing them as extensions to the main application, and finding and **isolating** the dependencies of the plugin from the main application.
-This library supports .NET Core 2 and up, but works best in .NET Core 3.
+This library supports .NET Core 2, but works best in .NET Core 3 and up. It allows fine-grained control over
+assembly isolation and type sharing. Read [more details about type sharing below](#shared-types).
 
-Unlike other approaches to dynamic assembly loading, like `Assembly.LoadFrom`, this API attempts to imitate the behavior of `.deps.json`
-and `runtimeconfig.json` files to probe for dependencies, load native (unmanaged) libraries, and to
-find binaries from runtime stores or package caches. In addition, it allows for fine-grained control over
-which types should be unified between the loader and the plugin, and which can remain isolated from the main
-application. (Read [more details here](./docs/what-are-shared-types.md).)
+Blog post introducing this project, July 25, 2018: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/). 
 
-Blog post introducing this project: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/). Since this post in mid 2018, .NET Core 3
+Since 2018, .NET Core 3
 has been released which added API to improve assembly loading. If you are interested in understanding that API, see "[Create a .NET Core application with plugins][plugin-tutorial]" on docs.microsoft.com. The result of this tutorial would be simple version of DotNetCorePlugins, but missing some features like an API for unifying types across the load context boundary, hot reload, and .NET Core 2.1 support.
 
 [plugin-tutorial]: https://docs.microsoft.com/dotnet/core/tutorials/creating-app-with-plugin-support
 
 ## Getting started
 
-You can install the plugin loading API using the `McMaster.NETCore.Plugins` NuGet package.
+You can install the plugin loading API using the [`McMaster.NETCore.Plugins` NuGet package.][main-nuget]
 
 ```
 dotnet add package McMaster.NETCore.Plugins
@@ -174,7 +173,7 @@ boundary. It does this by ignoring the version of `Contracts.dll` in each plugin
 
 ![SharedTypes](https://i.imgur.com/sTGqPxa.png)
 
-Read [more details about shared types here](./docs/what-are-shared-types.md).
+Read [even more details about shared types here](./docs/what-are-shared-types.md).
 
 ## Support for MVC and Razor
 
