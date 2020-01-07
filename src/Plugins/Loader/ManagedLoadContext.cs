@@ -33,6 +33,7 @@ namespace McMaster.NETCore.Plugins.Loader
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif
+        private string _unmanagedDllShadowCopyDirectoryPath = string.Empty;
 
         public ManagedLoadContext(string mainAssemblyPath,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
@@ -71,6 +72,11 @@ namespace McMaster.NETCore.Plugins.Loader
             _resourceRoots = new[] { _basePath }
                 .Concat(resourceProbingPaths)
                 .ToArray();
+
+            if (loadInMemory)
+            {
+                Unloading += _ => OnUnloaded();
+            }
         }
 
         /// <summary>
@@ -175,7 +181,9 @@ namespace McMaster.NETCore.Plugins.Loader
             var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
-                return LoadUnmanagedDllFromPath(resolvedPath);
+                return _loadInMemory
+                    ? LoadUnmanagedDllFromShadowCopy(resolvedPath)
+                    : LoadUnmanagedDllFromPath(resolvedPath);
             }
 #endif
 
@@ -309,7 +317,62 @@ namespace McMaster.NETCore.Plugins.Loader
         private IntPtr LoadUnmanagedDllFromResolvedPath(string unmanagedDllPath)
         {
             var normalized = Path.GetFullPath(unmanagedDllPath);
-            return LoadUnmanagedDllFromPath(normalized);
+
+            // Create shadow copy directory only when hot reloading is enabled and plugins are
+            // dependent on unmanaged DLL(s).
+            if (_loadInMemory && string.IsNullOrEmpty(_unmanagedDllShadowCopyDirectoryPath))
+            {
+                _unmanagedDllShadowCopyDirectoryPath = CreateTempDirectory();
+            }
+
+            return _loadInMemory
+                ? LoadUnmanagedDllFromShadowCopy(normalized)
+                : LoadUnmanagedDllFromPath(normalized);
+        }
+
+        private IntPtr LoadUnmanagedDllFromShadowCopy(string unmanagedDllPath)
+        {
+            var shadowCopyDllPath = CreateShadowCopy(unmanagedDllPath);
+
+            return LoadUnmanagedDllFromPath(shadowCopyDllPath);
+        }
+
+        private string CreateShadowCopy(string dllPath)
+        {
+            var dllFileName = Path.GetFileName(dllPath);
+            var shadowCopyPath = Path.Combine(_unmanagedDllShadowCopyDirectoryPath, dllFileName);
+
+            File.Copy(dllPath, shadowCopyPath);
+
+            return shadowCopyPath;
+        }
+
+        private string CreateTempDirectory()
+        {
+            var tempDirectoryName = Path.GetTempFileName();
+            File.Delete(tempDirectoryName);
+
+            var tempDirectory = Directory.CreateDirectory(tempDirectoryName);
+
+            return tempDirectory.FullName;
+        }
+
+        private void OnUnloaded()
+        {
+            if (string.IsNullOrEmpty(_unmanagedDllShadowCopyDirectoryPath))
+            {
+                return;
+            }
+
+            // Attempt to delete shadow copies
+            try
+            {
+                Directory.Delete(_unmanagedDllShadowCopyDirectoryPath, recursive: true);
+            }
+            catch (Exception)
+            {
+                // Files might be locked by host process. Nothing we can do about it, I guess.
+            }
         }
     }
 }
