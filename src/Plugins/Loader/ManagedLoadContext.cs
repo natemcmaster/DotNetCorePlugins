@@ -33,7 +33,7 @@ namespace McMaster.NETCore.Plugins.Loader
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif
-        private string _unmanagedDllShadowCopyDirectoryPath = string.Empty;
+        private readonly string _unmanagedDllShadowCopyDirectoryPath;
 
         public ManagedLoadContext(string mainAssemblyPath,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
@@ -72,6 +72,8 @@ namespace McMaster.NETCore.Plugins.Loader
             _resourceRoots = new[] { _basePath }
                 .Concat(resourceProbingPaths)
                 .ToArray();
+
+            _unmanagedDllShadowCopyDirectoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             if (loadInMemory)
             {
@@ -318,13 +320,6 @@ namespace McMaster.NETCore.Plugins.Loader
         {
             var normalized = Path.GetFullPath(unmanagedDllPath);
 
-            // Create shadow copy directory only when hot reloading is enabled and plugins are
-            // dependent on unmanaged DLL(s).
-            if (_loadInMemory && string.IsNullOrEmpty(_unmanagedDllShadowCopyDirectoryPath))
-            {
-                _unmanagedDllShadowCopyDirectoryPath = CreateTempDirectory();
-            }
-
             return _loadInMemory
                 ? LoadUnmanagedDllFromShadowCopy(normalized)
                 : LoadUnmanagedDllFromPath(normalized);
@@ -339,6 +334,8 @@ namespace McMaster.NETCore.Plugins.Loader
 
         private string CreateShadowCopy(string dllPath)
         {
+            Directory.CreateDirectory(_unmanagedDllShadowCopyDirectoryPath);
+
             var dllFileName = Path.GetFileName(dllPath);
             var shadowCopyPath = Path.Combine(_unmanagedDllShadowCopyDirectoryPath, dllFileName);
 
@@ -347,19 +344,9 @@ namespace McMaster.NETCore.Plugins.Loader
             return shadowCopyPath;
         }
 
-        private string CreateTempDirectory()
-        {
-            var tempDirectoryName = Path.GetTempFileName();
-            File.Delete(tempDirectoryName);
-
-            var tempDirectory = Directory.CreateDirectory(tempDirectoryName);
-
-            return tempDirectory.FullName;
-        }
-
         private void OnUnloaded()
         {
-            if (string.IsNullOrEmpty(_unmanagedDllShadowCopyDirectoryPath))
+            if (!_loadInMemory || !Directory.Exists(_unmanagedDllShadowCopyDirectoryPath))
             {
                 return;
             }
