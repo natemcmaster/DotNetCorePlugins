@@ -1,0 +1,1 @@
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.ShadowCopyNativeLibraries() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder

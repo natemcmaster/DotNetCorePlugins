@@ -33,6 +33,8 @@ namespace McMaster.NETCore.Plugins.Loader
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif
+        private readonly bool _shadowCopyNativeLibraries;
+        private readonly string _unmanagedDllShadowCopyDirectoryPath;
 
         public ManagedLoadContext(string mainAssemblyPath,
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
@@ -44,7 +46,8 @@ namespace McMaster.NETCore.Plugins.Loader
             AssemblyLoadContext defaultLoadContext,
             bool preferDefaultLoadContext,
             bool isCollectible,
-            bool loadInMemory)
+            bool loadInMemory,
+            bool shadowCopyNativeLibraries)
 #if FEATURE_UNLOAD
             : base(Path.GetFileNameWithoutExtension(mainAssemblyPath), isCollectible)
 #endif
@@ -71,6 +74,14 @@ namespace McMaster.NETCore.Plugins.Loader
             _resourceRoots = new[] { _basePath }
                 .Concat(resourceProbingPaths)
                 .ToArray();
+
+            _shadowCopyNativeLibraries = shadowCopyNativeLibraries;
+            _unmanagedDllShadowCopyDirectoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+
+            if (shadowCopyNativeLibraries)
+            {
+                Unloading += _ => OnUnloaded();
+            }
         }
 
         /// <summary>
@@ -175,7 +186,7 @@ namespace McMaster.NETCore.Plugins.Loader
             var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
-                return LoadUnmanagedDllFromPath(resolvedPath);
+                return LoadUnmanagedDllFromResolvedPath(resolvedPath, normalizePath: false);
             }
 #endif
 
@@ -306,10 +317,53 @@ namespace McMaster.NETCore.Plugins.Loader
             return false;
         }
 
-        private IntPtr LoadUnmanagedDllFromResolvedPath(string unmanagedDllPath)
+        private IntPtr LoadUnmanagedDllFromResolvedPath(string unmanagedDllPath, bool normalizePath = true)
         {
-            var normalized = Path.GetFullPath(unmanagedDllPath);
-            return LoadUnmanagedDllFromPath(normalized);
+            if (normalizePath)
+            {
+                unmanagedDllPath = Path.GetFullPath(unmanagedDllPath);
+            }
+
+            return _shadowCopyNativeLibraries
+                ? LoadUnmanagedDllFromShadowCopy(unmanagedDllPath)
+                : LoadUnmanagedDllFromPath(unmanagedDllPath);
+        }
+
+        private IntPtr LoadUnmanagedDllFromShadowCopy(string unmanagedDllPath)
+        {
+            var shadowCopyDllPath = CreateShadowCopy(unmanagedDllPath);
+
+            return LoadUnmanagedDllFromPath(shadowCopyDllPath);
+        }
+
+        private string CreateShadowCopy(string dllPath)
+        {
+            Directory.CreateDirectory(_unmanagedDllShadowCopyDirectoryPath);
+
+            var dllFileName = Path.GetFileName(dllPath);
+            var shadowCopyPath = Path.Combine(_unmanagedDllShadowCopyDirectoryPath, dllFileName);
+
+            File.Copy(dllPath, shadowCopyPath);
+
+            return shadowCopyPath;
+        }
+
+        private void OnUnloaded()
+        {
+            if (!_shadowCopyNativeLibraries || !Directory.Exists(_unmanagedDllShadowCopyDirectoryPath))
+            {
+                return;
+            }
+
+            // Attempt to delete shadow copies
+            try
+            {
+                Directory.Delete(_unmanagedDllShadowCopyDirectoryPath, recursive: true);
+            }
+            catch (Exception)
+            {
+                // Files might be locked by host process. Nothing we can do about it, I guess.
+            }
         }
     }
 }

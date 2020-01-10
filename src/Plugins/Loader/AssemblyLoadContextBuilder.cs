@@ -30,6 +30,7 @@ namespace McMaster.NETCore.Plugins.Loader
 #if FEATURE_UNLOAD
         private bool _isCollectible;
         private bool _loadInMemory;
+        private bool _shadowCopyNativeLibraries;
 #endif
 
         /// <summary>
@@ -64,10 +65,12 @@ namespace McMaster.NETCore.Plugins.Loader
                 _preferDefaultLoadContext,
 #if FEATURE_UNLOAD
                 _isCollectible,
-                _loadInMemory);
+                _loadInMemory,
+                _shadowCopyNativeLibraries);
 #else
                 isCollectible: false,
-                loadInMemory: false);
+                loadInMemory: false,
+                shadowCopyNativeLibraries: false);
 #endif
         }
 
@@ -277,6 +280,18 @@ namespace McMaster.NETCore.Plugins.Loader
         public AssemblyLoadContextBuilder PreloadAssembliesIntoMemory()
         {
             _loadInMemory = true; // required to prevent dotnet from locking loaded files
+            return this;
+        }
+
+        /// <summary>
+        /// Shadow copy native libraries (unmanaged DLLs) to avoid locking of these files.
+        /// This is not as efficient, so is not enabled by default, but is required for scenarios
+        /// like hot reloading of plugins dependent on native libraries.
+        /// </summary>
+        /// <returns>The builder</returns>
+        public AssemblyLoadContextBuilder ShadowCopyNativeLibraries()
+        {
+            _shadowCopyNativeLibraries = true;
             return this;
         }
 #endif

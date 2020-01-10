@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using Microsoft.Data.Sqlite;
 
 namespace TimestampedPlugin
 {
@@ -8,6 +9,12 @@ namespace TimestampedPlugin
     {
         public static void Print()
         {
+            // Use something from Microsoft.Data.Sqlite to trigger loading of native dependency
+            var connectionString = new SqliteConnectionStringBuilder
+            {
+                DataSource = "HELLO"
+            };
+
             var compileTimestamp = typeof(InfoDisplayer)
                 .Assembly
                 .GetCustomAttributes<AssemblyMetadataAttribute>()
@@ -16,7 +23,7 @@ namespace TimestampedPlugin
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("TimestampedPlugin: ");
             Console.ResetColor();
-            Console.WriteLine($"this plugin was compiled at {compileTimestamp}");
+            Console.WriteLine($"this plugin was compiled at {compileTimestamp}. {connectionString.DataSource}!");
         }
     }
 }
