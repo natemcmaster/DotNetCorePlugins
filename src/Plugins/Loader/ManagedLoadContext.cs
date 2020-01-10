@@ -186,9 +186,7 @@ namespace McMaster.NETCore.Plugins.Loader
             var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
-                return _shadowCopyNativeLibraries
-                    ? LoadUnmanagedDllFromShadowCopy(resolvedPath)
-                    : LoadUnmanagedDllFromPath(resolvedPath);
+                return LoadUnmanagedDllFromResolvedPath(resolvedPath, normalizePath: false);
             }
 #endif
 
@@ -319,13 +317,16 @@ namespace McMaster.NETCore.Plugins.Loader
             return false;
         }
 
-        private IntPtr LoadUnmanagedDllFromResolvedPath(string unmanagedDllPath)
+        private IntPtr LoadUnmanagedDllFromResolvedPath(string unmanagedDllPath, bool normalizePath = true)
         {
-            var normalized = Path.GetFullPath(unmanagedDllPath);
+            if (normalizePath)
+            {
+                unmanagedDllPath = Path.GetFullPath(unmanagedDllPath);
+            }
 
             return _shadowCopyNativeLibraries
-                ? LoadUnmanagedDllFromShadowCopy(normalized)
-                : LoadUnmanagedDllFromPath(normalized);
+                ? LoadUnmanagedDllFromShadowCopy(unmanagedDllPath)
+                : LoadUnmanagedDllFromPath(unmanagedDllPath);
         }
 
         private IntPtr LoadUnmanagedDllFromShadowCopy(string unmanagedDllPath)
