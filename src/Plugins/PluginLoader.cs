@@ -363,6 +363,7 @@ namespace McMaster.NETCore.Plugins
             if (config.EnableHotReload)
             {
                 builder.PreloadAssembliesIntoMemory();
+                builder.ShadowCopyNativeLibraries();
             }
 #endif
 

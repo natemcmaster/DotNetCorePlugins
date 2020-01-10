@@ -33,6 +33,7 @@ namespace McMaster.NETCore.Plugins.Loader
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif
+        private readonly bool _shadowCopyNativeLibraries;
         private readonly string _unmanagedDllShadowCopyDirectoryPath;
 
         public ManagedLoadContext(string mainAssemblyPath,
@@ -45,7 +46,8 @@ namespace McMaster.NETCore.Plugins.Loader
             AssemblyLoadContext defaultLoadContext,
             bool preferDefaultLoadContext,
             bool isCollectible,
-            bool loadInMemory)
+            bool loadInMemory,
+            bool shadowCopyNativeLibraries)
 #if FEATURE_UNLOAD
             : base(Path.GetFileNameWithoutExtension(mainAssemblyPath), isCollectible)
 #endif
@@ -73,9 +75,10 @@ namespace McMaster.NETCore.Plugins.Loader
                 .Concat(resourceProbingPaths)
                 .ToArray();
 
+            _shadowCopyNativeLibraries = shadowCopyNativeLibraries;
             _unmanagedDllShadowCopyDirectoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
-            if (loadInMemory)
+            if (shadowCopyNativeLibraries)
             {
                 Unloading += _ => OnUnloaded();
             }
@@ -183,7 +186,7 @@ namespace McMaster.NETCore.Plugins.Loader
             var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
-                return _loadInMemory
+                return _shadowCopyNativeLibraries
                     ? LoadUnmanagedDllFromShadowCopy(resolvedPath)
                     : LoadUnmanagedDllFromPath(resolvedPath);
             }
@@ -320,7 +323,7 @@ namespace McMaster.NETCore.Plugins.Loader
         {
             var normalized = Path.GetFullPath(unmanagedDllPath);
 
-            return _loadInMemory
+            return _shadowCopyNativeLibraries
                 ? LoadUnmanagedDllFromShadowCopy(normalized)
                 : LoadUnmanagedDllFromPath(normalized);
         }
@@ -346,7 +349,7 @@ namespace McMaster.NETCore.Plugins.Loader
 
         private void OnUnloaded()
         {
-            if (!_loadInMemory || !Directory.Exists(_unmanagedDllShadowCopyDirectoryPath))
+            if (!_shadowCopyNativeLibraries || !Directory.Exists(_unmanagedDllShadowCopyDirectoryPath))
             {
                 return;
             }
