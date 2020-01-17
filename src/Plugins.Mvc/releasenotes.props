@@ -1,5 +1,9 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.1.0'">
+No changes to this library, but updated to use 1.1.0 of Microsoft.NETCore.Plugins.
+See https://nuget.org/packages/McMaster.NETCore.Plugins/$(VersionPrefix) for its release notes.
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.0.0'">
 Changes:
 * Add new API: IMvcBuilder.AddPluginLoader(PluginLoader pluginLoader)
