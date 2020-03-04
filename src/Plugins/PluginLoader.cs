@@ -231,7 +231,7 @@ namespace McMaster.NETCore.Plugins
             If you're interested in making improvements, feel free to send a pull request.
             */
 
-            _debouncer = new Debouncer();
+            _debouncer = new Debouncer(_config.ReloadDelay);
 
             _fileWatcher = new FileSystemWatcher();
             _fileWatcher.Path = Path.GetDirectoryName(_config.MainAssemblyPath);

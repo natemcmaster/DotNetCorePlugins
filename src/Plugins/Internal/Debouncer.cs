@@ -10,9 +10,9 @@ namespace McMaster.NETCore.Plugins.Internal
         private readonly TimeSpan _waitTime;
         private int _counter;
 
-        public Debouncer(TimeSpan? waitTime = null)
+        public Debouncer(TimeSpan waitTime)
         {
-            _waitTime = waitTime ?? TimeSpan.FromMilliseconds(500);
+            _waitTime = waitTime;
         }
 
         public void Execute(Action action)
