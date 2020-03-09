@@ -17,7 +17,7 @@ namespace McMaster.NETCore.Plugins.Tests
 
             Assert.Equal(0, executionCounter);
 
-            await Task.Delay(TimeSpan.FromSeconds(.2));
+            await Task.Delay(TimeSpan.FromSeconds(.5));
 
             Assert.Equal(1, executionCounter);
         }
@@ -32,7 +32,7 @@ namespace McMaster.NETCore.Plugins.Tests
             debouncer.Execute(() => executionCounter++);
             debouncer.Execute(() => executionCounter++);
 
-            await Task.Delay(TimeSpan.FromSeconds(.2));
+            await Task.Delay(TimeSpan.FromSeconds(.5));
 
             Assert.Equal(1, executionCounter);
         }
@@ -48,7 +48,7 @@ namespace McMaster.NETCore.Plugins.Tests
                 debouncer.Execute(() => invokedAction = action);
             }
 
-            await Task.Delay(TimeSpan.FromSeconds(.2));
+            await Task.Delay(TimeSpan.FromSeconds(.5));
 
             Assert.NotNull(invokedAction);
             Assert.Equal("c", invokedAction);
