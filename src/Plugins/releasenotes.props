@@ -1,5 +1,9 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.2.0'">
+Changes:
+* @thoemmi - Debounce file system events when using hot reload and add API to control the debounce delay (default = 200 ms) (PR #129)
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.1.0'">
 Changes:
 * Add an API to enable shadow copying native library dependencies (PR #119)

@@ -14,6 +14,7 @@ McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddResourceProbingPat
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AssemblyLoadContextBuilder() -> void
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.Build() -> System.Runtime.Loader.AssemblyLoadContext
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContext(bool preferDefaultLoadContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.ShadowCopyNativeLibraries() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.DependencyContextExtensions
 McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.EnableUnloading() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
@@ -26,6 +27,8 @@ McMaster.NETCore.Plugins.PluginConfig
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.get -> bool
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.set -> void
 McMaster.NETCore.Plugins.PluginConfig.DefaultContext.get -> System.Runtime.Loader.AssemblyLoadContext
+McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.get -> System.TimeSpan
+McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.set -> void
 McMaster.NETCore.Plugins.PluginConfig.DefaultContext.set -> void
 McMaster.NETCore.Plugins.PluginLoader.Reload() -> void
 McMaster.NETCore.Plugins.PluginLoader.Reloaded -> McMaster.NETCore.Plugins.PluginReloadedEventHandler
