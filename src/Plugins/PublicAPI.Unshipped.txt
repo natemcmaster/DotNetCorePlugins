@@ -1,1 +1,3 @@
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.ShadowCopyNativeLibraries() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.get -> System.TimeSpan
+McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.set -> void

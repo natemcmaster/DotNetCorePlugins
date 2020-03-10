@@ -86,6 +86,12 @@ namespace McMaster.NETCore.Plugins
         /// Use the event <see cref="PluginLoader.Reloaded" /> to be notified of changes.
         /// </summary>
         public bool EnableHotReload { get; set; }
+
+        /// <summary>
+        /// Specifies the delay to reload a plugin, after file changes have been detected.
+        /// Default value is 200 milliseconds.
+        /// </summary>
+        public TimeSpan ReloadDelay { get; set; } = TimeSpan.FromMilliseconds(200);
 #endif
     }
 }

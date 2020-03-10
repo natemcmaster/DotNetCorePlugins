@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
+using McMaster.NETCore.Plugins.Internal;
 using McMaster.NETCore.Plugins.Loader;
 
 namespace McMaster.NETCore.Plugins
@@ -153,6 +154,7 @@ namespace McMaster.NETCore.Plugins
 
 #if FEATURE_UNLOAD
         private FileSystemWatcher? _fileWatcher;
+        private Debouncer? _debouncer;
 #endif
 
         /// <summary>
@@ -223,12 +225,13 @@ namespace McMaster.NETCore.Plugins
             Some improvements that could be made in the future:
 
                 * Watch all directories which contain assemblies that could be loaded
-                * Debounce changes. When files are written in-place, there can be multiple events within a few milliseconds.
                 * Support a polling file watcher.
                 * Handle delete/recreate better.
 
             If you're interested in making improvements, feel free to send a pull request.
             */
+
+            _debouncer = new Debouncer(_config.ReloadDelay);
 
             _fileWatcher = new FileSystemWatcher();
             _fileWatcher.Path = Path.GetDirectoryName(_config.MainAssemblyPath);
@@ -242,7 +245,7 @@ namespace McMaster.NETCore.Plugins
         {
             if (!_disposed)
             {
-                Reload();
+                _debouncer?.Execute(Reload);
             }
         }
 #endif
@@ -321,6 +324,8 @@ namespace McMaster.NETCore.Plugins
                 _fileWatcher.Changed -= OnFileChanged;
                 _fileWatcher.Dispose();
             }
+
+            _debouncer?.Dispose();
 
             if (_context.IsCollectible)
             {
