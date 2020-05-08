@@ -27,6 +27,8 @@ McMaster.NETCore.Plugins.PluginConfig
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.get -> bool
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.set -> void
 McMaster.NETCore.Plugins.PluginConfig.DefaultContext.get -> System.Runtime.Loader.AssemblyLoadContext
+McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.get -> bool
+McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.set -> void
 McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.get -> System.TimeSpan
 McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.set -> void
 McMaster.NETCore.Plugins.PluginConfig.DefaultContext.set -> void

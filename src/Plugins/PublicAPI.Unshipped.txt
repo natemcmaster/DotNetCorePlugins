@@ -1,2 +1,0 @@
-McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.get -> bool
-McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.set -> void
