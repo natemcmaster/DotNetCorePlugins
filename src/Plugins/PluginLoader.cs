@@ -364,8 +364,8 @@ namespace McMaster.NETCore.Plugins
             {
                 builder.EnableUnloading();
             }
-
-            if (config.EnableHotReload)
+            
+            if (config.LoadInMemory)
             {
                 builder.PreloadAssembliesIntoMemory();
                 builder.ShadowCopyNativeLibraries();

@@ -81,10 +81,27 @@ namespace McMaster.NETCore.Plugins
             set => _isUnloadable = value;
         }
 
+        private bool _loadInMemory;
+
+        /// <summary>
+        /// Loads assemblies into memory in order to not lock files.
+        /// As example use case here would be: no hot reloading but able to
+        /// replace files and reload manually at later time
+        /// </summary>
+        public bool LoadInMemory
+        {
+            get => _loadInMemory || EnableHotReload;
+            set => _loadInMemory = value;
+        }
+
         /// <summary>
         /// When any of the loaded files changes on disk, the plugin will be reloaded.
         /// Use the event <see cref="PluginLoader.Reloaded" /> to be notified of changes.
         /// </summary>
+        /// <remarks>
+        /// It will load assemblies into memory in order to not lock files
+        /// <see cref="LoadInMemory"/>
+        /// </remarks>
         public bool EnableHotReload { get; set; }
 
         /// <summary>
