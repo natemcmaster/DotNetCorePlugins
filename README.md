@@ -1,7 +1,7 @@
 .NET Core Plugins
 =================
 
-[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=master)](https://dev.azure.com/natemcmaster/github/_build/latest?definitionId=6&branchName=master)
+[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=main)](https://dev.azure.com/natemcmaster/github/_build/?definitionId=6)
 
 [![NuGet][main-nuget-badge] ![NuGet Downloads][nuget-download-badge]][main-nuget]
 
