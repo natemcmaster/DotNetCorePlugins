@@ -5,8 +5,6 @@ param(
     $Configuration = $null,
     [switch]
     $ci,
-    [switch]
-    $sign,
     [Parameter(ValueFromRemainingArguments = $true)]
     [string[]]$MSBuildArgs
 )
@@ -30,13 +28,6 @@ if ($ci) {
 
 if (-not (Test-Path variable:\IsCoreCLR)) {
     $IsWindows = $true
-}
-
-$isPr = $env:BUILD_REASON -eq 'PullRequest'
-$CodeSign = $sign -or ($ci -and -not $isPr -and $IsWindows)
-if ($CodeSign) {
-    exec dotnet tool restore
-    $MSBuildArgs += '-p:CodeSign=true'
 }
 
 $artifacts = "$PSScriptRoot/artifacts/"
