@@ -22,10 +22,6 @@
     <Nullable Condition="'$(TargetFramework)' == 'netcoreapp3.0'">enable</Nullable>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)src\StrongName.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
-    <AzureKeyVaultUrl>https://nmcmaster.vault.azure.net</AzureKeyVaultUrl>
-    <AzureKeyVaultClientId>6a27a2da-bb78-4baa-bd2b-150fe89ea039</AzureKeyVaultClientId>
-    <AzureKeyVaultClientSecret>$(KEYVAULT_CLIENT_SECRET)</AzureKeyVaultClientSecret>
-    <CodeSignCertName>DigiCertCodeSign</CodeSignCertName>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
     <WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
 
