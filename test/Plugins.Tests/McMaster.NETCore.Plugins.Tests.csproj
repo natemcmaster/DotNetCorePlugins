@@ -29,6 +29,7 @@
     <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
     <TestProject Include="..\TestProjects\SqlClientApp\SqlClientApp.csproj" />
     <TestProject Include="..\TestProjects\TransitivePlugin\TransitivePlugin.csproj" />
+    <TestProject Include="..\TestProjects\NativeDependency\NativeDependency.csproj" Condition=" '$(TargetFramework)' == 'netcoreapp3.1' " />
     <PublishedTestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
     <MultitargetTestProject Include="..\TestProjects\WithOwnPlugins\WithOwnPlugins.csproj" />
   </ItemGroup>
