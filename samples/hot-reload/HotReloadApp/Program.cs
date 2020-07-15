@@ -11,7 +11,11 @@ namespace HostApp
         {
             var pluginPath = args[0];
             var loader = PluginLoader.CreateFromAssemblyFile(pluginPath,
-                config => config.EnableHotReload = true);
+                config =>
+                {
+                    config.EnableHotReload = true;
+                    config.NativeLibrariesToPreload.Add("e_sqlite3");
+                });
 
             loader.Reloaded += ShowPluginInfo;
 

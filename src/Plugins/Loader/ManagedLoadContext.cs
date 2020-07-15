@@ -26,6 +26,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _privateAssemblies;
         private readonly IReadOnlyCollection<string> _defaultAssemblies;
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
+        private readonly IReadOnlyCollection<IntPtr> _preloadedNativeLibraryHandles;
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
         private bool _loadInMemory;
@@ -43,6 +44,7 @@ namespace McMaster.NETCore.Plugins.Loader
             IReadOnlyCollection<string> defaultAssemblies,
             IReadOnlyCollection<string> additionalProbingPaths,
             IReadOnlyCollection<string> resourceProbingPaths,
+            IReadOnlyCollection<string> nativeLibrariesToPreload,
             AssemblyLoadContext defaultLoadContext,
             bool preferDefaultLoadContext,
             bool isCollectible,
@@ -81,6 +83,20 @@ namespace McMaster.NETCore.Plugins.Loader
             if (shadowCopyNativeLibraries)
             {
                 Unloading += _ => OnUnloaded();
+            }
+
+            _preloadedNativeLibraryHandles = nativeLibrariesToPreload
+                .Select(libraryName => LoadUnmanagedDll(libraryName))
+                .ToList()
+                .AsReadOnly();
+        }
+
+        // Clean up unmanaged resources
+        ~ManagedLoadContext()
+        {
+            foreach (var nativeLibraryHandle in _preloadedNativeLibraryHandles)
+            {
+                System.Runtime.InteropServices.NativeLibrary.Free(nativeLibraryHandle);
             }
         }
 

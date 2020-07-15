@@ -1,0 +1,3 @@
+McMaster.NETCore.Plugins.PluginConfig.NativeLibrariesToPreload.get -> System.Collections.Generic.ICollection<string>
+McMaster.NETCore.Plugins.PluginConfig.NativeLibrariesToPreload.set -> void
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreloadNativeLibrary(string nativeLibraryName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder

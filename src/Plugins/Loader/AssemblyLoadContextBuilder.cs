@@ -23,6 +23,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
         private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
         private readonly HashSet<string> _defaultAssemblies = new HashSet<string>(StringComparer.Ordinal);
+        private readonly HashSet<string> _nativeLibrariesToPreload = new HashSet<string>(StringComparer.Ordinal);
         private AssemblyLoadContext _defaultLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
         private string? _mainAssemblyPath;
         private bool _preferDefaultLoadContext;
@@ -61,6 +62,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 _defaultAssemblies,
                 _additionalProbingPaths,
                 resourceProbingPaths,
+                _nativeLibrariesToPreload,
                 _defaultLoadContext,
                 _preferDefaultLoadContext,
 #if FEATURE_UNLOAD
@@ -292,6 +294,30 @@ namespace McMaster.NETCore.Plugins.Loader
         public AssemblyLoadContextBuilder ShadowCopyNativeLibraries()
         {
             _shadowCopyNativeLibraries = true;
+            return this;
+        }
+
+        /// <summary>
+        /// Preloads the specified native library into the assembly load context before
+        /// any other resolving happens. This is might be required when hot reloading is
+        /// enabled and a plugin depends on a native library that is loaded using
+        /// <see cref="System.Runtime.InteropServices.NativeLibrary.Load(string, Assembly, System.Runtime.InteropServices.DllImportSearchPath?)"/>.
+        /// <para>
+        /// If you get exceptions with the message "Unable to load DLL '[X]' or one of its
+        /// dependencies: The specified module could not be found.", this method is here
+        /// to help.
+        /// </para>
+        /// </summary>
+        /// <param name="nativeLibraryName">The name of the native library</param>
+        /// <returns>The builder</returns>
+        public AssemblyLoadContextBuilder PreloadNativeLibrary(string nativeLibraryName)
+        {
+            if (string.IsNullOrEmpty(nativeLibraryName))
+            {
+                throw new ArgumentException("Value must not be null or empty.", nameof(nativeLibraryName));
+            }
+
+            _nativeLibrariesToPreload.Add(nativeLibraryName);
             return this;
         }
 #endif

@@ -369,6 +369,11 @@ namespace McMaster.NETCore.Plugins
             {
                 builder.PreloadAssembliesIntoMemory();
                 builder.ShadowCopyNativeLibraries();
+
+                foreach (var nativeLibraryName in config.NativeLibrariesToPreload)
+                {
+                    builder.PreloadNativeLibrary(nativeLibraryName);
+                }
             }
 #endif
 

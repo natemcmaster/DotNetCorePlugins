@@ -15,6 +15,8 @@ namespace TimestampedPlugin
                 DataSource = "HELLO"
             };
 
+            using var dbConnection = new SqliteConnection(connectionString.ToString());
+
             var compileTimestamp = typeof(InfoDisplayer)
                 .Assembly
                 .GetCustomAttributes<AssemblyMetadataAttribute>()
@@ -23,7 +25,7 @@ namespace TimestampedPlugin
             Console.ForegroundColor = ConsoleColor.Green;
             Console.Write("TimestampedPlugin: ");
             Console.ResetColor();
-            Console.WriteLine($"this plugin was compiled at {compileTimestamp}. {connectionString.DataSource}!");
+            Console.WriteLine($"this plugin was compiled at {compileTimestamp}.");
         }
     }
 }

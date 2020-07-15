@@ -109,6 +109,19 @@ namespace McMaster.NETCore.Plugins
         /// Default value is 200 milliseconds.
         /// </summary>
         public TimeSpan ReloadDelay { get; set; } = TimeSpan.FromMilliseconds(200);
+
+        /// <summary>
+        /// A list of native library names that is loaded into the assembly load context before
+        /// any other resolving happens. This is might be required when hot reloading is
+        /// enabled and a plugin depends on a native library that is loaded using
+        /// <see cref="System.Runtime.InteropServices.NativeLibrary.Load(string, Assembly, System.Runtime.InteropServices.DllImportSearchPath?)"/>.
+        /// <para>
+        /// If you get exceptions with the message "Unable to load DLL '[X]' or one of its
+        /// dependencies: The specified module could not be found.", add those libraries to this
+        /// list.
+        /// </para>
+        /// </summary>
+        public ICollection<string> NativeLibrariesToPreload { get; protected set; } = new List<string>();
 #endif
     }
 }
