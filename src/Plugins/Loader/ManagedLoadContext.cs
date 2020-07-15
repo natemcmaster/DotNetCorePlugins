@@ -91,6 +91,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 .AsReadOnly();
         }
 
+#if FEATURE_UNLOAD
         // Clean up unmanaged resources
         ~ManagedLoadContext()
         {
@@ -99,6 +100,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 System.Runtime.InteropServices.NativeLibrary.Free(nativeLibraryHandle);
             }
         }
+#endif
 
         /// <summary>
         /// Load an assembly.
