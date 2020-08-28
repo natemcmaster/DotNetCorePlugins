@@ -33,8 +33,8 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.3.0</VersionPrefix>
-    <VersionSuffix>rc</VersionSuffix>
+    <VersionPrefix>1.3.1</VersionPrefix>
+    <VersionSuffix>beta</VersionSuffix>
     <IncludePreReleaseLabelInPackageVersion Condition="'$(IsStableBuild)' != 'true'">true</IncludePreReleaseLabelInPackageVersion>
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">$([MSBuild]::ValueOrDefault($(BUILD_NUMBER), 0))</BuildNumber>
     <VersionSuffix>$(VersionSuffix).$(BuildNumber)</VersionSuffix>
