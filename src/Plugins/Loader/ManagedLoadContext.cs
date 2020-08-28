@@ -343,7 +343,10 @@ namespace McMaster.NETCore.Plugins.Loader
             var dllFileName = Path.GetFileName(dllPath);
             var shadowCopyPath = Path.Combine(_unmanagedDllShadowCopyDirectoryPath, dllFileName);
 
-            File.Copy(dllPath, shadowCopyPath);
+            if (!File.Exists(shadowCopyPath))
+            {
+                File.Copy(dllPath, shadowCopyPath);
+            }
 
             return shadowCopyPath;
         }
