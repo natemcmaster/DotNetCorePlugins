@@ -15,6 +15,7 @@ McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AssemblyLoadContextBu
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.Build() -> System.Runtime.Loader.AssemblyLoadContext
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContext(bool preferDefaultLoadContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.ShadowCopyNativeLibraries() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.IsLazyLoaded(bool isLazyLoaded) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.Loader.DependencyContextExtensions
 McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.EnableUnloading() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
@@ -53,6 +54,8 @@ McMaster.NETCore.Plugins.PluginConfig.PreferSharedTypes.set -> void
 McMaster.NETCore.Plugins.PluginConfig.PrivateAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName>
 McMaster.NETCore.Plugins.PluginConfig.SharedAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName>
 McMaster.NETCore.Plugins.PluginConfig.SharedAssemblies.set -> void
+McMaster.NETCore.Plugins.PluginConfig.IsLazyLoaded.get -> bool
+McMaster.NETCore.Plugins.PluginConfig.IsLazyLoaded.set -> void
 McMaster.NETCore.Plugins.PluginLoader.Dispose() -> void
 McMaster.NETCore.Plugins.PluginLoader.IsUnloadable.get -> bool
 McMaster.NETCore.Plugins.PluginLoader.LoadAssemblyFromPath(string assemblyPath) -> System.Reflection.Assembly

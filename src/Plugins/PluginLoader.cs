@@ -379,6 +379,7 @@ namespace McMaster.NETCore.Plugins
             }
 #endif
 
+            builder.IsLazyLoaded(config.IsLazyLoaded);
             foreach (var assemblyName in config.SharedAssemblies)
             {
                 builder.PreferDefaultLoadContextAssembly(assemblyName);

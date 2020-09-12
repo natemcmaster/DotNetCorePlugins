@@ -26,6 +26,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private AssemblyLoadContext _defaultLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
         private string? _mainAssemblyPath;
         private bool _preferDefaultLoadContext;
+        private bool _lazyLoadReferences;
 
 #if FEATURE_UNLOAD
         private bool _isCollectible;
@@ -63,6 +64,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 resourceProbingPaths,
                 _defaultLoadContext,
                 _preferDefaultLoadContext,
+                _lazyLoadReferences,
 #if FEATURE_UNLOAD
                 _isCollectible,
                 _loadInMemory,
@@ -148,6 +150,25 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns>The builder.</returns>
         public AssemblyLoadContextBuilder PreferDefaultLoadContextAssembly(AssemblyName assemblyName)
         {
+            // Lazy loaded references have dependencies resolved as they are loaded inside the actual Load Context.
+            if (_lazyLoadReferences)
+            {
+                if (assemblyName.Name != null && !_defaultAssemblies.Contains(assemblyName.Name))
+                {
+                    _defaultAssemblies.Add(assemblyName.Name);
+                    var assembly = _defaultLoadContext.LoadFromAssemblyName(assemblyName);
+                    foreach (var reference in assembly.GetReferencedAssemblies())
+                    {
+                        if (reference.Name != null)
+                        {
+                            _defaultAssemblies.Add(reference.Name);
+                        }
+                    }
+                }
+
+                return this;
+            }
+            
             var names = new Queue<AssemblyName>();
             names.Enqueue(assemblyName);
             while (names.TryDequeue(out var name))
@@ -190,6 +211,19 @@ namespace McMaster.NETCore.Plugins.Loader
         public AssemblyLoadContextBuilder PreferDefaultLoadContext(bool preferDefaultLoadContext)
         {
             _preferDefaultLoadContext = preferDefaultLoadContext;
+            return this;
+        }
+
+        /// <summary>
+        /// Instructs the load context to lazy load dependencies of all shared assemblies.
+        /// Reduces plugin load time at the expense of non-determinism in how transitive dependencies are loaded
+        /// between the plugin and the host.
+        /// </summary>
+        /// <param name="isLazyLoaded">True to lazy load, else false.</param>
+        /// <returns>The builder.</returns>
+        public AssemblyLoadContextBuilder IsLazyLoaded(bool isLazyLoaded)
+        {
+            _lazyLoadReferences = isLazyLoaded;
             return this;
         }
 
