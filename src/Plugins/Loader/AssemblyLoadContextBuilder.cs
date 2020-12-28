@@ -218,6 +218,11 @@ namespace McMaster.NETCore.Plugins.Loader
         /// Instructs the load context to lazy load dependencies of all shared assemblies.
         /// Reduces plugin load time at the expense of non-determinism in how transitive dependencies are loaded
         /// between the plugin and the host.
+        ///
+        /// Please be aware of the danger of using this option:
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/pull/164#issuecomment-751557873">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/pull/164#issuecomment-751557873
+        /// </seealso>
         /// </summary>
         /// <param name="isLazyLoaded">True to lazy load, else false.</param>
         /// <returns>The builder.</returns>

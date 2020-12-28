@@ -41,7 +41,7 @@ namespace McMaster.NETCore.Plugins.Loader
             IReadOnlyDictionary<string, ManagedLibrary> managedAssemblies,
             IReadOnlyDictionary<string, NativeLibrary> nativeLibraries,
             IReadOnlyCollection<string> privateAssemblies,
-            ICollection<string> defaultAssemblies,
+            IReadOnlyCollection<string> defaultAssemblies,
             IReadOnlyCollection<string> additionalProbingPaths,
             IReadOnlyCollection<string> resourceProbingPaths,
             AssemblyLoadContext defaultLoadContext,
@@ -66,7 +66,7 @@ namespace McMaster.NETCore.Plugins.Loader
             _basePath = Path.GetDirectoryName(mainAssemblyPath) ?? throw new ArgumentException(nameof(mainAssemblyPath));
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
-            _defaultAssemblies = defaultAssemblies ?? throw new ArgumentNullException(nameof(defaultAssemblies));
+            _defaultAssemblies = defaultAssemblies != null ? defaultAssemblies.ToList() : throw new ArgumentNullException(nameof(defaultAssemblies));
             _nativeLibraries = nativeLibraries ?? throw new ArgumentNullException(nameof(nativeLibraries));
             _additionalProbingPaths = additionalProbingPaths ?? throw new ArgumentNullException(nameof(additionalProbingPaths));
             _defaultLoadContext = defaultLoadContext;

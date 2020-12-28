@@ -40,25 +40,17 @@ namespace McMaster.NETCore.Plugins.Tests
         /// accounted for. Without this, the order in which code loads
         /// could cause different assembly versions to be loaded.
         /// </summary>
-        [Fact]
-        public void TransitiveAssembliesOfSharedTypesAreResolved()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TransitiveAssembliesOfSharedTypesAreResolved(bool isLazyLoaded)
         {
-            using var loader = PluginLoader.CreateFromAssemblyFile(
-                    TestResources.GetTestProjectAssembly("TransitivePlugin"),
-                    sharedTypes: new[] { typeof(SharedType) });
-
-            TransitiveAssembliesOfSharedTypesAreResolvedBase(loader);
-        }
-
-        /// <summary>
-        /// Variant of <see cref="TransitiveAssembliesOfSharedTypesAreResolved"/> which uses lazy loading for assemblies.
-        /// </summary>
-        [Fact]
-        public void LazyLoadedTransitiveAssembliesOfSharedTypesAreResolved()
-        {
-            using var loader = PluginLoader.CreateFromAssemblyFile(TestResources.GetTestProjectAssembly("TransitivePlugin"), sharedTypes: new[] { typeof(SharedType) }, config => config.IsLazyLoaded = true);
-
-            TransitiveAssembliesOfSharedTypesAreResolvedBase(loader);
+            using var loader = PluginLoader.CreateFromAssemblyFile(TestResources.GetTestProjectAssembly("TransitivePlugin"), sharedTypes: new[] { typeof(SharedType) }, config => config.IsLazyLoaded = isLazyLoaded);
+            var assembly = loader.LoadDefaultAssembly();
+            var configType = assembly.GetType("TransitivePlugin.PluginConfig", throwOnError: true)!;
+            var config = Activator.CreateInstance(configType);
+            var transitiveInstance = configType.GetMethod("GetTransitiveType")?.Invoke(config, null);
+            Assert.IsType<Test.Transitive.TransitiveSharedType>(transitiveInstance);
         }
 
         /// <summary>
@@ -108,15 +100,6 @@ namespace McMaster.NETCore.Plugins.Tests
 
             var callingContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly());
             Assert.True(config?.TryLoadPluginsInCustomContext(callingContext));
-        }
-
-        private void TransitiveAssembliesOfSharedTypesAreResolvedBase(PluginLoader loader)
-        {
-            var assembly = loader.LoadDefaultAssembly();
-            var configType = assembly.GetType("TransitivePlugin.PluginConfig", throwOnError: true)!;
-            var config = Activator.CreateInstance(configType);
-            var transitiveInstance = configType.GetMethod("GetTransitiveType")?.Invoke(config, null);
-            Assert.IsType<Test.Transitive.TransitiveSharedType>(transitiveInstance);
         }
     }
 }
