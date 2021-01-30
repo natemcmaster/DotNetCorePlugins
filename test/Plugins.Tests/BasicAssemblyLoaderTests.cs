@@ -9,11 +9,11 @@ namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1
         [Fact]
         public void PluginLoaderCanUnload()
         {
-            var path = TestResources.GetTestProjectAssembly("NetCoreApp20App");
+            var path = TestResources.GetTestProjectAssembly("NetCoreApp2App");
 
             // See https://github.com/dotnet/coreclr/pull/22221
 
@@ -36,7 +36,7 @@ namespace McMaster.NETCore.Plugins.Tests
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
-                .GetType("NetCoreApp20App.Program", throwOnError: true)!
+                .GetType("NetCoreApp2App.Program", throwOnError: true)!
                 .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
 
             Assert.True(loader.IsUnloadable);
@@ -81,14 +81,14 @@ namespace McMaster.NETCore.Plugins.Tests
         }
 
         [Fact]
-        public void LoadsNetCoreApp20Project()
+        public void LoadsNetCoreApp2Project()
         {
-            var path = TestResources.GetTestProjectAssembly("NetCoreApp20App");
+            var path = TestResources.GetTestProjectAssembly("NetCoreApp2App");
             var loader = PluginLoader.CreateFromAssemblyFile(path);
             var assembly = loader.LoadDefaultAssembly();
 
             var method = assembly
-                .GetType("NetCoreApp20App.Program", throwOnError: true)!
+                .GetType("NetCoreApp2App.Program", throwOnError: true)!
                 .GetMethod("GetGreeting", BindingFlags.Static | BindingFlags.Public);
             Assert.NotNull(method);
             Assert.Equal("Hello world!", method!.Invoke(null, Array.Empty<object>()));
@@ -144,7 +144,7 @@ namespace McMaster.NETCore.Plugins.Tests
         {
             var path = TestResources.GetTestProjectAssembly("Plátano");
             var loader = PluginLoader.CreateFromAssemblyFile(path,
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1
                 isUnloadable: true,
 #endif
                 sharedTypes: new[] { typeof(IFruit) });

@@ -20,7 +20,7 @@
     <ProjectReference Include="..\TestProjects\SharedAbstraction.v2\SharedAbstraction.v2.csproj" />
     <TestProject Include="..\TestProjects\ReferencedLibv2\ReferencedLibv2.csproj" />
     <TestProject Include="..\TestProjects\DrawingApp\DrawingApp.csproj" />
-    <TestProject Include="..\TestProjects\NetCoreApp20App\NetCoreApp20App.csproj" />
+    <TestProject Include="..\TestProjects\NetCoreApp2App\NetCoreApp2App.csproj" />
     <TestProject Include="..\TestProjects\NetStandardClassLib\NetStandardClassLib.csproj" />
     <TestProject Include="..\TestProjects\JsonNet9\JsonNet9.csproj" />
     <TestProject Include="..\TestProjects\JsonNet10\JsonNet10.csproj" />

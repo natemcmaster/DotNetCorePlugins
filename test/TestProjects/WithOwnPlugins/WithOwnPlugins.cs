@@ -1,4 +1,7 @@
-﻿using System;
+// Copyright (c) Nate McMaster.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,7 +23,7 @@ namespace WithOwnPlugins
                 throw new ArgumentException("The context of the caller is the context of this assembly. This invalidates the test.");
             }
 
-            #if NETCOREAPP3_0
+#if NETCOREAPP3_1
             /*
                 Ensure the source calling context does not have our plugin's interfaces loaded.
                 This guarantees that the Assembly cannot possibly unify with the default load context.
@@ -34,7 +37,7 @@ namespace WithOwnPlugins
             {
                 throw new ArgumentException("The context of the caller has this plugin's interface to interact with its own plugins loaded. Test is void.");
             }
-            #endif 
+#endif
 
             // Load our own plugins: Remember, we are in an isolated, non-default ALC.
             var plugins = new List<ISayHello?>();
