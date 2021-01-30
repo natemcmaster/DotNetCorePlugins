@@ -18,44 +18,77 @@ indent_size = 2
 indent_size                                                            = 4
 
 # Style I care about
-csharp_style_expression_bodied_constructors                            = false : error
-csharp_prefer_braces                                                   = true : error
-dotnet_sort_system_directives_first                                    = true : error
+csharp_style_expression_bodied_constructors                            = false
+csharp_prefer_braces                                                   = true
+dotnet_sort_system_directives_first                                    = true
+csharp_using_directive_placement                                       = outside_namespace
 
 # Stuff that is usually best
-csharp_style_inlined_variable_declaration                              = true : warning
-csharp_style_var_elsewhere                                             = true : warning
-csharp_space_after_cast                                                = true : warning
-csharp_style_pattern_matching_over_as_with_null_check                  = true : warning
-csharp_style_pattern_matching_over_is_with_cast_check                  = true : warning
-csharp_style_var_for_built_in_types                                    = true : warning
-csharp_style_var_when_type_is_apparent                                 = true : warning
-csharp_new_line_before_catch                                           = true : warning
-csharp_new_line_before_else                                            = true : warning
-csharp_new_line_before_finally                                         = true : warning
-csharp_indent_case_contents                                            = true : warning
+csharp_style_inlined_variable_declaration                              = true
+csharp_style_var_elsewhere                                             = true
+csharp_space_after_cast                                                = false
+csharp_style_pattern_matching_over_as_with_null_check                  = true
+csharp_style_pattern_matching_over_is_with_cast_check                  = true
+csharp_style_var_for_built_in_types                                    = true
+csharp_style_var_when_type_is_apparent                                 = true
+csharp_new_line_before_catch                                           = true
+csharp_new_line_before_else                                            = true
+csharp_new_line_before_finally                                         = true
+csharp_indent_case_contents                                            = true
 csharp_new_line_before_open_brace                                      = all
-csharp_indent_switch_labels                                            = true : warning
+csharp_indent_switch_labels                                            = true
 csharp_indent_labels                                                   = one_less_than_current
-csharp_prefer_simple_default_expression                                = true : warning
+csharp_prefer_simple_default_expression                                = true
+csharp_preserve_single_line_blocks                                     = true
+csharp_preserve_single_line_statements                                 = true
 
 # Good defaults, but not always
-dotnet_style_object_initializer                                        = true : suggestion
-csharp_style_expression_bodied_indexers                                = true : suggestion
-csharp_style_expression_bodied_accessors                               = true : suggestion
-csharp_style_throw_expression                                          = true : suggestion
+dotnet_style_object_initializer                                        = true
+csharp_style_expression_bodied_indexers                                = true
+csharp_style_expression_bodied_accessors                               = true
+csharp_style_throw_expression                                          = true
+
+# Default severity for analyzer diagnostics with category 'Style' (escalated to build warnings)
+# dotnet_analyzer_diagnostic.category-Style.severity                     = suggestion
+
+# Required naming style
+dotnet_diagnostic.IDE0006.severity = error
+
+# suppress warning aboud unused methods
+dotnet_diagnostic.IDE0051.severity = none
+
+# Missing required header
+dotnet_diagnostic.IDE0040.severity = error
+
+# Missing accessibility modifier
+dotnet_diagnostic.IDE0073.severity = warning
+
+# Remove unnecessary parenthesis
+dotnet_diagnostic.IDE0047.severity = warning
+
+# Parenthesis added for clarity
+dotnet_diagnostic.IDE0048.severity = warning
+
+# Suppress explicit type instead of var
+dotnet_diagnostic.IDE0008.severity = none
+
+# Suppress unused expression
+dotnet_diagnostic.IDE0058.severity = none
+
+
 
 # Naming styles
 
 ## Constants are PascalCase
 dotnet_naming_style.pascal_case.capitalization                         = pascal_case
 
-dotnet_naming_symbols.constants.applicable_kinds                       = *
+dotnet_naming_symbols.constants.applicable_kinds                       = field, property
+dotnet_naming_symbols.constants.applicable_accessibilities             = *
 dotnet_naming_symbols.constants.required_modifiers                     = const
 
-dotnet_naming_rule.constants_should_be_pascale_case.symbols            = constants
-dotnet_naming_rule.constants_should_be_pascale_case.style              = pascal_case
-dotnet_naming_rule.constants_should_be_pascale_case.severity           = error
+dotnet_naming_rule.constants_should_be_pascal_case.symbols             = constants
+dotnet_naming_rule.constants_should_be_pascal_case.style               = pascal_case
+dotnet_naming_rule.constants_should_be_pascal_case.severity            = error
 
 ## Private static fields start with s_
 dotnet_naming_style.s_underscore_camel_case.required_prefix            = s_
@@ -79,3 +112,6 @@ dotnet_naming_symbols.private_fields.applicable_accessibilities        = private
 dotnet_naming_rule.private_fields_should_be_underscore.symbols         = private_fields
 dotnet_naming_rule.private_fields_should_be_underscore.style           = underscore_camel_case
 dotnet_naming_rule.private_fields_should_be_underscore.severity        = error
+
+# File header
+file_header_template = Copyright (c) Nate McMaster.\nLicensed under the Apache License, Version 2.0. See License.txt in the project root for license information.

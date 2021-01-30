@@ -17,9 +17,10 @@
     <DebugType>portable</DebugType>
     <IsPackable>false</IsPackable>
     <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <Nullable>annotations</Nullable>
-    <Nullable Condition="'$(TargetFramework)' == 'netcoreapp3.0'">enable</Nullable>
+    <Nullable Condition="'$(TargetFramework)' != 'netcoreapp2.1'">enable</Nullable>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)src\StrongName.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
