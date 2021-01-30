@@ -82,19 +82,14 @@ namespace McMaster.NETCore.Plugins.Loader
                 return "any";
             }
 
-            switch (RuntimeInformation.OSArchitecture)
+            return RuntimeInformation.OSArchitecture switch
             {
-                case Architecture.X86:
-                    return ridBase + "-x86";
-                case Architecture.X64:
-                    return ridBase + "-x64";
-                case Architecture.Arm:
-                    return ridBase + "-arm";
-                case Architecture.Arm64:
-                    return ridBase + "-arm64";
-            }
-
-            return ridBase;
+                Architecture.X86 => ridBase + "-x86",
+                Architecture.X64 => ridBase + "-x64",
+                Architecture.Arm => ridBase + "-arm",
+                Architecture.Arm64 => ridBase + "-arm64",
+                _ => ridBase,
+            };
         }
 
         /// <summary>

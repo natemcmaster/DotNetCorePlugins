@@ -28,8 +28,8 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
-        private bool _loadInMemory;
-        private AssemblyLoadContext _defaultLoadContext;
+        private readonly bool _loadInMemory;
+        private readonly AssemblyLoadContext _defaultLoadContext;
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif

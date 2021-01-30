@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Nate McMaster.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -40,20 +43,20 @@ namespace McMaster.NETCore.Plugins.Tests
         [Fact]
         public void ItCanDowngradeUnifiedTypes()
         {
-            var samplePath = TestResources.GetTestProjectAssembly("NetCoreApp20App");
+            var samplePath = TestResources.GetTestProjectAssembly("NetCoreApp2App");
 
             var defaultLoader = new AssemblyLoadContextBuilder()
                .SetMainAssemblyPath(samplePath)
                .AddProbingPath(samplePath)
                .PreferDefaultLoadContext(false)
-               .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "NetCoreApp20App.deps.json"))
+               .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "NetCoreApp2App.deps.json"))
                .Build();
 
             var unifedLoader = new AssemblyLoadContextBuilder()
               .SetMainAssemblyPath(samplePath)
               .AddProbingPath(samplePath)
               .PreferDefaultLoadContext(true)
-              .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "NetCoreApp20App.deps.json"))
+              .AddDependencyContext(Path.Combine(Path.GetDirectoryName(samplePath)!, "NetCoreApp2App.deps.json"))
               .Build();
 
             Assert.Equal(new Version("2.0.0.0"), LoadAssembly(defaultLoader, "Test.Referenced.Library").GetName().Version);

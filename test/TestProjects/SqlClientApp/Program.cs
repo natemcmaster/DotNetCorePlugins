@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Nate McMaster.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
 using System.Data.SqlClient;
 
 namespace SqlClientApp
@@ -14,11 +16,9 @@ namespace SqlClientApp
         {
             try
             {
-                using (var client = new SqlConnection(@"Data Source=(localdb)\mssqllocaldb;Integrated Security=True"))
-                {
-                    client.Open();
-                    return !string.IsNullOrEmpty(client.ServerVersion);
-                }
+                using var client = new SqlConnection(@"Data Source=(localdb)\mssqllocaldb;Integrated Security=True");
+                client.Open();
+                return !string.IsNullOrEmpty(client.ServerVersion);
             }
             catch (SqlException ex) when (ex.Number == -2)  // -2 means SQL timeout
             {

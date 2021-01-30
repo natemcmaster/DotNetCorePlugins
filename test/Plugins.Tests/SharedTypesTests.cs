@@ -1,6 +1,8 @@
-﻿using System;
+﻿// Copyright (c) Nate McMaster.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -58,7 +60,7 @@ namespace McMaster.NETCore.Plugins.Tests
         /// This is a carefully crafted example which tests
         /// whether the library can be used outside of the default load context
         /// (<see cref="AssemblyLoadContext.Default"/>).
-        /// 
+        ///
         /// It works by loading a plugin (that gets loaded into another ALC)
         /// which in turn loads its own plugins using the library. If said plugin
         /// can successfully share its own types, the test should work.
@@ -70,7 +72,7 @@ namespace McMaster.NETCore.Plugins.Tests
              * It will load its own plugins, which are not known to this ALC.
              * Then this ALC will ask that ALC if it managed to successfully its own plugins.
              */
-            
+
             using var loader = PluginLoader.CreateFromAssemblyFile(TestResources.GetTestProjectAssembly("WithOwnPlugins"), new[] { typeof(IWithOwnPlugins) });
             var assembly = loader.LoadDefaultAssembly();
             var configType = assembly.GetType("WithOwnPlugins.WithOwnPlugins", throwOnError: true)!;

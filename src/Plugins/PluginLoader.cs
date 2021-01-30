@@ -40,7 +40,7 @@ namespace McMaster.NETCore.Plugins
         /// </param>
         /// <returns>A loader.</returns>
         public static PluginLoader CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, Type[] sharedTypes)
-            => CreateFromAssemblyFile(assemblyFile,isUnloadable, sharedTypes, _ => { });
+            => CreateFromAssemblyFile(assemblyFile, isUnloadable, sharedTypes, _ => { });
 
         /// <summary>
         /// Create a plugin loader for an assembly file.
@@ -233,8 +233,10 @@ namespace McMaster.NETCore.Plugins
 
             _debouncer = new Debouncer(_config.ReloadDelay);
 
-            _fileWatcher = new FileSystemWatcher();
-            _fileWatcher.Path = Path.GetDirectoryName(_config.MainAssemblyPath);
+            _fileWatcher = new FileSystemWatcher
+            {
+                Path = Path.GetDirectoryName(_config.MainAssemblyPath)
+            };
             _fileWatcher.Changed += OnFileChanged;
             _fileWatcher.Filter = "*.dll";
             _fileWatcher.NotifyFilter = NotifyFilters.LastWrite;
@@ -364,7 +366,7 @@ namespace McMaster.NETCore.Plugins
             {
                 builder.EnableUnloading();
             }
-            
+
             if (config.LoadInMemory)
             {
                 builder.PreloadAssembliesIntoMemory();
