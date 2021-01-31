@@ -70,7 +70,7 @@ There is nothing special about the name "IPlugin" or the fact that it's an inter
 
 ### The plugins
 
-Typically, it is best to implement plugins by targeting `netcoreapp2.0` or higher. They can target `netstandard2.0` as well, but using `netcoreapp2.0` is better because it reduces the number of redundant System.\* assemblies in the plugin output.
+Typically, it is best to implement plugins by targeting `net5.0` or higher. They can target `netstandard2.0` as well, but using `net5.0` is better because it reduces the number of redundant System.\* assemblies in the plugin output.
 
 A minimal implementation of the plugin could be as simple as this.
 

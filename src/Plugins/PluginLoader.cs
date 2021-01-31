@@ -293,7 +293,7 @@ namespace McMaster.NETCore.Plugins
             return LoadAssembly(new AssemblyName(assemblyName));
         }
 
-#if NETCOREAPP3_0
+#if !NETCOREAPP2_1
         /// <summary>
         /// Sets the scope used by some System.Reflection APIs which might trigger assembly loading.
         /// <para>
