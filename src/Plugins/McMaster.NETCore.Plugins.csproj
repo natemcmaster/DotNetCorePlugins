@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netcoreapp2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;netcoreapp2.1</TargetFrameworks>
     <!--
-      The netcoreapp2.0 API is a subset of the API available in netcoreapp3.0. The public API tool doesn't handle multiple TFMs.
+      The netcoreapp2.1 API is a subset of the API available in netcoreapp3.1. The public API tool doesn't handle multiple TFMs.
       https://github.com/dotnet/roslyn-analyzers/issues/2621
     -->
-    <DisablePublicApiAnalyzer Condition="'$(TargetFramework)' == 'netcoreapp2.0'">true</DisablePublicApiAnalyzer>
+    <DisablePublicApiAnalyzer Condition="'$(TargetFramework)' == 'netcoreapp2.1'">true</DisablePublicApiAnalyzer>
     <OutputType>library</OutputType>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -16,14 +16,14 @@ This package should be used by the host application which needs to load plugins.
 See https://github.com/natemcmaster/DotNetCorePlugins/blob/master/README.md for more samples and documentation.
     </PackageDescription>
     <PackageTags>.NET Core;plugins</PackageTags>
-    <DefineConstants Condition="'$(TargetFramework)' == 'netcoreapp3.0'">$(DefineConstants);FEATURE_UNLOAD</DefineConstants>
-    <DefineConstants Condition="'$(TargetFramework)' == 'netcoreapp3.0'">$(DefineConstants);FEATURE_NATIVE_RESOLVER</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'netcoreapp3.1'">$(DefineConstants);FEATURE_UNLOAD</DefineConstants>
+    <DefineConstants Condition="'$(TargetFramework)' == 'netcoreapp3.1'">$(DefineConstants);FEATURE_NATIVE_RESOLVER</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
-    <PackageReference Include="System.Text.Json" Version="5.0.1" Condition="'$(TargetFramework)' == 'netcoreapp2.0'" />
+    <PackageReference Include="System.Text.Json" Version="5.0.1" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
   </ItemGroup>
 
 </Project>
