@@ -154,7 +154,7 @@ namespace McMaster.NETCore.Plugins.Loader
             {
                 // if an assembly was not listed in the list of known assemblies,
                 // fallback to the load context base directory
-                var dllName   = assemblyName.Name + ".dll";
+                var dllName = assemblyName.Name + ".dll";
                 foreach (var probingPath in _additionalProbingPaths.Prepend(_basePath))
                 {
                     var localFile = Path.Combine(probingPath, dllName);
