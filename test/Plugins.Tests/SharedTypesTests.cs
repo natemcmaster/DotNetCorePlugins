@@ -42,13 +42,12 @@ namespace McMaster.NETCore.Plugins.Tests
         /// accounted for. Without this, the order in which code loads
         /// could cause different assembly versions to be loaded.
         /// </summary>
-        [Fact]
-        public void TransitiveAssembliesOfSharedTypesAreResolved()
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void TransitiveAssembliesOfSharedTypesAreResolved(bool isLazyLoaded)
         {
-            using var loader = PluginLoader.CreateFromAssemblyFile(
-                    TestResources.GetTestProjectAssembly("TransitivePlugin"),
-                    sharedTypes: new[] { typeof(SharedType) });
-
+            using var loader = PluginLoader.CreateFromAssemblyFile(TestResources.GetTestProjectAssembly("TransitivePlugin"), sharedTypes: new[] { typeof(SharedType) }, config => config.IsLazyLoaded = isLazyLoaded);
             var assembly = loader.LoadDefaultAssembly();
             var configType = assembly.GetType("TransitivePlugin.PluginConfig", throwOnError: true)!;
             var config = Activator.CreateInstance(configType);

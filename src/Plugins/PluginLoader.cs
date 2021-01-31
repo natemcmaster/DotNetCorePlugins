@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
@@ -112,9 +113,15 @@ namespace McMaster.NETCore.Plugins
                     {
                         if (sharedTypes != null)
                         {
+                            var uniqueAssemblies = new HashSet<Assembly>();
                             foreach (var type in sharedTypes)
                             {
-                                config.SharedAssemblies.Add(type.Assembly.GetName());
+                                uniqueAssemblies.Add(type.Assembly);
+                            }
+
+                            foreach (var assembly in uniqueAssemblies)
+                            {
+                                config.SharedAssemblies.Add(assembly.GetName());
                             }
                         }
                         configure(config);
@@ -374,6 +381,7 @@ namespace McMaster.NETCore.Plugins
             }
 #endif
 
+            builder.IsLazyLoaded(config.IsLazyLoaded);
             foreach (var assemblyName in config.SharedAssemblies)
             {
                 builder.PreferDefaultLoadContextAssembly(assemblyName);

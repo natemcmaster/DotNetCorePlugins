@@ -63,6 +63,18 @@ namespace McMaster.NETCore.Plugins
         public bool PreferSharedTypes { get; set; }
 
         /// <summary>
+        /// If enabled, will lazy load dependencies of all shared assemblies.
+        /// Reduces plugin load time at the expense of non-determinism in how transitive dependencies are loaded
+        /// between the plugin and the host.
+        ///
+        /// Please be aware of the danger of using this option:
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/pull/164#issuecomment-751557873">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/pull/164#issuecomment-751557873
+        /// </seealso>
+        /// </summary>
+        public bool IsLazyLoaded { get; set; } = false;
+
+        /// <summary>
         /// If set, replaces the default <see cref="AssemblyLoadContext"/> used by the <see cref="PluginLoader"/>.
         /// Use this feature if the <see cref="AssemblyLoadContext"/> of the <see cref="Assembly"/> is not the Runtime's default load context.
         /// i.e. (AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly) != <see cref="AssemblyLoadContext.Default"/>

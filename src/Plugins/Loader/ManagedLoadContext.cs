@@ -24,11 +24,12 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyDictionary<string, ManagedLibrary> _managedAssemblies;
         private readonly IReadOnlyDictionary<string, NativeLibrary> _nativeLibraries;
         private readonly IReadOnlyCollection<string> _privateAssemblies;
-        private readonly IReadOnlyCollection<string> _defaultAssemblies;
+        private readonly ICollection<string> _defaultAssemblies;
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
         private readonly bool _loadInMemory;
+        private readonly bool _lazyLoadReferences;
         private readonly AssemblyLoadContext _defaultLoadContext;
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
@@ -45,6 +46,7 @@ namespace McMaster.NETCore.Plugins.Loader
             IReadOnlyCollection<string> resourceProbingPaths,
             AssemblyLoadContext defaultLoadContext,
             bool preferDefaultLoadContext,
+            bool lazyLoadReferences,
             bool isCollectible,
             bool loadInMemory,
             bool shadowCopyNativeLibraries)
@@ -64,12 +66,13 @@ namespace McMaster.NETCore.Plugins.Loader
             _basePath = Path.GetDirectoryName(mainAssemblyPath) ?? throw new ArgumentException(nameof(mainAssemblyPath));
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
-            _defaultAssemblies = defaultAssemblies ?? throw new ArgumentNullException(nameof(defaultAssemblies));
+            _defaultAssemblies = defaultAssemblies != null ? defaultAssemblies.ToList() : throw new ArgumentNullException(nameof(defaultAssemblies));
             _nativeLibraries = nativeLibraries ?? throw new ArgumentNullException(nameof(nativeLibraries));
             _additionalProbingPaths = additionalProbingPaths ?? throw new ArgumentNullException(nameof(additionalProbingPaths));
             _defaultLoadContext = defaultLoadContext;
             _preferDefaultLoadContext = preferDefaultLoadContext;
             _loadInMemory = loadInMemory;
+            _lazyLoadReferences = lazyLoadReferences;
 
             _resourceRoots = new[] { _basePath }
                 .Concat(resourceProbingPaths)
@@ -105,6 +108,19 @@ namespace McMaster.NETCore.Plugins.Loader
                     var defaultAssembly = _defaultLoadContext.LoadFromAssemblyName(assemblyName);
                     if (defaultAssembly != null)
                     {
+                        // Add referenced assemblies to the list of default assemblies.
+                        // This is basically lazy loading
+                        if (_lazyLoadReferences)
+                        {
+                            foreach (var reference in defaultAssembly.GetReferencedAssemblies())
+                            {
+                                if (reference.Name != null && !_defaultAssemblies.Contains(reference.Name))
+                                {
+                                    _defaultAssemblies.Add(reference.Name);
+                                }
+                            }
+                        }
+
                         // Older versions used to return null here such that returned assembly would be resolved from the default ALC.
                         // However, with the addition of custom default ALCs, the Default ALC may not be the user's chosen ALC when
                         // this context was built. As such, we simply return the Assembly from the user's chosen default load context.

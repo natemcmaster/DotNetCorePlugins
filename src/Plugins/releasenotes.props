@@ -2,7 +2,8 @@
   <PropertyGroup>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.4.0'">
 Changes:
-* @Sewer56 - search in additional probing paths (PR #172)
+* @Sewer56 - feature: add option to support lazy loading of transitive dependencies to increase performance (PR #164)
+* @Sewer56 - bugfix: search in additional probing paths (PR #172)
     </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.3.1'">
 Changes:
