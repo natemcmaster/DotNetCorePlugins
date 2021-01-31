@@ -5,13 +5,13 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(DisablePublicApiAnalyzer)' != 'true'">
-    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="2.9.8" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.2" PrivateAssets="All" />
     <AdditionalFiles Include="PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
   </ItemGroup>
 
-  <Target Name="UpdateCiSettings" Condition="'$(CI)' == 'true'">
-    <Message Importance="High" Text="##vso[build.updatebuildnumber]$(PackageVersion)" />
+  <Target Name="UpdateCiSettings" Condition="'$(CI)' == 'true' AND '$(IsPackable)' == 'true'">
+    <Message Importance="High" Text="::set-output name=package_version::$(PackageVersion)" />
   </Target>
 
 </Project>

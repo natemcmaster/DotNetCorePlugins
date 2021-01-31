@@ -12,7 +12,7 @@ namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
-#if NETCOREAPP3_1
+#if !NETCOREAPP2_1
         [Fact]
         public void PluginLoaderCanUnload()
         {
@@ -147,7 +147,7 @@ namespace McMaster.NETCore.Plugins.Tests
         {
             var path = TestResources.GetTestProjectAssembly("Plátano");
             var loader = PluginLoader.CreateFromAssemblyFile(path,
-#if NETCOREAPP3_1
+#if !NETCOREAPP2_1
                 isUnloadable: true,
 #endif
                 sharedTypes: new[] { typeof(IFruit) });

@@ -23,7 +23,7 @@ namespace WithOwnPlugins
                 throw new ArgumentException("The context of the caller is the context of this assembly. This invalidates the test.");
             }
 
-#if NETCOREAPP3_1
+#if !NETCOREAPP2_1
             /*
                 Ensure the source calling context does not have our plugin's interfaces loaded.
                 This guarantees that the Assembly cannot possibly unify with the default load context.
