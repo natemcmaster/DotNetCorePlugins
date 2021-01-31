@@ -1,6 +1,8 @@
-﻿using System;
+﻿// Copyright (c) Nate McMaster.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Reflection;
-using System.Runtime.Loader;
 using Xunit;
 
 namespace McMaster.NETCore.Plugins.Tests

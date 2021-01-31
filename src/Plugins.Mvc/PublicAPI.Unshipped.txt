@@ -1,1 +1,0 @@
-static Microsoft.Extensions.DependencyInjection.MvcPluginExtensions.AddPluginLoader(this Microsoft.Extensions.DependencyInjection.IMvcBuilder mvcBuilder, McMaster.NETCore.Plugins.PluginLoader pluginLoader) -> Microsoft.Extensions.DependencyInjection.IMvcBuilder

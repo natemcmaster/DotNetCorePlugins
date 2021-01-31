@@ -15,7 +15,7 @@ namespace McMaster.NETCore.Plugins.Loader
     public static class RuntimeConfigExtensions
     {
         private const string JsonExt = ".json";
-        private static readonly JsonSerializerOptions s_serializerOptions = new JsonSerializerOptions()
+        private static readonly JsonSerializerOptions s_serializerOptions = new()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };

@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Nate McMaster.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Threading.Tasks;
 using McMaster.NETCore.Plugins.Internal;
 using Xunit;
@@ -43,7 +46,7 @@ namespace McMaster.NETCore.Plugins.Tests
             string? invokedAction = null;
 
             var debouncer = new Debouncer(TimeSpan.FromSeconds(.1));
-            foreach (var action in new[]{"a", "b", "c"})
+            foreach (var action in new[] { "a", "b", "c" })
             {
                 debouncer.Execute(() => invokedAction = action);
             }
