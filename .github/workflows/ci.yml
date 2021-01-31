@@ -93,11 +93,14 @@ jobs:
           name: ${{ env.PACKAGE_VERSION }}
           tag_name: v${{ env.PACKAGE_VERSION }}
           body: |
+            ## Notes
+
+            ## How to get this update
             Packages have been posted to these feeds:
 
             #### NuGet.org
-            https://nuget.org/packages/DotNetCorePlugins/${{ env.PACKAGE_VERSION }}
-            https://nuget.org/packages/DotNetCorePlugins.Azure/${{ env.PACKAGE_VERSION }}
+            https://nuget.org/packages/McMaster.NETCore.Plugins/${{ env.PACKAGE_VERSION }}
+            https://nuget.org/packages/McMaster.NETCore.Plugins.Mvc/${{ env.PACKAGE_VERSION }}
 
             #### GitHub Package Registry
             https://github.com/natemcmaster?tab=packages&repo_name=DotNetCorePlugins

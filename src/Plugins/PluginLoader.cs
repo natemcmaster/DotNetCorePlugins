@@ -34,8 +34,8 @@ namespace McMaster.NETCore.Plugins
         /// A list of types which should be shared between the host and the plugin.
         /// </para>
         /// <para>
-        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
-        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md
         /// </seealso>
         /// </para>
         /// </param>
@@ -53,8 +53,8 @@ namespace McMaster.NETCore.Plugins
         /// A list of types which should be shared between the host and the plugin.
         /// </para>
         /// <para>
-        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
-        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md
         /// </seealso>
         /// </para>
         /// </param>
@@ -81,8 +81,8 @@ namespace McMaster.NETCore.Plugins
         /// A list of types which should be shared between the host and the plugin.
         /// </para>
         /// <para>
-        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
-        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md
         /// </seealso>
         /// </para>
         /// </param>
@@ -99,8 +99,8 @@ namespace McMaster.NETCore.Plugins
         /// A list of types which should be shared between the host and the plugin.
         /// </para>
         /// <para>
-        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md">
-        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/master/docs/what-are-shared-types.md
+        /// <seealso href="https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md">
+        /// https://github.com/natemcmaster/DotNetCorePlugins/blob/main/docs/what-are-shared-types.md
         /// </seealso>
         /// </para>
         /// </param>
