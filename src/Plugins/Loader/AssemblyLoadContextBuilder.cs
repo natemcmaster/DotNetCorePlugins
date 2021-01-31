@@ -168,7 +168,7 @@ namespace McMaster.NETCore.Plugins.Loader
 
                 return this;
             }
-            
+
             var names = new Queue<AssemblyName>();
             names.Enqueue(assemblyName);
             while (names.TryDequeue(out var name))
