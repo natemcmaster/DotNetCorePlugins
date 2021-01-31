@@ -28,9 +28,9 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly IReadOnlyCollection<string> _additionalProbingPaths;
         private readonly bool _preferDefaultLoadContext;
         private readonly string[] _resourceRoots;
-        private bool _loadInMemory;
-        private bool _lazyLoadReferences;
-        private AssemblyLoadContext _defaultLoadContext;
+        private readonly bool _loadInMemory;
+        private readonly bool _lazyLoadReferences;
+        private readonly AssemblyLoadContext _defaultLoadContext;
 #if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
 #endif
@@ -109,7 +109,7 @@ namespace McMaster.NETCore.Plugins.Loader
                     if (defaultAssembly != null)
                     {
                         // Add referenced assemblies to the list of default assemblies.
-                        // This is basically lazy loading 
+                        // This is basically lazy loading
                         if (_lazyLoadReferences)
                         {
                             foreach (var reference in defaultAssembly.GetReferencedAssemblies())
@@ -170,10 +170,14 @@ namespace McMaster.NETCore.Plugins.Loader
             {
                 // if an assembly was not listed in the list of known assemblies,
                 // fallback to the load context base directory
-                var localFile = Path.Combine(_basePath, assemblyName.Name + ".dll");
-                if (File.Exists(localFile))
+                var dllName = assemblyName.Name + ".dll";
+                foreach (var probingPath in _additionalProbingPaths.Prepend(_basePath))
                 {
-                    return LoadAssemblyFromFilePath(localFile);
+                    var localFile = Path.Combine(probingPath, dllName);
+                    if (File.Exists(localFile))
+                    {
+                        return LoadAssemblyFromFilePath(localFile);
+                    }
                 }
             }
 
@@ -241,17 +245,24 @@ namespace McMaster.NETCore.Plugins.Loader
                         else
                         {
                             // fallback to native assets which match the file name in the plugin base directory
-                            var localFile = Path.Combine(_basePath, prefix + unmanagedDllName + suffix);
-                            if (File.Exists(localFile))
+                            var prefixSuffixDllName = prefix + unmanagedDllName + suffix;
+                            var prefixDllName = prefix + unmanagedDllName;
+
+                            foreach (var probingPath in _additionalProbingPaths.Prepend(_basePath))
                             {
-                                return LoadUnmanagedDllFromResolvedPath(localFile);
+                                var localFile = Path.Combine(probingPath, prefixSuffixDllName);
+                                if (File.Exists(localFile))
+                                {
+                                    return LoadUnmanagedDllFromResolvedPath(localFile);
+                                }
+
+                                var localFileWithoutSuffix = Path.Combine(probingPath, prefixDllName);
+                                if (File.Exists(localFileWithoutSuffix))
+                                {
+                                    return LoadUnmanagedDllFromResolvedPath(localFileWithoutSuffix);
+                                }
                             }
 
-                            var localFileWithoutSuffix = Path.Combine(_basePath, prefix + unmanagedDllName);
-                            if (File.Exists(localFileWithoutSuffix))
-                            {
-                                return LoadUnmanagedDllFromResolvedPath(localFileWithoutSuffix);
-                            }
                         }
                     }
 

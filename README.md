@@ -1,12 +1,15 @@
 .NET Core Plugins
 =================
 
-[![Build Status](https://dev.azure.com/natemcmaster/github/_apis/build/status/DotNetCorePlugins?branchName=main)](https://dev.azure.com/natemcmaster/github/_build/?definitionId=6)
+[![Build Status][ci-badge]][ci] [![Code Coverage][codecov-badge]][codecov]
+[![NuGet][nuget-badge] ![NuGet Downloads][nuget-download-badge]][nuget]
 
-[![NuGet][main-nuget-badge] ![NuGet Downloads][nuget-download-badge]][main-nuget]
-
-[main-nuget]: https://www.nuget.org/packages/McMaster.NETCore.Plugins/
-[main-nuget-badge]: https://img.shields.io/nuget/v/McMaster.NETCore.Plugins.svg?style=flat-square&label=nuget
+[ci]: https://github.com/natemcmaster/DotNetCorePlugins/actions?query=workflow%3ACI+branch%3Amain
+[ci-badge]: https://github.com/natemcmaster/DotNetCorePlugins/workflows/CI/badge.svg
+[codecov]: https://codecov.io/gh/natemcmaster/DotNetCorePlugins
+[codecov-badge]: https://codecov.io/gh/natemcmaster/DotNetCorePlugins/branch/main/graph/badge.svg?token=l6uSsHZ8nA
+[nuget]: https://www.nuget.org/packages/McMaster.NETCore.Plugins/
+[nuget-badge]: https://img.shields.io/nuget/v/McMaster.NETCore.Plugins.svg?style=flat-square
 [nuget-download-badge]: https://img.shields.io/nuget/dt/McMaster.NETCore.Plugins?style=flat-square
 
 
@@ -14,16 +17,16 @@ This project provides API for loading .NET Core assemblies dynamically, executin
 This library supports .NET Core 2, but works best in .NET Core 3 and up. It allows fine-grained control over
 assembly isolation and type sharing. Read [more details about type sharing below](#shared-types).
 
-Blog post introducing this project, July 25, 2018: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/). 
+Blog post introducing this project, July 25, 2018: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/).
 
-Since 2018, .NET Core 3
+**Since 2018, .NET Core 3**
 has been released which added API to improve assembly loading. If you are interested in understanding that API, see "[Create a .NET Core application with plugins][plugin-tutorial]" on docs.microsoft.com. The result of this tutorial would be simple version of DotNetCorePlugins, but missing some features like an API for unifying types across the load context boundary, hot reload, and .NET Core 2.1 support.
 
 [plugin-tutorial]: https://docs.microsoft.com/dotnet/core/tutorials/creating-app-with-plugin-support
 
 ## Getting started
 
-You can install the plugin loading API using the [`McMaster.NETCore.Plugins` NuGet package.][main-nuget]
+You can install the plugin loading API using the [`McMaster.NETCore.Plugins` NuGet package.][nuget]
 
 ```
 dotnet add package McMaster.NETCore.Plugins
@@ -67,7 +70,7 @@ There is nothing special about the name "IPlugin" or the fact that it's an inter
 
 ### The plugins
 
-Typically, it is best to implement plugins by targeting `netcoreapp2.0` or higher. They can target `netstandard2.0` as well, but using `netcoreapp2.0` is better because it reduces the number of redundant System.\* assemblies in the plugin output.
+Typically, it is best to implement plugins by targeting `net5.0` or higher. They can target `netstandard2.0` as well, but using `net5.0` is better because it reduces the number of redundant System.\* assemblies in the plugin output.
 
 A minimal implementation of the plugin could be as simple as this.
 
@@ -112,41 +115,35 @@ This is just one way to implement a host. More examples of how to use plugins ca
 ```csharp
 using McMaster.NETCore.Plugins;
 
-public class Program
+var loaders = new List<PluginLoader>();
+
+// create plugin loaders
+var pluginsDir = Path.Combine(AppContext.BaseDirectory, "plugins");
+foreach (var dir in Directory.GetDirectories(pluginsDir))
 {
-    public static void Main(string[] args)
+    var dirName = Path.GetFileName(dir);
+    var pluginDll = Path.Combine(dir, dirName + ".dll");
+    if (File.Exists(pluginDll))
     {
-        var loaders = new List<PluginLoader>();
+        var loader = PluginLoader.CreateFromAssemblyFile(
+            pluginDll,
+            sharedTypes: new [] { typeof(IPlugin) });
+        loaders.Add(loader);
+    }
+}
 
-        // create plugin loaders
-        var pluginsDir = Path.Combine(AppContext.BaseDirectory, "plugins");
-        foreach (var dir in Directory.GetDirectories(pluginsDir))
-        {
-            var dirName = Path.GetFileName(dir);
-            var pluginDll = Path.Combine(dir, dirName + ".dll");
-            if (File.Exists(pluginDll))
-            {
-                var loader = PluginLoader.CreateFromAssemblyFile(
-                    pluginDll,
-                    sharedTypes: new [] { typeof(IPlugin) });
-                loaders.Add(loader);
-            }
-        }
+// Create an instance of plugin types
+foreach (var loader in loaders)
+{
+    foreach (var pluginType in loader
+        .LoadDefaultAssembly()
+        .GetTypes()
+        .Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsAbstract))
+    {
+        // This assumes the implementation of IPlugin has a parameterless constructor
+        IPlugin plugin = (IPlugin)Activator.CreateInstance(pluginType);
 
-        // Create an instance of plugin types
-        foreach (var loader in loaders)
-        {
-            foreach (var pluginType in loader
-                .LoadDefaultAssembly()
-                .GetTypes()
-                .Where(t => typeof(IPlugin).IsAssignableFrom(t) && !t.IsAbstract))
-            {
-                // This assumes the implementation of IPlugin has a parameterless constructor
-                IPlugin plugin = (IPlugin)Activator.CreateInstance(pluginType);
-
-                Console.WriteLine($"Created plugin instance '{plugin.GetName()}'.");
-            }
-        }
+        Console.WriteLine($"Created plugin instance '{plugin.GetName()}'.");
     }
 }
 ```

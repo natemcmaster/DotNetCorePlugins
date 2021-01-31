@@ -34,6 +34,15 @@ $artifacts = "$PSScriptRoot/artifacts/"
 
 Remove-Item -Recurse $artifacts -ErrorAction Ignore
 
+exec dotnet tool restore
+
+[string[]] $formatArgs=@()
+if ($ci) {
+    $formatArgs += '--check'
+}
+
+exec dotnet tool run dotnet-format -- -v detailed @formatArgs
+
 exec dotnet build --configuration $Configuration '-warnaserror:CS1591' @MSBuildArgs
 exec dotnet pack --no-restore --no-build --configuration $Configuration -o $artifacts @MSBuildArgs
 
@@ -44,7 +53,15 @@ if ($env:TF_BUILD) {
 
 exec dotnet test --no-restore --no-build --configuration $Configuration '-clp:Summary' `
     "$PSScriptRoot/test/Plugins.Tests/McMaster.NETCore.Plugins.Tests.csproj" `
+    --collect:"XPlat Code Coverage" `
     @testArgs `
     @MSBuildArgs
 
-write-host -f magenta 'Done'
+if ($ci) {
+    exec dotnet tool run reportgenerator `
+        "-reports:$PSScriptRoot/**/coverage.cobertura.xml" `
+        "-targetdir:$PSScriptRoot/coverlet/reports" `
+        "-reporttypes:Cobertura"
+}
+
+write-host -f green 'BUILD SUCCEEDED'

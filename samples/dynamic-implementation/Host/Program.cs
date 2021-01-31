@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Nate McMaster.
+// Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,9 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Host
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var services = new ServiceCollection();
             var loaders = GetPluginLoaders();
@@ -20,7 +23,7 @@ namespace Host
             var serviceProvider = services.BuildServiceProvider();
 
             var mixer = serviceProvider.GetRequiredService<IMixerService>();
-            var result = mixer.MixIt();
+            mixer.MixIt();
         }
 
         private static List<PluginLoader> GetPluginLoaders()

@@ -16,13 +16,13 @@ namespace McMaster.NETCore.Plugins.Loader
     /// </summary>
     public class AssemblyLoadContextBuilder
     {
-        private readonly List<string> _additionalProbingPaths = new List<string>();
-        private readonly List<string> _resourceProbingPaths = new List<string>();
-        private readonly List<string> _resourceProbingSubpaths = new List<string>();
-        private readonly Dictionary<string, ManagedLibrary> _managedLibraries = new Dictionary<string, ManagedLibrary>(StringComparer.Ordinal);
-        private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new Dictionary<string, NativeLibrary>(StringComparer.Ordinal);
-        private readonly HashSet<string> _privateAssemblies = new HashSet<string>(StringComparer.Ordinal);
-        private readonly HashSet<string> _defaultAssemblies = new HashSet<string>(StringComparer.Ordinal);
+        private readonly List<string> _additionalProbingPaths = new();
+        private readonly List<string> _resourceProbingPaths = new();
+        private readonly List<string> _resourceProbingSubpaths = new();
+        private readonly Dictionary<string, ManagedLibrary> _managedLibraries = new(StringComparer.Ordinal);
+        private readonly Dictionary<string, NativeLibrary> _nativeLibraries = new(StringComparer.Ordinal);
+        private readonly HashSet<string> _privateAssemblies = new(StringComparer.Ordinal);
+        private readonly HashSet<string> _defaultAssemblies = new(StringComparer.Ordinal);
         private AssemblyLoadContext _defaultLoadContext = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
         private string? _mainAssemblyPath;
         private bool _preferDefaultLoadContext;

@@ -6,3 +6,4 @@ artifacts/
 *.user
 launchSettings.json
 .dotnet/
+TestResults/
