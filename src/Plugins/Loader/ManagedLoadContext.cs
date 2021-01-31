@@ -154,10 +154,14 @@ namespace McMaster.NETCore.Plugins.Loader
             {
                 // if an assembly was not listed in the list of known assemblies,
                 // fallback to the load context base directory
-                var localFile = Path.Combine(_basePath, assemblyName.Name + ".dll");
-                if (File.Exists(localFile))
+                var dllName = assemblyName.Name + ".dll";
+                foreach (var probingPath in _additionalProbingPaths.Prepend(_basePath))
                 {
-                    return LoadAssemblyFromFilePath(localFile);
+                    var localFile = Path.Combine(probingPath, dllName);
+                    if (File.Exists(localFile))
+                    {
+                        return LoadAssemblyFromFilePath(localFile);
+                    }
                 }
             }
 
@@ -225,17 +229,24 @@ namespace McMaster.NETCore.Plugins.Loader
                         else
                         {
                             // fallback to native assets which match the file name in the plugin base directory
-                            var localFile = Path.Combine(_basePath, prefix + unmanagedDllName + suffix);
-                            if (File.Exists(localFile))
+                            var prefixSuffixDllName = prefix + unmanagedDllName + suffix;
+                            var prefixDllName = prefix + unmanagedDllName;
+
+                            foreach (var probingPath in _additionalProbingPaths.Prepend(_basePath))
                             {
-                                return LoadUnmanagedDllFromResolvedPath(localFile);
+                                var localFile = Path.Combine(probingPath, prefixSuffixDllName);
+                                if (File.Exists(localFile))
+                                {
+                                    return LoadUnmanagedDllFromResolvedPath(localFile);
+                                }
+
+                                var localFileWithoutSuffix = Path.Combine(probingPath, prefixDllName);
+                                if (File.Exists(localFileWithoutSuffix))
+                                {
+                                    return LoadUnmanagedDllFromResolvedPath(localFileWithoutSuffix);
+                                }
                             }
 
-                            var localFileWithoutSuffix = Path.Combine(_basePath, prefix + unmanagedDllName);
-                            if (File.Exists(localFileWithoutSuffix))
-                            {
-                                return LoadUnmanagedDllFromResolvedPath(localFileWithoutSuffix);
-                            }
                         }
                     }
 
