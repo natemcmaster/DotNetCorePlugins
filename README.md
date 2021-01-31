@@ -20,13 +20,13 @@ assembly isolation and type sharing. Read [more details about type sharing below
 Blog post introducing this project, July 25, 2018: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/).
 
 **Since 2018, .NET Core 3**
-has been released which added API to improve assembly loading. If you are interested in understanding that API, see "[Create a .NET Core application with plugins][plugin-tutorial]" on docs.microsoft.com. The result of this tutorial would be simple version of DotNetCorePlugins, but missing some features like an API for unifying types across the load context boundary, hot reload, and .NET Core 2.1 support.
+was released, and it added stdlib API to improve assembly loading. If you are interested in understanding that API, see "[Create a .NET Core application with plugins][plugin-tutorial]" on docs.microsoft.com. The result of this tutorial would be a simpler version of DotNetCorePlugins, but missing some features like an API for unifying types across the load context boundary, hot reload, and .NET Core 2 support.
 
 [plugin-tutorial]: https://docs.microsoft.com/dotnet/core/tutorials/creating-app-with-plugin-support
 
 ## Getting started
 
-You can install the plugin loading API using the [`McMaster.NETCore.Plugins` NuGet package.][nuget]
+Install the [`McMaster.NETCore.Plugins` NuGet package.][nuget]
 
 ```
 dotnet add package McMaster.NETCore.Plugins
