@@ -1,71 +1,72 @@
+#nullable enable
 McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary
-McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.AdditionalProbingPath.get -> string
-McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.AppLocalPath.get -> string
-McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.Name.get -> System.Reflection.AssemblyName
+McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.AdditionalProbingPath.get -> string!
+McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.AppLocalPath.get -> string!
+McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.Name.get -> System.Reflection.AssemblyName!
 McMaster.NETCore.Plugins.LibraryModel.NativeLibrary
-McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.AdditionalProbingPath.get -> string
-McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.AppLocalPath.get -> string
-McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.Name.get -> string
+McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.AdditionalProbingPath.get -> string!
+McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.AppLocalPath.get -> string!
+McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.Name.get -> string!
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddManagedLibrary(McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary library) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddNativeLibrary(McMaster.NETCore.Plugins.LibraryModel.NativeLibrary library) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddProbingPath(string path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddResourceProbingPath(string path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddManagedLibrary(McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary! library) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddNativeLibrary(McMaster.NETCore.Plugins.LibraryModel.NativeLibrary! library) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddProbingPath(string! path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AddResourceProbingPath(string! path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.AssemblyLoadContextBuilder() -> void
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.Build() -> System.Runtime.Loader.AssemblyLoadContext
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContext(bool preferDefaultLoadContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.ShadowCopyNativeLibraries() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.Build() -> System.Runtime.Loader.AssemblyLoadContext!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.EnableUnloading() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContext(bool preferDefaultLoadContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContextAssembly(System.Reflection.AssemblyName! assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferLoadContextAssembly(System.Reflection.AssemblyName! assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreloadAssembliesIntoMemory() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetDefaultContext(System.Runtime.Loader.AssemblyLoadContext! context) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetMainAssemblyPath(string! path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.ShadowCopyNativeLibraries() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
 McMaster.NETCore.Plugins.Loader.DependencyContextExtensions
 McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.EnableUnloading() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreloadAssembliesIntoMemory() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetMainAssemblyPath(string path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferDefaultLoadContextAssembly(System.Reflection.AssemblyName assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreferLoadContextAssembly(System.Reflection.AssemblyName assemblyName) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetDefaultContext(System.Runtime.Loader.AssemblyLoadContext context) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
 McMaster.NETCore.Plugins.PluginConfig
+McMaster.NETCore.Plugins.PluginConfig.DefaultContext.get -> System.Runtime.Loader.AssemblyLoadContext!
+McMaster.NETCore.Plugins.PluginConfig.DefaultContext.set -> void
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.get -> bool
 McMaster.NETCore.Plugins.PluginConfig.EnableHotReload.set -> void
-McMaster.NETCore.Plugins.PluginConfig.DefaultContext.get -> System.Runtime.Loader.AssemblyLoadContext
-McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.get -> bool
-McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.set -> void
-McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.get -> System.TimeSpan
-McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.set -> void
-McMaster.NETCore.Plugins.PluginConfig.DefaultContext.set -> void
-McMaster.NETCore.Plugins.PluginLoader.Reload() -> void
-McMaster.NETCore.Plugins.PluginLoader.Reloaded -> McMaster.NETCore.Plugins.PluginReloadedEventHandler
-McMaster.NETCore.Plugins.PluginReloadedEventArgs
-McMaster.NETCore.Plugins.PluginReloadedEventArgs.Loader.get -> McMaster.NETCore.Plugins.PluginLoader
-McMaster.NETCore.Plugins.PluginReloadedEventArgs.PluginReloadedEventArgs(McMaster.NETCore.Plugins.PluginLoader loader) -> void
-McMaster.NETCore.Plugins.PluginReloadedEventHandler
-McMaster.NETCore.Plugins.PluginConfig.PrivateAssemblies.set -> void
-McMaster.NETCore.Plugins.PluginLoader
-McMaster.NETCore.Plugins.PluginLoader.EnterContextualReflection() -> System.Runtime.Loader.AssemblyLoadContext.ContextualReflectionScope
-McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(System.Reflection.AssemblyName assemblyName) -> System.Reflection.Assembly
-McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(string assemblyName) -> System.Reflection.Assembly
-McMaster.NETCore.Plugins.PluginLoader.LoadDefaultAssembly() -> System.Reflection.Assembly
 McMaster.NETCore.Plugins.PluginConfig.IsUnloadable.get -> bool
 McMaster.NETCore.Plugins.PluginConfig.IsUnloadable.set -> void
-McMaster.NETCore.Plugins.PluginConfig.MainAssemblyPath.get -> string
-McMaster.NETCore.Plugins.PluginConfig.PluginConfig(string mainAssemblyPath) -> void
+McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.get -> bool
+McMaster.NETCore.Plugins.PluginConfig.LoadInMemory.set -> void
+McMaster.NETCore.Plugins.PluginConfig.MainAssemblyPath.get -> string!
+McMaster.NETCore.Plugins.PluginConfig.PluginConfig(string! mainAssemblyPath) -> void
 McMaster.NETCore.Plugins.PluginConfig.PreferSharedTypes.get -> bool
 McMaster.NETCore.Plugins.PluginConfig.PreferSharedTypes.set -> void
-McMaster.NETCore.Plugins.PluginConfig.PrivateAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName>
-McMaster.NETCore.Plugins.PluginConfig.SharedAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName>
+McMaster.NETCore.Plugins.PluginConfig.PrivateAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName!>!
+McMaster.NETCore.Plugins.PluginConfig.PrivateAssemblies.set -> void
+McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.get -> System.TimeSpan
+McMaster.NETCore.Plugins.PluginConfig.ReloadDelay.set -> void
+McMaster.NETCore.Plugins.PluginConfig.SharedAssemblies.get -> System.Collections.Generic.ICollection<System.Reflection.AssemblyName!>!
 McMaster.NETCore.Plugins.PluginConfig.SharedAssemblies.set -> void
+McMaster.NETCore.Plugins.PluginLoader
 McMaster.NETCore.Plugins.PluginLoader.Dispose() -> void
+McMaster.NETCore.Plugins.PluginLoader.EnterContextualReflection() -> System.Runtime.Loader.AssemblyLoadContext.ContextualReflectionScope
 McMaster.NETCore.Plugins.PluginLoader.IsUnloadable.get -> bool
-McMaster.NETCore.Plugins.PluginLoader.LoadAssemblyFromPath(string assemblyPath) -> System.Reflection.Assembly
-McMaster.NETCore.Plugins.PluginLoader.PluginLoader(McMaster.NETCore.Plugins.PluginConfig config) -> void
-static McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.CreateFromPackage(string packageId, string packageVersion, string assetPath) -> McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary
-static McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.CreateFromPackage(string packageId, string packageVersion, string assetPath) -> McMaster.NETCore.Plugins.LibraryModel.NativeLibrary
-static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.AddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder builder, Microsoft.Extensions.DependencyModel.DependencyContext dependencyContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.AddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder builder, string depsFilePath) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.TryAddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder builder, string depsFilePath, out System.Exception error) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-static McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions.TryAddAdditionalProbingPathFromRuntimeConfig(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder builder, string runtimeConfigPath, bool includeDevConfig, out System.Exception error) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder
-static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile) -> McMaster.NETCore.Plugins.PluginLoader
-static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, System.Action<McMaster.NETCore.Plugins.PluginConfig> configure) -> McMaster.NETCore.Plugins.PluginLoader
-static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, System.Type[] sharedTypes) -> McMaster.NETCore.Plugins.PluginLoader
-static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, System.Type[] sharedTypes, System.Action<McMaster.NETCore.Plugins.PluginConfig> configure) -> McMaster.NETCore.Plugins.PluginLoader
-static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, System.Type[] sharedTypes) -> McMaster.NETCore.Plugins.PluginLoader
-static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string assemblyFile, bool isUnloadable, System.Type[] sharedTypes, System.Action<McMaster.NETCore.Plugins.PluginConfig> configure) -> McMaster.NETCore.Plugins.PluginLoader
+McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(string! assemblyName) -> System.Reflection.Assembly!
+McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(System.Reflection.AssemblyName! assemblyName) -> System.Reflection.Assembly!
+McMaster.NETCore.Plugins.PluginLoader.LoadAssemblyFromPath(string! assemblyPath) -> System.Reflection.Assembly!
+McMaster.NETCore.Plugins.PluginLoader.LoadDefaultAssembly() -> System.Reflection.Assembly!
+McMaster.NETCore.Plugins.PluginLoader.PluginLoader(McMaster.NETCore.Plugins.PluginConfig! config) -> void
+McMaster.NETCore.Plugins.PluginLoader.Reload() -> void
+McMaster.NETCore.Plugins.PluginLoader.Reloaded -> McMaster.NETCore.Plugins.PluginReloadedEventHandler?
+McMaster.NETCore.Plugins.PluginReloadedEventArgs
+McMaster.NETCore.Plugins.PluginReloadedEventArgs.Loader.get -> McMaster.NETCore.Plugins.PluginLoader!
+McMaster.NETCore.Plugins.PluginReloadedEventArgs.PluginReloadedEventArgs(McMaster.NETCore.Plugins.PluginLoader! loader) -> void
+McMaster.NETCore.Plugins.PluginReloadedEventHandler
+static McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.CreateFromPackage(string! packageId, string! packageVersion, string! assetPath) -> McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary!
+static McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.CreateFromPackage(string! packageId, string! packageVersion, string! assetPath) -> McMaster.NETCore.Plugins.LibraryModel.NativeLibrary!
+static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.AddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, Microsoft.Extensions.DependencyModel.DependencyContext! dependencyContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.AddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, string! depsFilePath) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.TryAddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, string! depsFilePath, out System.Exception? error) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+static McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions.TryAddAdditionalProbingPathFromRuntimeConfig(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, string! runtimeConfigPath, bool includeDevConfig, out System.Exception? error) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile) -> McMaster.NETCore.Plugins.PluginLoader!
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile, bool isUnloadable, System.Type![]! sharedTypes) -> McMaster.NETCore.Plugins.PluginLoader!
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile, bool isUnloadable, System.Type![]! sharedTypes, System.Action<McMaster.NETCore.Plugins.PluginConfig!>! configure) -> McMaster.NETCore.Plugins.PluginLoader!
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile, System.Action<McMaster.NETCore.Plugins.PluginConfig!>! configure) -> McMaster.NETCore.Plugins.PluginLoader!
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile, System.Type![]! sharedTypes) -> McMaster.NETCore.Plugins.PluginLoader!
+static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile, System.Type![]! sharedTypes, System.Action<McMaster.NETCore.Plugins.PluginConfig!>! configure) -> McMaster.NETCore.Plugins.PluginLoader!

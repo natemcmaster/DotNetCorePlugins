@@ -46,12 +46,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		build.ps1 = build.ps1
 		src\common.psm1 = src\common.psm1
 		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
 		src\Directory.Build.targets = src\Directory.Build.targets
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
-		releasenotes.props = releasenotes.props
-		version.props = version.props
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plátano", "test\TestProjects\Plátano\Plátano.csproj", "{5889B0C9-50E5-4FDC-933B-8684B9FAB8E4}"
@@ -118,23 +115,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WithOwnPlugins", "test\Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WithOwnPluginsContract", "test\TestProjects\WithOwnPluginsContract\WithOwnPluginsContract.csproj", "{F55E52BD-A846-4808-9482-E4AB0921328D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithOurPluginsPluginContract", "test\TestProjects\WithOurPluginsPluginContract\WithOurPluginsPluginContract.csproj", "{7C7B19F2-5822-4DA2-80D2-E077CE705039}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WithOurPluginsPluginContract", "test\TestProjects\WithOurPluginsPluginContract\WithOurPluginsPluginContract.csproj", "{7C7B19F2-5822-4DA2-80D2-E077CE705039}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithOurPluginsPluginA", "test\TestProjects\WithOurPluginsPluginA\WithOurPluginsPluginA.csproj", "{3A7712FC-9A91-4322-AF7E-4FEC6EB0D845}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WithOurPluginsPluginA", "test\TestProjects\WithOurPluginsPluginA\WithOurPluginsPluginA.csproj", "{3A7712FC-9A91-4322-AF7E-4FEC6EB0D845}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WithOurPluginsPluginB", "test\TestProjects\WithOurPluginsPluginB\WithOurPluginsPluginB.csproj", "{D5B3DA06-E60D-4C85-8835-6A26003365AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WithOurPluginsPluginB", "test\TestProjects\WithOurPluginsPluginB\WithOurPluginsPluginB.csproj", "{D5B3DA06-E60D-4C85-8835-6A26003365AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NativeDependency", "test\TestProjects\NativeDependency\NativeDependency.csproj", "{2837A894-11D6-4DBF-B140-84C97C385A15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NativeDependency", "test\TestProjects\NativeDependency\NativeDependency.csproj", "{2837A894-11D6-4DBF-B140-84C97C385A15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dynamic-implementation", "dynamic-implementation", "{10109B62-DACC-42BA-AD8C-73DE4B93841B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "samples\dynamic-implementation\Contracts\Contracts.csproj", "{39B9F0B5-3C53-4140-B158-96C67C03E876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "samples\dynamic-implementation\Contracts\Contracts.csproj", "{39B9F0B5-3C53-4140-B158-96C67C03E876}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Host", "samples\dynamic-implementation\Host\Host.csproj", "{703ECD55-EF0E-4734-A28E-371EDD213EEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Host", "samples\dynamic-implementation\Host\Host.csproj", "{703ECD55-EF0E-4734-A28E-371EDD213EEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mixer", "samples\dynamic-implementation\Mixer\Mixer.csproj", "{9E2178A0-5915-4308-B6C3-5C8758A47788}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mixer", "samples\dynamic-implementation\Mixer\Mixer.csproj", "{9E2178A0-5915-4308-B6C3-5C8758A47788}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceImplementation", "samples\dynamic-implementation\ServiceImplementation\ServiceImplementation.csproj", "{39BCFE6F-50C4-45AE-8D13-38FB423AB619}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceImplementation", "samples\dynamic-implementation\ServiceImplementation\ServiceImplementation.csproj", "{39BCFE6F-50C4-45AE-8D13-38FB423AB619}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

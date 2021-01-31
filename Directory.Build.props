@@ -24,7 +24,7 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)src\StrongName.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
-    <WarningsNotAsErrors>$(WarningsNotAsErrors);1591;RS0037</WarningsNotAsErrors>
+    <WarningsNotAsErrors>$(WarningsNotAsErrors);1591</WarningsNotAsErrors>
 
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <GenerateFullPaths Condition="'$(TERM_PROGRAM)' == 'vscode'">true</GenerateFullPaths>
