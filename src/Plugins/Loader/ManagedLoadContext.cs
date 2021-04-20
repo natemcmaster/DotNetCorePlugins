@@ -196,7 +196,7 @@ namespace McMaster.NETCore.Plugins.Loader
             if (File.Exists(pdbPath))
             {
                 using var pdbFile = File.Open(pdbPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                return LoadFromStream(file,pdbFile);
+                return LoadFromStream(file, pdbFile);
             }
             return LoadFromStream(file);
 
