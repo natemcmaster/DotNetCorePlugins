@@ -23,7 +23,7 @@ See https://github.com/natemcmaster/DotNetCorePlugins/blob/main/README.md for mo
   <ItemGroup>
     <PackageReference Include="Microsoft.DotNet.PlatformAbstractions" Version="3.1.6" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
-    <PackageReference Include="System.Text.Json" Version="5.0.1" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
+    <PackageReference Include="System.Text.Json" Version="5.0.2" Condition="'$(TargetFramework)' == 'netcoreapp2.1'" />
   </ItemGroup>
 
 </Project>
