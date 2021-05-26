@@ -36,7 +36,7 @@
   <PropertyGroup>
     <VersionPrefix>1.4.0</VersionPrefix>
     <VersionSuffix>beta</VersionSuffix>
-    <IncludePreReleaseLabelInPackageVersion Condition="'$(IsStableBuild)' != 'true'">true</IncludePreReleaseLabelInPackageVersion>
+    <IncludePreReleaseLabelInPackageVersion Condition="'$(IS_STABLE_BUILD)' != 'true'">true</IncludePreReleaseLabelInPackageVersion>
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">$([MSBuild]::ValueOrDefault($(GITHUB_RUN_NUMBER), 0))</BuildNumber>
     <VersionSuffix>$(VersionSuffix).$(BuildNumber)</VersionSuffix>
     <SourceRevisionId Condition="'$(SourceRevisionId)' == ''">$(GITHUB_SHA)</SourceRevisionId>
