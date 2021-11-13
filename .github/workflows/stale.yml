@@ -1,5 +1,11 @@
 name: 'Close stale issues and PRs'
 on:
+  workflow_dispatch:
+    inputs:
+      debug-only:
+        description: Run in debug mode
+        required: false
+        default: 'false'
   schedule:
     - cron: '30 1 * * *'
 
@@ -9,13 +15,12 @@ jobs:
     steps:
       - uses: actions/stale@v4
         with:
+          debug-only: ${{ github.event.inputs.debug-only == 'true' }}
           days-before-stale: 365
           days-before-close: 14
           stale-issue-label: stale
           close-issue-label: closed-stale
-          exempt-issue-labels:
-            - announcement
-            - planning
+          exempt-issue-labels: announcement,planning
           exempt-all-milestones: true
           exempt-all-assignees: true
           stale-issue-message: >
