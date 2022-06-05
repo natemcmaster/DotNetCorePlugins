@@ -31,9 +31,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly bool _loadInMemory;
         private readonly bool _lazyLoadReferences;
         private readonly AssemblyLoadContext _defaultLoadContext;
-#if FEATURE_NATIVE_RESOLVER
         private readonly AssemblyDependencyResolver _dependencyResolver;
-#endif
         private readonly bool _shadowCopyNativeLibraries;
         private readonly string _unmanagedDllShadowCopyDirectoryPath;
 
@@ -50,9 +48,7 @@ namespace McMaster.NETCore.Plugins.Loader
             bool isCollectible,
             bool loadInMemory,
             bool shadowCopyNativeLibraries)
-#if FEATURE_UNLOAD
             : base(Path.GetFileNameWithoutExtension(mainAssemblyPath), isCollectible)
-#endif
         {
             if (resourceProbingPaths == null)
             {
@@ -60,9 +56,7 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             _mainAssemblyPath = mainAssemblyPath ?? throw new ArgumentNullException(nameof(mainAssemblyPath));
-#if FEATURE_NATIVE_RESOLVER
             _dependencyResolver = new AssemblyDependencyResolver(mainAssemblyPath);
-#endif
             _basePath = Path.GetDirectoryName(mainAssemblyPath) ?? throw new ArgumentException(nameof(mainAssemblyPath));
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
@@ -133,13 +127,11 @@ namespace McMaster.NETCore.Plugins.Loader
                 }
             }
 
-#if FEATURE_NATIVE_RESOLVER
             var resolvedPath = _dependencyResolver.ResolveAssemblyToPath(assemblyName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
                 return LoadAssemblyFromFilePath(resolvedPath);
             }
-#endif
 
             // Resource assembly binding does not use the TPA. Instead, it probes PLATFORM_RESOURCE_ROOTS (a list of folders)
             // for $folder/$culture/$assemblyName.dll
@@ -209,13 +201,11 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns></returns>
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
-#if FEATURE_NATIVE_RESOLVER
             var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
                 return LoadUnmanagedDllFromResolvedPath(resolvedPath, normalizePath: false);
             }
-#endif
 
             foreach (var prefix in PlatformInformation.NativeLibraryPrefixes)
             {
