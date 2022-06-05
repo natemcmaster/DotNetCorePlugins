@@ -36,29 +36,21 @@ jobs:
       package_version: ${{ steps.build_script.outputs.package_version }}
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup .NET Core 2.1
-        uses: actions/setup-dotnet@v1
+      - uses: actions/checkout@v3
+      - name: Setup .NET 6
+        uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: "2.1.x"
-      - name: Setup .NET Core 3.1
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "3.1.x"
-      - name: Setup .NET 5
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: "5.0.x"
+          dotnet-version: "6.0.x"
       - name: Run build script
         id: build_script
         run: ./build.ps1 -ci
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         if: ${{ matrix.os == 'windows-latest' }}
         with:
           name: packages
           path: artifacts/
           if-no-files-found: error
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v2
         with:
           name: unittests-${{ matrix.os }}
           fail_ci_if_error: true
