@@ -19,8 +19,7 @@
     <WarnOnPackingNonPackableProject>false</WarnOnPackingNonPackableProject>
     <LangVersion>9.0</LangVersion>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <Nullable>annotations</Nullable>
-    <Nullable Condition="'$(TargetFramework)' != 'netcoreapp2.1'">enable</Nullable>
+    <Nullable>enable</Nullable>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)src\StrongName.snk</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
     <NoWarn>$(NoWarn);NU5105</NoWarn>
@@ -34,7 +33,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>1.4.0</VersionPrefix>
+    <VersionPrefix>2.0.0</VersionPrefix>
     <VersionSuffix>beta</VersionSuffix>
     <IncludePreReleaseLabelInPackageVersion Condition="'$(IS_STABLE_BUILD)' != 'true'">true</IncludePreReleaseLabelInPackageVersion>
     <BuildNumber Condition=" '$(BuildNumber)' == '' ">$([MSBuild]::ValueOrDefault($(GITHUB_RUN_NUMBER), 0))</BuildNumber>
