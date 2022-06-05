@@ -13,5 +13,5 @@ Open a command line to this folder and run:
 
 ```
 dotnet restore
-dotnet run -p HostApp/
+dotnet run --project HostApp/
 ```

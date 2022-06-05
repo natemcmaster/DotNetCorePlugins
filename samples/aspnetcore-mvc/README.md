@@ -17,7 +17,7 @@ Open a command line to this folder and run:
 
 ```
 dotnet restore
-dotnet run -p MvcApp/
+dotnet run --project MvcApp/
 ```
 
 Then open <http://localhost:5000>
