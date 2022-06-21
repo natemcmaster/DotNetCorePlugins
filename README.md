@@ -18,7 +18,7 @@ assembly isolation and type sharing. Read [more details about type sharing below
 
 > **Note**
 >
-> 2.0+ of library supports .NET 6. If you still need .NET < 6 support, look for an old 1.* version of this library.
+> 2.0+ of library supports .NET 5. If you still need .NET < 5 support, look for an old 1.* version of this library.
 
 Blog post introducing this project, July 25, 2018: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/).
 
@@ -75,7 +75,7 @@ There is nothing special about the name "IPlugin" or the fact that it's an inter
 
 > **Warning**
 >
-> Using `netstandard2.0` as the TargetFramework for your plugin project has known issues. Use `net6.0` instead.
+> Using `netstandard2.0` as the TargetFramework for your plugin project has known issues. Use `net5.0` instead.
 
 A minimal implementation of the plugin could be as simple as this.
 
