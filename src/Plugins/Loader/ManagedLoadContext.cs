@@ -99,7 +99,7 @@ namespace McMaster.NETCore.Plugins.Loader
                 // If default context is preferred, check first for types in the default context unless the dependency has been declared as private
                 try
                 {
-                    var defaultAssembly = _defaultLoadContext.LoadFromAssemblyName(assemblyName);
+                    var defaultAssembly = _defaultLoadContext.LoadFromAssemblyName(new AssemblyName(assemblyName.Name));
                     if (defaultAssembly != null)
                     {
                         // Add referenced assemblies to the list of default assemblies.
