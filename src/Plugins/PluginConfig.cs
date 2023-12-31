@@ -81,7 +81,6 @@ namespace McMaster.NETCore.Plugins
         /// </summary>
         public AssemblyLoadContext DefaultContext { get; set; } = AssemblyLoadContext.GetLoadContext(Assembly.GetExecutingAssembly()) ?? AssemblyLoadContext.Default;
 
-#if FEATURE_UNLOAD
         private bool _isUnloadable;
 
         /// <summary>
@@ -121,6 +120,5 @@ namespace McMaster.NETCore.Plugins
         /// Default value is 200 milliseconds.
         /// </summary>
         public TimeSpan ReloadDelay { get; set; } = TimeSpan.FromMilliseconds(200);
-#endif
     }
 }

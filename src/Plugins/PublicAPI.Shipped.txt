@@ -22,7 +22,6 @@ McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.PreloadAssembliesInto
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetDefaultContext(System.Runtime.Loader.AssemblyLoadContext! context) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.SetMainAssemblyPath(string! path) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
 McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.ShadowCopyNativeLibraries() -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
-McMaster.NETCore.Plugins.Loader.DependencyContextExtensions
 McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions
 McMaster.NETCore.Plugins.PluginConfig
 McMaster.NETCore.Plugins.PluginConfig.DefaultContext.get -> System.Runtime.Loader.AssemblyLoadContext!
@@ -60,9 +59,6 @@ McMaster.NETCore.Plugins.PluginReloadedEventArgs.PluginReloadedEventArgs(McMaste
 McMaster.NETCore.Plugins.PluginReloadedEventHandler
 static McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary.CreateFromPackage(string! packageId, string! packageVersion, string! assetPath) -> McMaster.NETCore.Plugins.LibraryModel.ManagedLibrary!
 static McMaster.NETCore.Plugins.LibraryModel.NativeLibrary.CreateFromPackage(string! packageId, string! packageVersion, string! assetPath) -> McMaster.NETCore.Plugins.LibraryModel.NativeLibrary!
-static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.AddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, Microsoft.Extensions.DependencyModel.DependencyContext! dependencyContext) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
-static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.AddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, string! depsFilePath) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
-static McMaster.NETCore.Plugins.Loader.DependencyContextExtensions.TryAddDependencyContext(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, string! depsFilePath, out System.Exception? error) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
 static McMaster.NETCore.Plugins.Loader.RuntimeConfigExtensions.TryAddAdditionalProbingPathFromRuntimeConfig(this McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder! builder, string! runtimeConfigPath, bool includeDevConfig, out System.Exception? error) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!
 static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile) -> McMaster.NETCore.Plugins.PluginLoader!
 static McMaster.NETCore.Plugins.PluginLoader.CreateFromAssemblyFile(string! assemblyFile, bool isUnloadable, System.Type![]! sharedTypes) -> McMaster.NETCore.Plugins.PluginLoader!

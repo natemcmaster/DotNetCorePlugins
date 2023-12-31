@@ -12,7 +12,6 @@ namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
-#if !NETCOREAPP2_1
         [Fact]
         public void PluginLoaderCanUnload()
         {
@@ -50,7 +49,6 @@ namespace McMaster.NETCore.Plugins.Tests
 
             weakRef = new WeakReference(loader.LoadContext, trackResurrection: true);
         }
-#endif
 
         [Fact]
         public void LoadsNetCoreProjectWithNativeDeps()
@@ -147,9 +145,7 @@ namespace McMaster.NETCore.Plugins.Tests
         {
             var path = TestResources.GetTestProjectAssembly("Plátano");
             var loader = PluginLoader.CreateFromAssemblyFile(path,
-#if !NETCOREAPP2_1
                 isUnloadable: true,
-#endif
                 sharedTypes: new[] { typeof(IFruit) });
 
             var assembly = loader.LoadDefaultAssembly();

@@ -65,8 +65,8 @@ namespace McMaster.NETCore.Plugins.Loader
 
                 if (tfm != null)
                 {
-                    var dotnet = Process.GetCurrentProcess().MainModule.FileName;
-                    if (string.Equals(Path.GetFileNameWithoutExtension(dotnet), "dotnet", StringComparison.OrdinalIgnoreCase))
+                    var dotnet = Process.GetCurrentProcess().MainModule?.FileName;
+                    if (dotnet != null && string.Equals(Path.GetFileNameWithoutExtension(dotnet), "dotnet", StringComparison.OrdinalIgnoreCase))
                     {
                         var dotnetHome = Path.GetDirectoryName(dotnet);
                         if (dotnetHome != null)

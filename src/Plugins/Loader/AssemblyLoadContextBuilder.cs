@@ -28,11 +28,9 @@ namespace McMaster.NETCore.Plugins.Loader
         private bool _preferDefaultLoadContext;
         private bool _lazyLoadReferences;
 
-#if FEATURE_UNLOAD
         private bool _isCollectible;
         private bool _loadInMemory;
         private bool _shadowCopyNativeLibraries;
-#endif
 
         /// <summary>
         /// Creates an assembly load context using settings specified on the builder.
@@ -65,15 +63,9 @@ namespace McMaster.NETCore.Plugins.Loader
                 _defaultLoadContext,
                 _preferDefaultLoadContext,
                 _lazyLoadReferences,
-#if FEATURE_UNLOAD
                 _isCollectible,
                 _loadInMemory,
                 _shadowCopyNativeLibraries);
-#else
-                isCollectible: false,
-                loadInMemory: false,
-                shadowCopyNativeLibraries: false);
-#endif
         }
 
         /// <summary>
@@ -305,7 +297,6 @@ namespace McMaster.NETCore.Plugins.Loader
             return this;
         }
 
-#if FEATURE_UNLOAD
         /// <summary>
         /// Enable unloading the assembly load context.
         /// </summary>
@@ -339,7 +330,6 @@ namespace McMaster.NETCore.Plugins.Loader
             _shadowCopyNativeLibraries = true;
             return this;
         }
-#endif
 
         /// <summary>
         /// Add a <paramref name="path"/> that should be use to search for resource assemblies (aka satellite assemblies)

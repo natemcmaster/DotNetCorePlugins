@@ -1,3 +1,5 @@
+#!/usr/bin/env pwsh
+
 $ErrorActionPreference = 'Stop'
 
 Push-Location $PSScriptRoot

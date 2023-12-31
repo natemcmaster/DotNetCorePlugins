@@ -37,7 +37,7 @@ namespace MainWebApp
                     .Where(t => typeof(IWebPlugin).IsAssignableFrom(t) && !t.IsAbstract))
                 {
                     Console.WriteLine("Found plugin " + type.Name);
-                    var plugin = (IWebPlugin)Activator.CreateInstance(type);
+                    var plugin = (IWebPlugin)Activator.CreateInstance(type)!;
                     _plugins.Add(plugin);
                 }
             }
@@ -45,7 +45,7 @@ namespace MainWebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddMvcOptions(o => o.EnableEndpointRouting = false);
 
             foreach (var plugin in _plugins)
             {
@@ -53,12 +53,9 @@ namespace MainWebApp
             }
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseDeveloperExceptionPage();
 
             foreach (var plugin in _plugins)
             {

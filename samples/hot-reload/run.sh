@@ -23,7 +23,7 @@ trap "kill 0" EXIT
 
 echo -e "${YELLOW}run.sh:${RESET} Use CTRL+C to exit"
 
-dotnet run --no-build -p HotReloadApp -- "$publish_dir/TimestampedPlugin.dll" &
+dotnet run --no-build --project HotReloadApp -- "$publish_dir/TimestampedPlugin.dll" &
 
 while true
 do

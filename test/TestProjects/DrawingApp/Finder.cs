@@ -7,8 +7,7 @@ public class Finder
 {
     public static string FindDrawingAssembly()
     {
-        _ = new PrintDocument();
-        return typeof(PrintDocument).Assembly.CodeBase;
+        return typeof(PrinterUnit).Assembly.Location;
     }
 }
 
