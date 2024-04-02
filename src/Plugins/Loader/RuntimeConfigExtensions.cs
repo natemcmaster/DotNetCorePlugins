@@ -51,16 +51,16 @@ namespace McMaster.NETCore.Plugins.Loader
                     devConfig = TryReadConfig(configDevPath);
                 }
 
-                var tfm = config.runtimeOptions?.Tfm ?? devConfig?.runtimeOptions?.Tfm;
+                var tfm = config.RuntimeOptions?.Tfm ?? devConfig?.RuntimeOptions?.Tfm;
 
-                if (config.runtimeOptions != null)
+                if (config.RuntimeOptions != null)
                 {
-                    AddProbingPaths(builder, config.runtimeOptions, tfm);
+                    AddProbingPaths(builder, config.RuntimeOptions, tfm);
                 }
 
-                if (devConfig?.runtimeOptions != null)
+                if (devConfig?.RuntimeOptions != null)
                 {
-                    AddProbingPaths(builder, devConfig.runtimeOptions, tfm);
+                    AddProbingPaths(builder, devConfig.RuntimeOptions, tfm);
                 }
 
                 if (tfm != null)
