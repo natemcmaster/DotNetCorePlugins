@@ -8,8 +8,5 @@ namespace McMaster.NETCore.Plugins
     internal class RuntimeConfig
     {
         public RuntimeOptions? RuntimeOptions { get; set; }
-
-        [Obsolete("This property is obsolete and will be removed in a future version. Use 'RuntimeOptions' instead.", false)]
-        public RuntimeOptions? runtimeOptions { get => RuntimeOptions; set => RuntimeOptions = value; }
     }
 }
