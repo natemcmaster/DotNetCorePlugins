@@ -14,7 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestProjects", "TestProjects", "{98E964A2-55DA-4740-9F2E-B64FDF6715DB}"
 	ProjectSection(SolutionItems) = preProject
 		test\TestProjects\Directory.Build.props = test\TestProjects\Directory.Build.props
-		test\TestProjects\Directory.Build.targets = test\TestProjects\Directory.Build.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreApp2App", "test\TestProjects\NetCoreApp2App\NetCoreApp2App.csproj", "{B9C61145-C010-4FAA-B9EA-4D1AEE20305F}"
