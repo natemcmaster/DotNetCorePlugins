@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyName>Mylib</AssemblyName>
+  </PropertyGroup>
+
+</Project>
