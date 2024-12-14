@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Nate McMaster.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
-
-namespace McMaster.NETCore.Plugins
+namespace JsonNet13
 {
-    internal class RuntimeConfig
+    public class Class1
     {
-        public RuntimeOptions? RuntimeOptions { get; set; }
     }
 }
