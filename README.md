@@ -75,7 +75,7 @@ There is nothing special about the name "IPlugin" or the fact that it's an inter
 
 > **Warning**
 >
-> Using `netstandard2.0` as the TargetFramework for your plugin project has known issues. Use `net6.0` instead.
+> Using `netstandard2.0` as the TargetFramework for your plugin project has known issues. Use `net8.0` instead.
 
 A minimal implementation of the plugin could be as simple as this.
 
