@@ -259,7 +259,7 @@ namespace McMaster.NETCore.Plugins
         }
 #endif
 
-        internal AssemblyLoadContext LoadContext => _context;
+        public AssemblyLoadContext LoadContext => _context;
 
         /// <summary>
         /// Load the main assembly for the plugin.
