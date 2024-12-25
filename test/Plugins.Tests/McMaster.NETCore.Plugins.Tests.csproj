@@ -22,9 +22,9 @@
     <TestProject Include="..\TestProjects\DrawingApp\DrawingApp.csproj" />
     <TestProject Include="..\TestProjects\NetCoreApp2App\NetCoreApp2App.csproj" />
     <TestProject Include="..\TestProjects\NetStandardClassLib\NetStandardClassLib.csproj" />
-    <TestProject Include="..\TestProjects\JsonNet9\JsonNet9.csproj" />
-    <TestProject Include="..\TestProjects\JsonNet10\JsonNet10.csproj" />
-    <TestProject Include="..\TestProjects\JsonNet11\JsonNet11.csproj" />
+    <TestProject Include="..\TestProjects\PrivateDepv1\PrivateDepv1.csproj" />
+    <TestProject Include="..\TestProjects\PrivateDepv2\PrivateDepv2.csproj" />
+    <TestProject Include="..\TestProjects\PrivateDepv3\PrivateDepv3.csproj" />
     <TestProject Include="..\TestProjects\Strawberry\Strawberry.csproj" />
     <TestProject Include="..\TestProjects\Banana\Banana.csproj" />
     <TestProject Include="..\TestProjects\Plátano\Plátano.csproj" />
