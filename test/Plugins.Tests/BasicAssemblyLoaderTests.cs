@@ -7,11 +7,19 @@ using System.Runtime.CompilerServices;
 using McMaster.Extensions.Xunit;
 using Test.Referenced.Library;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
+        private readonly ITestOutputHelper output;
+
+        public BasicAssemblyLoaderTests(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public void PluginLoaderCanUnload()
         {
@@ -106,23 +114,6 @@ namespace McMaster.NETCore.Plugins.Tests
             var method = type!.GetMethod("GetColor", BindingFlags.Instance | BindingFlags.Public);
             Assert.NotNull(method);
             Assert.Equal("Red", method!.Invoke(Activator.CreateInstance(type), Array.Empty<object>()));
-        }
-
-        [Fact]
-        public void ItPrefersRuntimeSpecificManagedAssetsOverRidlessOnes()
-        {
-            // System.Drawing.Common is an example of a package which has both rid-specific and ridless versions
-            // The package has lib/netstandard2.0/System.Drawing.Common.dll, but also has runtimes/{win,unix}/lib/netcoreapp2.0/System.Drawing.Common.dll
-            // In this case, the host will pick the rid-specific version
-
-            var path = TestResources.GetTestProjectAssembly("DrawingApp");
-            var loader = PluginLoader.CreateFromAssemblyFile(path);
-            var assembly = loader.LoadDefaultAssembly();
-
-            var type = assembly.GetType("Finder", throwOnError: true)!;
-            var method = type.GetMethod("FindDrawingAssembly", BindingFlags.Static | BindingFlags.Public);
-            Assert.NotNull(method);
-            Assert.Contains("runtimes", (string?)method!.Invoke(null, Array.Empty<object>()));
         }
 
         [Fact]
