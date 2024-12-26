@@ -49,6 +49,7 @@ jobs:
           if-no-files-found: error
       - uses: codecov/codecov-action@v5
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           name: unittests-${{ matrix.os }}
           fail_ci_if_error: true
   release:
