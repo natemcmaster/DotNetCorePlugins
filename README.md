@@ -1,5 +1,5 @@
-.NET Core Plugins
-=================
+.NET Plugins
+============
 
 [![Build Status][ci-badge]][ci] [![Code Coverage][codecov-badge]][codecov]
 [![NuGet][nuget-badge] ![NuGet Downloads][nuget-download-badge]][nuget]
@@ -13,9 +13,12 @@
 [nuget-download-badge]: https://img.shields.io/nuget/dt/McMaster.NETCore.Plugins?style=flat-square
 
 
-This project provides API for loading .NET Core assemblies dynamically, executing them as extensions to the main application, and finding and **isolating** the dependencies of the plugin from the main application.
-This library supports .NET Core 2, but works best in .NET Core 3 and up. It allows fine-grained control over
+This project provides API for loading .NET assemblies dynamically, executing them as extensions to the main application, and finding and **isolating** the dependencies of the plugin from the main application. It allows fine-grained control over
 assembly isolation and type sharing. Read [more details about type sharing below](#shared-types).
+
+> **Note**
+>
+> 2.0+ of library supports .NET 6. If you still need .NET < 6 support, look for an old 1.* version of this library.
 
 Blog post introducing this project, July 25, 2018: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/).
 
@@ -43,7 +46,7 @@ PluginLoader.CreateFromAssemblyFile(
 
 * assemblyFile = the file path to the main .dll of the plugin
 * sharedTypes = a list of types which the loader should ensure are unified. (See [What is a shared type?](#shared-types))
-* isUnloadable = (.NET Core 3+ only). Allow this plugin to be unloaded from memory at some point in the future. (Requires ensuring that you have cleaned up all usages of types from the plugin before unloading actually happens.)
+* isUnloadable = Allow this plugin to be unloaded from memory at some point in the future. (Requires ensuring that you have cleaned up all usages of types from the plugin before unloading actually happens.)
 
 See example projects in [samples/](./samples/) for more detailed, example usage.
 
@@ -70,7 +73,9 @@ There is nothing special about the name "IPlugin" or the fact that it's an inter
 
 ### The plugins
 
-Typically, it is best to implement plugins by targeting `net5.0` or higher. They can target `netstandard2.0` as well, but using `net5.0` is better because it reduces the number of redundant System.\* assemblies in the plugin output.
+> **Warning**
+>
+> Using `netstandard2.0` as the TargetFramework for your plugin project has known issues. Use `net8.0` instead.
 
 A minimal implementation of the plugin could be as simple as this.
 
@@ -159,7 +164,7 @@ Shared types allow you define the kinds of objects that will be passed between p
 For example, let's say you have a simple host app like [samples/hello-world/](./samples/hello-world/), and
 two plugins which were compiled with a reference `interface IPlugin`. This interface comes from `Contracts.dll`.
 When the application runs, by default, each plugin and the host will have their own version of `Contracts.dll`
-which .NET Core will keep isolated.
+which .NET will keep isolated.
 
 The problem with this isolation is that an object of `IPlugin` created within the "PluginApple" or "PluginBanana" context does not appear to be an instance of `IPlugin` in any of the other plugin contexts.
 
@@ -205,7 +210,7 @@ See example projects in [samples/aspnetcore-mvc/](./samples/aspnetcore-mvc/) for
 
 Sometimes you may want to use a plugin along with reflection APIs such as `Type.GetType(string typeName)`
 or `Assembly.Load(string assemblyString)`. Depending on where these APIs are used, they might fail to
-load the assemblies in your plugin. In .NET Core 3+, there is an API which you can use to set the _ambient context_
+load the assemblies in your plugin. There is an API which you can use to set the _ambient context_
 which .NET's reflection APIs will use to load the correct assemblies from your plugin.
 
 Example:
@@ -224,7 +229,7 @@ Read [this post written by .NET Core engineers](https://github.com/dotnet/corecl
 
 ## Overriding the Default Load Context
 
-Under the hood, DotNetCorePlugins is using a .NET Core API called [ApplicationLoadContext][alc-api].
+Under the hood, DotNetCorePlugins is using a .NET API called [ApplicationLoadContext][alc-api].
 This creates a scope for resolving assemblies. By default, `PluginLoader` will create a new context
 and fallback to a **default context** if it cannot find an assembly or if type sharing is enabled.
 The default fallback context is inferred when `PluginLoader` is instantiated. In certain advanced scenarios,

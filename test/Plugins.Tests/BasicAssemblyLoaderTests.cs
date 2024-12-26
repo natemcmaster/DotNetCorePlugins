@@ -7,12 +7,19 @@ using System.Runtime.CompilerServices;
 using McMaster.Extensions.Xunit;
 using Test.Referenced.Library;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace McMaster.NETCore.Plugins.Tests
 {
     public class BasicAssemblyLoaderTests
     {
-#if !NETCOREAPP2_1
+        private readonly ITestOutputHelper output;
+
+        public BasicAssemblyLoaderTests(ITestOutputHelper output)
+        {
+            this.output = output;
+        }
+
         [Fact]
         public void PluginLoaderCanUnload()
         {
@@ -50,7 +57,6 @@ namespace McMaster.NETCore.Plugins.Tests
 
             weakRef = new WeakReference(loader.LoadContext, trackResurrection: true);
         }
-#endif
 
         [Fact]
         public void LoadsNetCoreProjectWithNativeDeps()
@@ -111,23 +117,6 @@ namespace McMaster.NETCore.Plugins.Tests
         }
 
         [Fact]
-        public void ItPrefersRuntimeSpecificManagedAssetsOverRidlessOnes()
-        {
-            // System.Drawing.Common is an example of a package which has both rid-specific and ridless versions
-            // The package has lib/netstandard2.0/System.Drawing.Common.dll, but also has runtimes/{win,unix}/lib/netcoreapp2.0/System.Drawing.Common.dll
-            // In this case, the host will pick the rid-specific version
-
-            var path = TestResources.GetTestProjectAssembly("DrawingApp");
-            var loader = PluginLoader.CreateFromAssemblyFile(path);
-            var assembly = loader.LoadDefaultAssembly();
-
-            var type = assembly.GetType("Finder", throwOnError: true)!;
-            var method = type.GetMethod("FindDrawingAssembly", BindingFlags.Static | BindingFlags.Public);
-            Assert.NotNull(method);
-            Assert.Contains("runtimes", (string?)method!.Invoke(null, Array.Empty<object>()));
-        }
-
-        [Fact]
         [UseCulture("es")]
         public void ItLoadsSatelliteAssemblies()
         {
@@ -147,9 +136,7 @@ namespace McMaster.NETCore.Plugins.Tests
         {
             var path = TestResources.GetTestProjectAssembly("Plátano");
             var loader = PluginLoader.CreateFromAssemblyFile(path,
-#if !NETCOREAPP2_1
                 isUnloadable: true,
-#endif
                 sharedTypes: new[] { typeof(IFruit) });
 
             var assembly = loader.LoadDefaultAssembly();

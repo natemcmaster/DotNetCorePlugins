@@ -23,7 +23,6 @@ namespace McMaster.NETCore.Plugins
     /// </summary>
     public class PluginLoader : IDisposable
     {
-#if FEATURE_UNLOAD
         /// <summary>
         /// Create a plugin loader for an assembly file.
         /// </summary>
@@ -70,7 +69,6 @@ namespace McMaster.NETCore.Plugins
                         configure(config);
                     });
         }
-#endif
 
         /// <summary>
         /// Create a plugin loader for an assembly file.
@@ -159,10 +157,8 @@ namespace McMaster.NETCore.Plugins
         private readonly AssemblyLoadContextBuilder _contextBuilder;
         private volatile bool _disposed;
 
-#if FEATURE_UNLOAD
         private FileSystemWatcher? _fileWatcher;
         private Debouncer? _debouncer;
-#endif
 
         /// <summary>
         /// Initialize an instance of <see cref="PluginLoader" />
@@ -173,30 +169,17 @@ namespace McMaster.NETCore.Plugins
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _contextBuilder = CreateLoadContextBuilder(config);
             _context = (ManagedLoadContext)_contextBuilder.Build();
-#if FEATURE_UNLOAD
             if (config.EnableHotReload)
             {
                 StartFileWatcher();
             }
-#endif
         }
 
         /// <summary>
         /// True when this plugin is capable of being unloaded.
         /// </summary>
-        public bool IsUnloadable
-        {
-            get
-            {
-#if FEATURE_UNLOAD
-                return _context.IsCollectible;
-#else
-                return false;
-#endif
-            }
-        }
+        public bool IsUnloadable => _context.IsCollectible;
 
-#if FEATURE_UNLOAD
 
         /// <summary>
         /// This event is raised when the plugin has been reloaded.
@@ -240,9 +223,16 @@ namespace McMaster.NETCore.Plugins
 
             _debouncer = new Debouncer(_config.ReloadDelay);
 
+            var watchedDir = Path.GetDirectoryName(_config.MainAssemblyPath);
+            if (watchedDir == null)
+            {
+                throw new InvalidOperationException("Could not determine which directory to watch. "
+                + "Please set MainAssemblyPath to an absolute path so its parent directory can be discovered.");
+            }
+
             _fileWatcher = new FileSystemWatcher
             {
-                Path = Path.GetDirectoryName(_config.MainAssemblyPath)
+                Path = watchedDir
             };
             _fileWatcher.Changed += OnFileChanged;
             _fileWatcher.Filter = "*.dll";
@@ -257,7 +247,6 @@ namespace McMaster.NETCore.Plugins
                 _debouncer?.Execute(Reload);
             }
         }
-#endif
 
         public AssemblyLoadContext LoadContext => _context;
 
@@ -300,7 +289,6 @@ namespace McMaster.NETCore.Plugins
             return LoadAssembly(new AssemblyName(assemblyName));
         }
 
-#if !NETCOREAPP2_1
         /// <summary>
         /// Sets the scope used by some System.Reflection APIs which might trigger assembly loading.
         /// <para>
@@ -310,7 +298,6 @@ namespace McMaster.NETCore.Plugins
         /// <returns></returns>
         public AssemblyLoadContext.ContextualReflectionScope EnterContextualReflection()
             => _context.EnterContextualReflection();
-#endif
 
         /// <summary>
         /// Disposes the plugin loader. This only does something if <see cref="IsUnloadable" /> is true.
@@ -326,7 +313,6 @@ namespace McMaster.NETCore.Plugins
 
             _disposed = true;
 
-#if FEATURE_UNLOAD
             if (_fileWatcher != null)
             {
                 _fileWatcher.EnableRaisingEvents = false;
@@ -340,7 +326,6 @@ namespace McMaster.NETCore.Plugins
             {
                 _context.Unload();
             }
-#endif
         }
 
         private void EnsureNotDisposed()
@@ -368,7 +353,6 @@ namespace McMaster.NETCore.Plugins
                 builder.PreferDefaultLoadContext(true);
             }
 
-#if FEATURE_UNLOAD
             if (config.IsUnloadable || config.EnableHotReload)
             {
                 builder.EnableUnloading();
@@ -379,7 +363,6 @@ namespace McMaster.NETCore.Plugins
                 builder.PreloadAssembliesIntoMemory();
                 builder.ShadowCopyNativeLibraries();
             }
-#endif
 
             builder.IsLazyLoaded(config.IsLazyLoaded);
             foreach (var assemblyName in config.SharedAssemblies)
@@ -387,16 +370,13 @@ namespace McMaster.NETCore.Plugins
                 builder.PreferDefaultLoadContextAssembly(assemblyName);
             }
 
-#if !FEATURE_NATIVE_RESOLVER
-
-            // In .NET Core 3.0, this code is unnecessary because the API, AssemblyDependencyResolver, handles parsing these files.
             var baseDir = Path.GetDirectoryName(config.MainAssemblyPath);
             var assemblyFileName = Path.GetFileNameWithoutExtension(config.MainAssemblyPath);
 
-            var depsJsonFile = Path.Combine(baseDir, assemblyFileName + ".deps.json");
-            if (File.Exists(depsJsonFile))
+            if (baseDir == null)
             {
-                builder.AddDependencyContext(depsJsonFile);
+                throw new InvalidOperationException("Could not determine which directory to watch. "
+                + "Please set MainAssemblyPath to an absolute path so its parent directory can be discovered.");
             }
 
             var pluginRuntimeConfigFile = Path.Combine(baseDir, assemblyFileName + ".runtimeconfig.json");
@@ -410,7 +390,6 @@ namespace McMaster.NETCore.Plugins
             {
                 builder.TryAddAdditionalProbingPathFromRuntimeConfig(runtimeconfig, includeDevConfig: true, out _);
             }
-#endif
 
             return builder;
         }

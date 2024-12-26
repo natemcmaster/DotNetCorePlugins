@@ -13,9 +13,7 @@ namespace MvcWebApp
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            var mvcBuilder = services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            var mvcBuilder = services.AddMvc();
 
             foreach (var dir in Directory.GetDirectories(Path.Combine(AppContext.BaseDirectory, "plugins")))
             {

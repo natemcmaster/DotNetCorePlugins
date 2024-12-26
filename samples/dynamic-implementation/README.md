@@ -17,5 +17,5 @@ Open a command line to this folder and run, otherwise open the .sln file:
 
 ```
 dotnet restore
-dotnet run -p Host/
+dotnet run --project Host/
 ```

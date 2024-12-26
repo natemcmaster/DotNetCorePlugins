@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;netcoreapp3.1;netcoreapp2.1</TargetFrameworks>
+    <TargetFramework>net8.0</TargetFramework>
     <DefaultItemExcludes>$(DefaultItemExcludes);TestResults\**</DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="McMaster.Extensions.Xunit" Version="0.1.0" />
-    <PackageReference Include="coverlet.collector" Version="3.0.3" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.1" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.8.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,16 +22,16 @@
     <TestProject Include="..\TestProjects\DrawingApp\DrawingApp.csproj" />
     <TestProject Include="..\TestProjects\NetCoreApp2App\NetCoreApp2App.csproj" />
     <TestProject Include="..\TestProjects\NetStandardClassLib\NetStandardClassLib.csproj" />
-    <TestProject Include="..\TestProjects\JsonNet9\JsonNet9.csproj" />
-    <TestProject Include="..\TestProjects\JsonNet10\JsonNet10.csproj" />
-    <TestProject Include="..\TestProjects\JsonNet11\JsonNet11.csproj" />
+    <TestProject Include="..\TestProjects\PrivateDepv1\PrivateDepv1.csproj" />
+    <TestProject Include="..\TestProjects\PrivateDepv2\PrivateDepv2.csproj" />
+    <TestProject Include="..\TestProjects\PrivateDepv3\PrivateDepv3.csproj" />
     <TestProject Include="..\TestProjects\Strawberry\Strawberry.csproj" />
     <TestProject Include="..\TestProjects\Banana\Banana.csproj" />
     <TestProject Include="..\TestProjects\Plátano\Plátano.csproj" />
     <TestProject Include="..\TestProjects\XunitSample\XunitSample.csproj" />
     <TestProject Include="..\TestProjects\SqlClientApp\SqlClientApp.csproj" />
     <TestProject Include="..\TestProjects\TransitivePlugin\TransitivePlugin.csproj" />
-    <TestProject Include="..\TestProjects\NativeDependency\NativeDependency.csproj" Condition=" '$(TargetFramework)' != 'netcoreapp2.1' " />
+    <TestProject Include="..\TestProjects\NativeDependency\NativeDependency.csproj" />
     <PublishedTestProject Include="..\TestProjects\PowerShellPlugin\PowerShellPlugin.csproj" />
     <MultitargetTestProject Include="..\TestProjects\WithOwnPlugins\WithOwnPlugins.csproj" />
   </ItemGroup>

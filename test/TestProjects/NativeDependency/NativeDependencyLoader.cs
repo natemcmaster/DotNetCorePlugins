@@ -2,8 +2,9 @@
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
-using System.Data.SQLite;
 using System.IO;
+
+using Microsoft.Data.Sqlite;
 
 namespace NativeDependency
 {
@@ -12,7 +13,7 @@ namespace NativeDependency
         public static void Load()
         {
             using var tempFile = new TempFile("db.sqlite");
-            using var dbConnection = new SQLiteConnection($"Data Source={tempFile.FilePath}");
+            using var dbConnection = new SqliteConnection($"Data Source={tempFile.FilePath}");
 
             dbConnection.Open();
         }

@@ -1,5 +1,10 @@
 ﻿<Project>
   <PropertyGroup>
+    <PackageReleaseNotes Condition="'$(VersionPrefix)' == '2.0.0'">
+Breaking changes:
+* Require .NET 6 +. Drop support for .NET Core 2, 3, and 5.
+* Drop dependencies on .NET Core 2 libraries for manually parsing .deps.json. Use the built-in .NET 6 API for this.
+    </PackageReleaseNotes>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '1.4.0'">
 Changes:
 * @Sewer56 - feature: add option to support lazy loading of transitive dependencies to increase performance (PR #164)

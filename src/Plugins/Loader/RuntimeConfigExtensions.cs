@@ -51,22 +51,22 @@ namespace McMaster.NETCore.Plugins.Loader
                     devConfig = TryReadConfig(configDevPath);
                 }
 
-                var tfm = config.runtimeOptions?.Tfm ?? devConfig?.runtimeOptions?.Tfm;
+                var tfm = config.RuntimeOptions?.Tfm ?? devConfig?.RuntimeOptions?.Tfm;
 
-                if (config.runtimeOptions != null)
+                if (config.RuntimeOptions != null)
                 {
-                    AddProbingPaths(builder, config.runtimeOptions, tfm);
+                    AddProbingPaths(builder, config.RuntimeOptions, tfm);
                 }
 
-                if (devConfig?.runtimeOptions != null)
+                if (devConfig?.RuntimeOptions != null)
                 {
-                    AddProbingPaths(builder, devConfig.runtimeOptions, tfm);
+                    AddProbingPaths(builder, devConfig.RuntimeOptions, tfm);
                 }
 
                 if (tfm != null)
                 {
-                    var dotnet = Process.GetCurrentProcess().MainModule.FileName;
-                    if (string.Equals(Path.GetFileNameWithoutExtension(dotnet), "dotnet", StringComparison.OrdinalIgnoreCase))
+                    var dotnet = Process.GetCurrentProcess().MainModule?.FileName;
+                    if (dotnet != null && string.Equals(Path.GetFileNameWithoutExtension(dotnet), "dotnet", StringComparison.OrdinalIgnoreCase))
                     {
                         var dotnetHome = Path.GetDirectoryName(dotnet);
                         if (dotnetHome != null)
