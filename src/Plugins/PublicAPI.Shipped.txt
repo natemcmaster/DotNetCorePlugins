@@ -49,6 +49,7 @@ McMaster.NETCore.Plugins.PluginLoader.IsUnloadable.get -> bool
 McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(string! assemblyName) -> System.Reflection.Assembly!
 McMaster.NETCore.Plugins.PluginLoader.LoadAssembly(System.Reflection.AssemblyName! assemblyName) -> System.Reflection.Assembly!
 McMaster.NETCore.Plugins.PluginLoader.LoadAssemblyFromPath(string! assemblyPath) -> System.Reflection.Assembly!
+McMaster.NETCore.Plugins.PluginLoader.LoadContext.get -> System.Runtime.Loader.AssemblyLoadContext!
 McMaster.NETCore.Plugins.PluginLoader.LoadDefaultAssembly() -> System.Reflection.Assembly!
 McMaster.NETCore.Plugins.PluginLoader.PluginLoader(McMaster.NETCore.Plugins.PluginConfig! config) -> void
 McMaster.NETCore.Plugins.PluginLoader.Reload() -> void
