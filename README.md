@@ -18,7 +18,7 @@ assembly isolation and type sharing. Read [more details about type sharing below
 
 > **Note**
 >
-> 2.0+ of library supports .NET 6. If you still need .NET < 6 support, look for an old 1.* version of this library.
+> 2.0+ of library supports .NET 8. If you still need .NET < 8 support, look for an old 1.* version of this library.
 
 Blog post introducing this project, July 25, 2018: [.NET Core Plugins: Introducing an API for loading .dll files (and their dependencies) as 'plugins'](https://natemcmaster.com/blog/2018/07/25/netcore-plugins/).
 
