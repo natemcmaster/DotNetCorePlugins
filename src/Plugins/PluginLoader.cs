@@ -248,7 +248,10 @@ namespace McMaster.NETCore.Plugins
             }
         }
 
-        internal AssemblyLoadContext LoadContext => _context;
+        /// <summary>
+        /// Gets the assembly load context which represents the runtime's concept of a scope for assembly loading.
+        /// </summary>
+        public AssemblyLoadContext LoadContext => _context;
 
         /// <summary>
         /// Load the main assembly for the plugin.
