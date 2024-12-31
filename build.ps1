@@ -20,14 +20,7 @@ $artifacts = "$PSScriptRoot/artifacts/"
 
 Remove-Item -Recurse $artifacts -ErrorAction Ignore
 
-exec dotnet tool restore
-
-[string[]] $formatArgs=@()
-if ($ci) {
-    $formatArgs += '--check'
-}
-
-exec dotnet tool run dotnet-format -- -v detailed @formatArgs
+exec dotnet format
 exec dotnet build --configuration $Configuration '-warnaserror:CS1591'
 exec dotnet pack --no-restore --no-build --configuration $Configuration -o $artifacts
 exec dotnet test --no-restore --no-build --configuration $Configuration `

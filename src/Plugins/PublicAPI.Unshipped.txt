@@ -1,3 +1,0 @@
-McMaster.NETCore.Plugins.PluginConfig.IsLazyLoaded.get -> bool
-McMaster.NETCore.Plugins.PluginConfig.IsLazyLoaded.set -> void
-McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder.IsLazyLoaded(bool isLazyLoaded) -> McMaster.NETCore.Plugins.Loader.AssemblyLoadContextBuilder!

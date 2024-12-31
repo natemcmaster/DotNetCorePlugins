@@ -1,7 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
     <PackageReleaseNotes Condition="'$(VersionPrefix)' == '2.0.0'">
-Breaking change: require .NET 6+
+Breaking change: require .NET >= 8.0
 
 See also https://nuget.org/packages/McMaster.NETCore.Plugins/$(VersionPrefix) for its release notes.
     </PackageReleaseNotes>
