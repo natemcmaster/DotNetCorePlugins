@@ -5,6 +5,7 @@
     <PackageReference Include="Microsoft.CodeAnalysis.PublicApiAnalyzers" Version="3.3.4" PrivateAssets="All" />
     <AdditionalFiles Include="PublicAPI.Shipped.txt" />
     <AdditionalFiles Include="PublicAPI.Unshipped.txt" />
+    <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="8.0.2" />
   </ItemGroup>
 
   <Target Name="UpdateCiSettings" Condition="'$(CI)' == 'true' AND '$(IsPackable)' == 'true' AND '$(GITHUB_OUTPUT)' != ''">
