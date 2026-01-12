@@ -4,7 +4,6 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.DependencyModel;
-using System.Linq;
 
 namespace McMaster.NETCore.Plugins.Loader
 {
