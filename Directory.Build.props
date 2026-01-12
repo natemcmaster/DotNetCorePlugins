@@ -8,8 +8,8 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/JSV-Informacion-en-Movimiento/DotNetCorePlugins</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/JSV-Informacion-en-Movimiento/DotNetCorePlugins.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/natemcmaster/DotNetCorePlugins</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/natemcmaster/DotNetCorePlugins.git</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
