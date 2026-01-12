@@ -31,7 +31,7 @@ namespace McMaster.NETCore.Plugins.Loader
         private readonly bool _loadInMemory;
         private readonly bool _lazyLoadReferences;
         private readonly AssemblyLoadContext _defaultLoadContext;
-        private readonly AssemblyDependencyResolver _dependencyResolver;
+        private readonly DepsJsonDependencyResolver _dependencyResolver;
         private readonly bool _shadowCopyNativeLibraries;
         private readonly string _unmanagedDllShadowCopyDirectoryPath;
 
@@ -56,7 +56,7 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             _mainAssemblyPath = mainAssemblyPath ?? throw new ArgumentNullException(nameof(mainAssemblyPath));
-            _dependencyResolver = new AssemblyDependencyResolver(mainAssemblyPath);
+            _dependencyResolver = new DepsJsonDependencyResolver(mainAssemblyPath);
             _basePath = Path.GetDirectoryName(mainAssemblyPath) ?? throw new ArgumentException(nameof(mainAssemblyPath));
             _managedAssemblies = managedAssemblies ?? throw new ArgumentNullException(nameof(managedAssemblies));
             _privateAssemblies = privateAssemblies ?? throw new ArgumentNullException(nameof(privateAssemblies));
