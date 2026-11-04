@@ -1,0 +1,1 @@
+virtual McMaster.NETCore.Plugins.PluginReloadedEventHandler.Invoke(object! sender, McMaster.NETCore.Plugins.PluginReloadedEventArgs! eventArgs) -> void

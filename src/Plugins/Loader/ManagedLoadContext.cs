@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using McMaster.NETCore.Plugins.LibraryModel;
+using RuntimeInformation = System.Runtime.InteropServices.RuntimeInformation;
 
 namespace McMaster.NETCore.Plugins.Loader
 {
@@ -201,6 +202,13 @@ namespace McMaster.NETCore.Plugins.Loader
         /// <returns></returns>
         protected override IntPtr LoadUnmanagedDll(string unmanagedDllName)
         {
+            // Hosihikari fork: a plugin package may ship RID-specific native assets without a deps.json.
+            var runtimeSpecificPath = GetRuntimeSpecificNativeLibraryPath(_basePath, unmanagedDllName);
+            if (runtimeSpecificPath != null)
+            {
+                return LoadUnmanagedDllFromResolvedPath(runtimeSpecificPath);
+            }
+
             var resolvedPath = _dependencyResolver.ResolveUnmanagedDllToPath(unmanagedDllName);
             if (!string.IsNullOrEmpty(resolvedPath) && File.Exists(resolvedPath))
             {
@@ -267,6 +275,38 @@ namespace McMaster.NETCore.Plugins.Loader
             }
 
             return base.LoadUnmanagedDll(unmanagedDllName);
+        }
+
+        /// <summary>
+        /// Finds a native library under runtimes/&lt;current RID&gt;/native, if the package ships one.
+        /// </summary>
+        internal static string? GetRuntimeSpecificNativeLibraryPath(string basePath, string unmanagedDllName)
+        {
+            var nativeDirectory = Path.Combine(basePath, "runtimes", RuntimeInformation.RuntimeIdentifier, "native");
+            if (!Directory.Exists(nativeDirectory))
+            {
+                return null;
+            }
+
+            foreach (var prefix in PlatformInformation.NativeLibraryPrefixes)
+            {
+                foreach (var extension in PlatformInformation.NativeLibraryExtensions)
+                {
+                    var candidate = Path.Combine(nativeDirectory, prefix + unmanagedDllName + extension);
+                    if (File.Exists(candidate))
+                    {
+                        return candidate;
+                    }
+
+                    candidate = Path.Combine(nativeDirectory, prefix + unmanagedDllName);
+                    if (File.Exists(candidate))
+                    {
+                        return candidate;
+                    }
+                }
+            }
+
+            return null;
         }
 
         private bool SearchForLibrary(ManagedLibrary library, out string? path)

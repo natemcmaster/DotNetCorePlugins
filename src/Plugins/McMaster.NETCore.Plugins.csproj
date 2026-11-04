@@ -1,15 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <OutputType>library</OutputType>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageDescription>Provides API for dynamically loading assemblies into a .NET application.
-
-This package should be used by the host application which needs to load plugins.
-See https://github.com/natemcmaster/DotNetCorePlugins/blob/main/README.md for more samples and documentation.
-    </PackageDescription>
-    <PackageTags>.NET Core;plugins</PackageTags>
+    <PackageId>Hosihikari.McMaster.NETCore.Plugins</PackageId>
+    <Version>2.1.0</Version>
+    <PackageVersion>2.1.0-hosihikari.2</PackageVersion>
+    <PackageReleaseNotes>Hosihikari fork: probe runtimes/&lt;rid&gt;/native before deps.json-based native resolution.</PackageReleaseNotes>
+    <Authors>Nate McMaster;Hosihikari framework</Authors>
+    <PackageProjectUrl>https://github.com/HosihikariFramework/Hosihikari.McMaster.NETCore.Plugins</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HosihikariFramework/Hosihikari.McMaster.NETCore.Plugins.git</RepositoryUrl>
+    <PackageDescription>Hosihikari fork of McMaster.NETCore.Plugins. Provides API for dynamically loading assemblies into a .NET application; this fork probes runtimes/&lt;rid&gt;/native before deps.json-based native resolution.</PackageDescription>
+    <PackageTags>.NET Core;plugins;hosihikari</PackageTags>
   </PropertyGroup>
 </Project>

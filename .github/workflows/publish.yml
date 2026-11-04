@@ -1,0 +1,56 @@
+name: publish
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  nuget:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # 换 OIDC 令牌（Trusted Publishing）
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.x'
+
+      # 标签与包版本漂了就在构建前停下。
+      - name: 版本一致
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: pwsh
+        run: |
+          $tag = '${{ github.ref_name }}' -replace '^v', ''
+          $version = dotnet msbuild src/Plugins/McMaster.NETCore.Plugins.csproj -getProperty:PackageVersion
+          if ($version -ne $tag) { throw "PackageVersion 是 $version，标签是 $tag" }
+
+      # 版本号的事实源是 csproj 里的 <PackageVersion>，标签只是触发器。
+      - name: 打包
+        run: dotnet pack src/Plugins/McMaster.NETCore.Plugins.csproj -c Release -o out
+
+      # 用 OIDC 令牌换一把临时 API key —— 仓库里不存任何长期密钥。
+      # 换来的 key 只有一小时有效期、且一个令牌只能换一把，所以这一步紧贴推送。
+      - name: 换临时 API key
+        uses: NuGet/login@v1
+        id: login
+        with:
+          # nuget.org 的用户名（profile name），不是邮箱。
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: 推送
+        run: >
+          dotnet nuget push out/*.nupkg
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      - name: 推送符号
+        run: >
+          dotnet nuget push out/*.snupkg
+          --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
