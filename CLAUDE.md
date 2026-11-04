@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-DotNetCorePlugins is a .NET library for dynamically loading .NET assemblies as plugins with fine-grained control over assembly isolation and type sharing. Version 2.0+ targets .NET 8.0.
+DotNetCorePlugins is a .NET library for dynamically loading .NET assemblies as plugins with fine-grained control over assembly isolation and type sharing. This is the Hosihikari fork (see [FORK.md](FORK.md)); it targets .NET 10.
 
 ## Build Commands
 
@@ -18,7 +18,7 @@ pwsh ./build.ps1 -ci
 # Individual commands
 dotnet format                    # Code formatting
 dotnet build                     # Build all projects
-dotnet test test/Plugins.Tests   # Run tests
+dotnet test test/Hosihikari.Tests -c Release   # RID probe tests
 dotnet pack -o artifacts/        # Create NuGet packages
 ```
 
@@ -48,6 +48,9 @@ Include `[ci skip]` in a commit message to skip CI builds.
 
 - `test/Plugins.Tests/`: xUnit tests
 - `test/TestProjects/`: 30+ test assemblies for various plugin scenarios
+- `test/Hosihikari.Tests/`: the RID-specific native probe
+
+Upstream `samples/` is not carried in this fork.
 
 ## Code Conventions
 

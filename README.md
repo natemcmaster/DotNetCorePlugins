@@ -2,7 +2,8 @@
 ============
 
 > **Hosihikari fork.** This fork probes `runtimes/<rid>/native` before deps.json-based native
-> resolution (ADR-0034). Upstream samples are omitted. See [FORK.md](FORK.md).
+> resolution (ADR-0034). Upstream samples are omitted; read them
+> [upstream](https://github.com/natemcmaster/DotNetCorePlugins/tree/main/samples). See [FORK.md](FORK.md).
 
 [![Build Status][ci-badge]][ci] [![Code Coverage][codecov-badge]][codecov]
 [![NuGet][nuget-badge] ![NuGet Downloads][nuget-download-badge]][nuget]
@@ -59,7 +60,7 @@ Using plugins requires at least two projects: (1) the 'host' app which loads plu
 but typically also uses a third, (3) an contracts project which defines the interaction between the plugin
 and the host.
 
-For a fully functional sample of this, see [samples/hello-world/](./samples/hello-world/) .
+For a fully functional sample of this, see [samples/hello-world/](https://github.com/natemcmaster/DotNetCorePlugins/tree/main/samples/hello-world) upstream.
 
 ### The plugin contract
 
@@ -72,7 +73,7 @@ public interface IPlugin
 }
 ```
 
-There is nothing special about the name "IPlugin" or the fact that it's an interface. This is just here to illustrate a concept. Look at [samples/](./samples/) for additional examples of ways you could define the interaction between host and plugins.
+There is nothing special about the name "IPlugin" or the fact that it's an interface. This is just here to illustrate a concept. Look at the upstream [samples/](https://github.com/natemcmaster/DotNetCorePlugins/tree/main/samples) for additional examples of ways you could define the interaction between host and plugins.
 
 ### The plugins
 

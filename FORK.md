@@ -2,7 +2,8 @@
 
 This repository is a fork of
 [natemcmaster/DotNetCorePlugins](https://github.com/natemcmaster/DotNetCorePlugins) at commit
-`bcf9c8bd6d50097cfea1c3eeba132b571410fabe`, used by the Hosihikari framework.
+`bcf9c8bd6d50097cfea1c3eeba132b571410fabe`, used by the Hosihikari framework. It replaces the
+earlier `Hosihikari.McMaster.NETCore.Plugins` repository; the package ID is unchanged.
 
 ## Changes
 

@@ -10,8 +10,8 @@
     <PackageVersion>2.1.0-hosihikari.2</PackageVersion>
     <PackageReleaseNotes>Hosihikari fork: probe runtimes/&lt;rid&gt;/native before deps.json-based native resolution.</PackageReleaseNotes>
     <Authors>Nate McMaster;Hosihikari framework</Authors>
-    <PackageProjectUrl>https://github.com/HosihikariFramework/Hosihikari.McMaster.NETCore.Plugins</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/HosihikariFramework/Hosihikari.McMaster.NETCore.Plugins.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/HosihikariFramework/DotNetCorePlugins</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/HosihikariFramework/DotNetCorePlugins.git</RepositoryUrl>
     <PackageDescription>Hosihikari fork of McMaster.NETCore.Plugins. Provides API for dynamically loading assemblies into a .NET application; this fork probes runtimes/&lt;rid&gt;/native before deps.json-based native resolution.</PackageDescription>
     <PackageTags>.NET Core;plugins;hosihikari</PackageTags>
   </PropertyGroup>
